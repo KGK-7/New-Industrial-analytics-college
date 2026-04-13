@@ -1,0 +1,127 @@
+.industrial-project-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid transparent; /* Accent border on the left */
+  border-radius: 4px; /* Sharp corners for industrial look */
+  padding: 20px 24px;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05); /* Very subtle shadow */
+}
+
+/* Hover creates a focused, precise elevation */
+.industrial-project-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.1), 0 2px 4px -1px rgba(15, 23, 42, 0.06);
+  transform: translateY(-1px);
+}
+
+.industrial-project-card.featured {
+  border: 1px solid #93c5fd;
+  border-left: 4px solid #2563eb;
+  background: #f8fafc;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.project-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.status-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  padding: 3px 8px;
+  border-radius: 2px;
+}
+
+.project-name {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.project-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.card-divider {
+  border-top: 1px dashed #cbd5e1;
+  margin: 20px 0;
+}
+
+.meta-grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.meta-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.meta-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #94a3b8;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+.meta-value {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.status-tag {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  border-radius: 2px;
+  padding: 3px 6px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.status-tag.configured {
+  color: #059669;
+}
+
+.status-tag.pending {
+  color: #ea580c;
+}
