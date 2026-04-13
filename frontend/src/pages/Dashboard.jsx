@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { motion, AnimatePresence } from 'framer-motion';
 import ReactDOM from 'react-dom';
 import Sidebar from '../components/Sidebar';
 import {
@@ -1191,7 +1192,45 @@ const Dashboard = () => {
   const isSidebarExpanded = !sidebarCollapsed;
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden bg-white">
+    <div className="h-screen flex flex-col overflow-hidden bg-slate-50 relative">
+      {/* 
+        ========================================
+        PREMIUM UNIFIED BACKGROUND
+        ========================================
+      */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(241,245,249,1),rgba(255,255,255,1))]" />
+        
+        <motion.div
+          className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] rounded-full bg-gradient-to-br from-blue-500/10 to-transparent blur-[120px]"
+          animate={{
+            x: [0, 40, 0],
+            y: [0, 20, 0],
+          }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+        />
+        <motion.div
+          className="absolute -bottom-[10%] -right-[10%] w-[50%] h-[50%] rounded-full bg-gradient-to-tl from-indigo-500/10 to-transparent blur-[120px]"
+          animate={{
+            x: [0, -30, 0],
+            y: [0, -15, 0],
+          }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+        />
+
+        {/* Subtle Technical Grid */}
+        <div className="absolute inset-0 opacity-[0.02]">
+          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="dashboard-grid" width="60" height="60" patternUnits="userSpaceOnUse">
+                <path d="M 60 0 L 0 0 0 60" fill="none" stroke="currentColor" strokeWidth="0.5" />
+                <circle cx="0" cy="0" r="1.5" fill="currentColor" opacity="0.1" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#dashboard-grid)" />
+          </svg>
+        </div>
+      </div>
       {/* Global styles */}
       <style>{`
         * {
@@ -1240,9 +1279,9 @@ const Dashboard = () => {
         />
 
         {/* Main Content Area */}
-        <div className="flex-1 flex flex-col min-h-0 overflow-hidden bg-white">
-          {/* Header - White background */}
-          <header className="bg-white border-b border-gray-200 flex-shrink-0 sticky top-0 z-50 shadow-sm">
+        <div className="flex-1 flex flex-col min-h-0 overflow-hidden relative z-10">
+          {/* Header - Transparent glass background */}
+          <header className="bg-white/40 backdrop-blur-xl border-b border-white/60 flex-shrink-0 sticky top-0 z-50">
             <div className="px-6 py-4 flex items-center justify-between relative z-10">
               {/* Left side - Toggle button */}
               <div className="w-48 flex items-center">
@@ -1257,7 +1296,7 @@ const Dashboard = () => {
 
               {/* Center - Title */}
               <div className="flex-1 flex justify-center items-center">
-                <h1 className="text-2xl font-bold text-[#1e3a5f] tracking-tight">
+                <h1 className="text-2xl font-black aurora-text tracking-tight uppercase">
                   {getHeaderTitle()}
                 </h1>
               </div>
@@ -1265,10 +1304,10 @@ const Dashboard = () => {
               {/* Right side - Date/Time and Profile */}
               <div className="flex items-center space-x-6 min-w-[300px] justify-end">
                 {/* Date and Time - Updated for white header */}
-                <div className="flex items-center space-x-3 bg-gray-50 px-4 py-2 rounded-lg shadow-sm border border-gray-200">
-                  <span className="text-sm font-medium text-gray-700 tabular-nums">{currentTime}</span>
-                  <span className="text-gray-300">|</span>
-                  <span className="text-sm font-medium text-gray-700">{currentDate}</span>
+                <div className="flex items-center space-x-3 bg-white/60 backdrop-blur-md px-4 py-2 rounded-xl border border-white/80 shadow-[0_4px_12px_rgba(0,0,0,0.03)]">
+                  <span className="text-sm font-bold text-slate-700 tabular-nums">{currentTime}</span>
+                  <span className="text-slate-300">|</span>
+                  <span className="text-sm font-bold text-slate-700 uppercase tracking-wider">{currentDate}</span>
                 </div>
 
                 {/* Profile Menu with black background */}
@@ -1335,12 +1374,10 @@ const Dashboard = () => {
             </div>
           </header>
 
-          {/* Main Content */}
-          <main className="flex-1 min-h-0 overflow-hidden bg-white">
-            <div className={activeModule === 'project-dashboard' ? 'pl-6 pr-0.5 py-6 h-full' : 'p-6 h-full'}>
-              <div className="bg-white rounded-lg h-full overflow-auto">
-                <Outlet />
-              </div>
+          {/* Main Content Area */}
+          <main className="flex-1 min-h-0 overflow-hidden">
+            <div className="h-full overflow-auto p-6 lg:p-10">
+              <Outlet />
             </div>
           </main>
         </div>

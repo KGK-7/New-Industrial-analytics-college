@@ -43,6 +43,42 @@
   /* Typography */
   --font-primary: 'DM Sans', -apple-system, sans-serif;
   --font-mono: 'DM Mono', monospace;
+
+  /* Premium Design Tokens */
+  --premium-easing: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes aurora {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.aurora-text {
+  background: linear-gradient(-45deg, #2563eb, #4f46e5, #7c3aed, #4338ca, #2563eb);
+  background-size: 300% auto;
+  color: #1e293b;
+  background-clip: text;
+  text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: aurora 12s ease infinite;
+}
+
+.premium-card {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px 0 rgba(15, 23, 42, 0.05);
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* ══════════════════════════════════════════

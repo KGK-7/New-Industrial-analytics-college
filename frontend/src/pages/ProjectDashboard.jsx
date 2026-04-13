@@ -7,7 +7,7 @@ import ReactECharts from 'echarts-for-react';
 import * as echarts from 'echarts';
 import '../utils/echarts-theme-v5'; // Register the v5 theme
 import ExcelTableViewer from '../components/ExcelTableViewer';
-import { Layout, Maximize2, Minimize2, Send, Mail, Search, Edit, Plus, Trash2, X, Filter, ChevronUp, ChevronDown, Check, Save, Settings, Download, GripVertical, FolderOpen, Layers, Activity, Grid, List, Bold, Italic, Underline, Eye, Paperclip } from 'lucide-react';
+import { Layout, Maximize2, Minimize2, Send, Mail, Search, Edit, Plus, Trash2, X, Filter, ChevronUp, ChevronDown, Check, Save, Settings, Download, GripVertical, FolderOpen, Layers, Activity, Grid, List, Bold, Italic, Underline, Eye, Paperclip, ArrowRight, Database } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import PdfPreviewModal from '../components/PdfPreviewModal';
@@ -311,6 +311,7 @@ const ProjectTitleDashboard = () => {
   const [showAxisSelector, setShowAxisSelector] = useState(null);
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [showPdfPreview, setShowPdfPreview] = useState(false);
+  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
   const showSimulateModal = searchParams.get('configure') === 'true';
   const setShowSimulateModal = (show) => {
     if (show) {
@@ -3202,12 +3203,7 @@ const ProjectTitleDashboard = () => {
   };
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      backgroundColor: '#f0f2f5',
-      padding: '20px',
-      fontFamily: 'Arial, sans-serif'
-    }}>
+    <div className="min-h-0 flex-1 flex flex-col pt-4">
 
 
       {/* Save Notification Toast */}
@@ -3254,186 +3250,154 @@ const ProjectTitleDashboard = () => {
 
       {/* Main Dashboard Container */}
       <div className="flex flex-col flex-1 w-full relative">
-        {/* Header with navigation - ONLY show if activeProject is active so we don't duplicate titles */}
-        {activeProject && (
-          <div className="bg-[#1e3a5f] text-white py-4 px-6 text-xl font-bold border-b-[3px] border-[#0f2b40] flex justify-between items-center shadow-md z-30 sticky top-0">
-            <div className="flex items-center gap-4 flex-1">
-              <button
-                onClick={selectedSubmodule ? handleBackToProjectDashboard : handleBackToProjects}
-                className="px-3 py-1.5 text-sm rounded bg-white/10 hover:bg-white/20 border border-white/20 text-white cursor-pointer font-bold flex items-center gap-2 transition-colors"
-              >
-                ← Back
-              </button>
-            </div>
-
-            <div className="text-center flex-2">
-              {selectedSubmodule ? (
-                <span>{getDisplayFileName(selectedSubmodule.name, selectedSubmodule.projectName)}</span>
-              ) : (
-                <span>{activeProject.name} Workspace</span>
-              )}
-            </div>
-
-            <div className="flex gap-2 justify-end flex-1">
-              {!selectedSubmodule && (
-                <>
-                  <button
-                    onClick={() => {
-                      setVisibleSections(activeProject.dashboardConfig?.visibleSections || {});
-                      setShowSimulateModal(true);
-                    }}
-                    className="px-4 py-2 text-sm rounded bg-white/10 hover:bg-white/20 border border-white/20 text-white cursor-pointer font-bold flex items-center gap-2 transition-colors"
-                  >
-                    Configure Layout
-                  </button>
-                  <button
-                    onClick={() => {
-                      const sections = {
-                        milestones: true,
-                        criticalIssues: true,
-                        budget: true,
-                        resource: true,
-                        quality: true,
-                        design: true,
-                        partDevelopment: true,
-                        build: true,
-                        gateway: true,
-                        validation: true,
-                        qualityIssues: true,
-                        sopTables: true
-                      };
-                      (activeProject?.submodules || []).forEach(sub => {
-                        sections[sub.id] = true;
-                      });
-                      setEmailData(prev => ({ ...prev, selectedSections: sections, includePdf: true }));
-                      setShowEmailModal(true);
-                    }}
-                    className="px-4 py-2 text-sm rounded bg-white/10 hover:bg-white/20 border border-white/20 text-white cursor-pointer font-bold flex items-center gap-2 transition-colors"
-                  >
-                    <Mail className="h-4 w-4" />
-                    Send Report
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
-        )}
-
         {/* Projects List or Dashboard Content */}
         {!activeProject ? (
           /* Projects List View */
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', backgroundColor: 'var(--bg)', minHeight: '100vh' }}>
-            {/* Topbar */}
-            <div style={{ height: '56px', backgroundColor: '#FFFFFF', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 28px' }}>
-              <div style={{ color: 'var(--text-secondary)', fontSize: '13px' }}>Workspace / <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>Projects</span></div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--green)' }} className="animate-pulse" />
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--text-secondary)' }}>
-                  {new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })} · {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
-                </span>
-              </div>
-            </div>
-
+          <div className="flex-1 flex flex-col bg-slate-50/30 min-h-screen">
             {/* Content Array */}
-            <div style={{ padding: '28px' }}>
-              {/* Page header row */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '28px' }}>
+            <div className="p-6 max-w-[1600px] mx-auto w-full">
+              {/* Unified Page Header */}
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                 <div>
-                  <h1 style={{ fontSize: '22px', fontWeight: 500, margin: '0 0 4px 0', color: 'var(--text-primary)' }}>Projects</h1>
-                  <p style={{ margin: 0, fontSize: '13px', color: 'var(--text-secondary)' }}>{projects.length} active · last synced just now</p>
-                </div>
-                <button
-                  className="bg-blue-600 hover:bg-blue-700 text-white border-none rounded-lg px-4 py-2.5 text-sm font-medium flex items-center gap-2 cursor-pointer transition-all shadow-sm"
-                >
-                  <Plus size={16} />
-                  New Project
-                </button>
-              </div>
-
-              {/* Summary row */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                {[
-                  {
-                    label: 'Total Workspaces',
-                    value: projects.length,
-                    sub: 'Active across platform',
-                    icon: <FolderOpen className="text-blue-600 h-6 w-6" />,
-                    bg: 'bg-blue-50',
-                    gradient: 'from-blue-600 to-blue-400',
-                    sparklineData: "M0,20 Q10,15 20,25 T40,10 T60,20 T80,5 T100,15"
-                  },
-                  {
-                    label: 'Configured Dashboards',
-                    value: projects.filter(p => p.dashboardConfig).length,
-                    sub: 'Ready for presentation',
-                    icon: <Layout className="text-emerald-600 h-6 w-6" />,
-                    bg: 'bg-emerald-50',
-                    gradient: 'from-emerald-600 to-emerald-400',
-                    sparklineData: "M0,15 Q15,5 30,20 T60,10 T80,25 T100,5"
-                  },
-                  {
-                    label: 'Total Submodules Tracker',
-                    value: projects.reduce((acc, p) => acc + (p.submodules ? p.submodules.length : 0), 0),
-                    sub: 'Datasets integrated',
-                    icon: <Layers className="text-amber-600 h-6 w-6" />,
-                    bg: 'bg-amber-50',
-                    gradient: 'from-amber-500 to-orange-400',
-                    sparklineData: "M0,25 Q20,10 40,25 T60,5 T80,15 T100,10"
-                  }
-                ].map((stat, i) => (
-                  <div key={i} className="bg-white rounded-2xl p-6 border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all flex flex-col relative overflow-hidden group">
-                    <div className="flex items-start justify-between mb-2">
-                       <div className="flex flex-col z-10 w-full">
-                          <span className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">{stat.label}</span>
-                          <div className="text-4xl font-black text-slate-800 mb-1 font-mono tracking-tighter">{stat.value}</div>
-                       </div>
-                       <div className={`p-3 rounded-2xl ${stat.bg} shadow-inner transition-transform group-hover:scale-110 duration-300 z-10`}>
-                         {stat.icon}
-                       </div>
-                    </div>
-                    
-                    <div className="flex justify-between items-end mt-4 z-10">
-                        <span className="text-sm font-medium text-slate-500 bg-slate-50 px-3 py-1 rounded-full border border-slate-100">{stat.sub}</span>
-                    </div>
-
-                    {/* Creative Background Element */}
-                    <div className={`absolute -bottom-10 -right-10 w-32 h-32 bg-gradient-to-tr ${stat.gradient} opacity-5 rounded-full blur-2xl group-hover:opacity-10 transition-opacity`}></div>
-                    
-                    {/* SVG Sparkline Decoration */}
-                    <svg className="absolute bottom-6 right-6 w-24 h-8 opacity-20 pointer-events-none stroke-current text-slate-400 group-hover:opacity-40 transition-opacity" viewBox="0 0 100 30" fill="none" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                        <path d={stat.sparklineData} />
-                    </svg>
+                  <div className="flex items-center gap-2 mb-1">
+                    <h1 className="text-4xl font-black aurora-text tracking-tighter uppercase mb-0">Projects</h1>
+                    <span className="bg-blue-600 text-white text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-tighter shadow-sm">
+                      {projects.length} Active
+                    </span>
                   </div>
-                ))}
+                  <p className="text-sm font-bold text-slate-400 uppercase tracking-widest opacity-80">Manage and track your industrial analytics workspaces</p>
+                </div>
               </div>
 
-              {/* Section Header */}
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-bold text-slate-800 m-0">Project Overview</h3>
-                <div className="flex gap-2">
-                  <button className="p-2 hover:bg-slate-100 rounded-lg text-blue-600 transition-colors bg-white shadow-sm border border-slate-200">
-                    <Grid size={18} />
-                  </button>
-                  <button className="p-2 hover:bg-slate-100 rounded-lg text-slate-400 transition-colors bg-white shadow-sm border border-slate-200">
-                    <List size={18} />
+              {/* Redesigned Overview Section Header - Image-Free & Standardized */}
+              <div className="flex justify-between items-center mb-8 premium-card p-8">
+                <div>
+                  <h3 className="text-2xl font-black text-slate-900 m-0 tracking-tight uppercase">Project Overview</h3>
+                  <div className="flex items-center gap-2 mt-1">
+                    <div className={`w-2 h-2 rounded-full ${projects.length > 0 ? 'bg-emerald-500' : 'bg-slate-300'}`}></div>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Active Portfolio</span>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-4">
+                  {/* Segmented Control Toggle */}
+                  <div className="flex bg-slate-200/50 backdrop-blur-md p-1.5 rounded-2xl border border-white/50 shadow-sm">
+                    <button 
+                      onClick={() => setViewMode('grid')}
+                      className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${viewMode === 'grid' ? 'bg-white text-blue-600 shadow-md transform scale-105' : 'text-slate-400 hover:text-slate-600'}`}
+                    >
+                      <Grid size={16} />
+                      Grid
+                    </button>
+                    <button 
+                      onClick={() => setViewMode('list')}
+                      className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${viewMode === 'list' ? 'bg-white text-blue-600 shadow-md transform scale-105' : 'text-slate-400 hover:text-slate-600'}`}
+                    >
+                      <List size={16} />
+                      List
+                    </button>
+                  </div>
+                  
+                  <div className="w-px h-8 bg-slate-200 mx-2 hidden md:block"></div>
+                  
+                  <button className="hidden md:flex items-center gap-2 text-slate-400 hover:text-slate-600 transition-colors">
+                    <Filter size={18} />
+                    <span className="text-[10px] font-black uppercase tracking-widest">Filter</span>
                   </button>
                 </div>
               </div>
 
-              {/* Grid Content */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {/* Conditional Layout Content */}
+              <div className={viewMode === 'grid' ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" : "space-y-4"}>
                 {projects.length === 0 ? (
-                  <div className="col-span-full text-center py-12 text-slate-500 bg-white rounded-2xl border border-slate-100 border-dashed">
-                    No projects found. Please add a project module to get started.
+                  <div className="col-span-full flex flex-col items-center justify-center py-20 px-6 text-center bg-white rounded-[2rem] border-2 border-dashed border-slate-200">
+                    <div className="w-20 h-20 bg-slate-50 rounded-3xl flex items-center justify-center text-slate-300 mb-6">
+                      <Layout size={40} />
+                    </div>
+                    <h3 className="text-xl font-black text-slate-800 mb-2">No projects started yet</h3>
+                    <p className="text-slate-400 text-sm max-w-sm mb-8">Get started by creating your first industrial analytics workspace to track datasets and metrics.</p>
+                    <button className="bg-blue-600 text-white px-8 py-3.5 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-slate-900 transition-all shadow-lg shadow-blue-500/10">
+                      Create Project
+                    </button>
                   </div>
-                ) : projects.map((project, idx) => (
-                  <PremiumProjectCard
-                    key={project.id}
-                    project={project}
-                    onClick={handleProjectSelect}
-                    isFeatured={project.dashboardConfig && idx === projects.findIndex(p => p.dashboardConfig)}
-                  />
-                ))}
+                ) : viewMode === 'grid' ? (
+                  projects.map((project, idx) => (
+                    <PremiumProjectCard
+                      key={project.id}
+                      project={project}
+                      onClick={handleProjectSelect}
+                      isFeatured={project.dashboardConfig && idx === projects.findIndex(p => p.dashboardConfig)}
+                    />
+                  ))
+                ) : (
+                  /* List View Mode */
+                  <div className="premium-card overflow-hidden">
+                    <table className="w-full border-collapse text-left text-sm">
+                      <thead className="bg-slate-50/50 border-b border-slate-100">
+                        <tr>
+                          <th className="px-6 py-4 font-black uppercase tracking-wider text-slate-400 text-[10px]">Project Name</th>
+                          <th className="px-6 py-4 font-black uppercase tracking-wider text-slate-400 text-[10px]">Code</th>
+                          <th className="px-6 py-4 font-black uppercase tracking-wider text-slate-400 text-[10px]">Datasets</th>
+                          <th className="px-6 py-4 font-black uppercase tracking-wider text-slate-400 text-[10px]">Layout</th>
+                          <th className="px-6 py-4 font-black uppercase tracking-wider text-slate-400 text-[10px]">Status</th>
+                          <th className="px-6 py-4 font-black uppercase tracking-wider text-slate-400 text-[10px] text-right">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-50">
+                        {projects.map((project) => (
+                          <tr 
+                            key={project.id} 
+                            onClick={() => handleProjectSelect(project.id)}
+                            className="group hover:bg-slate-50/50 cursor-pointer transition-colors"
+                          >
+                            <td className="px-6 py-4">
+                              <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center font-bold text-slate-500 text-xs">
+                                  {project.name.substring(0, 2).toUpperCase()}
+                                </div>
+                                <span className="font-extrabold text-slate-800 group-hover:text-blue-600 transition-colors">{project.name}</span>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4">
+                              <span className="font-mono text-xs text-slate-400 font-bold">{project.code || project.name.substring(0, 4).toUpperCase()}</span>
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="flex items-center gap-1.5 text-slate-600 font-bold text-xs">
+                                <Database size={14} className="text-blue-500" />
+                                {project.submodules ? project.submodules.length : 0}
+                              </div>
+                            </td>
+                            <td className="px-6 py-4">
+                              {project.dashboardConfig ? (
+                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-[10px] font-black uppercase border border-emerald-100">
+                                  <div className="w-1 h-1 rounded-full bg-emerald-500" /> Ready
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 text-slate-400 rounded-lg text-[10px] font-black uppercase border border-slate-200">
+                                  <div className="w-1 h-1 rounded-full bg-slate-400" /> Pending
+                                </span>
+                              )}
+                            </td>
+                            <td className="px-6 py-4">
+                                <span className={`inline-flex px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${
+                                  project.status === 'Active' || project.status === 'Complete' 
+                                    ? 'bg-emerald-500/10 text-emerald-600' 
+                                    : 'bg-amber-500/10 text-amber-600'
+                                }`}>
+                                  {project.status || 'Active'}
+                                </span>
+                            </td>
+                            <td className="px-6 py-4 text-right">
+                              <button className="p-2 text-slate-400 hover:text-blue-600 transition-colors">
+                                <ArrowRight size={18} />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -3447,77 +3411,63 @@ const ProjectTitleDashboard = () => {
           <>
             <div id="project-dashboard-main-content">
               {/* Updated Date Row with SOP Info */}
-              <div style={{
-                padding: '15px 20px',
-                borderBottom: '1px solid #e0e0e0',
-                backgroundColor: '#f8f9fa',
-                marginBottom: '20px'
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '15px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-                    <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#1e3a5f' }}>Report date:</span>
-                    <span style={{ fontSize: '14px', color: '#4b5563' }}>March 15, 2024</span>
+              <div className="premium-card p-6 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div className="flex items-center gap-6">
+                  <div className="flex flex-col gap-1">
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Report Date</span>
+                    <span className="text-sm font-bold text-slate-700">March 15, 2024</span>
                   </div>
+                  
+                  <div className="w-px h-8 bg-slate-200 mx-2 hidden md:block"></div>
 
-                  {/* SOP Info */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#1e3a5f' }}>SOP Date:</span>
-                      <span style={{ fontSize: '14px', color: '#4b5563', backgroundColor: '#e6f0fa', padding: '4px 10px', borderRadius: '20px', fontWeight: 'bold' }}>
-                        {sopData[0].daysToGo} days to go
-                      </span>
-                    </div>
-
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#1e3a5f' }}>Status:</span>
-                      <select
-                        value={sopData[0].status}
-                        onChange={(e) => {
-                          const newSop = [...sopData];
-                          newSop[0].status = e.target.value;
-                          setSopData(newSop);
-                        }}
-                        style={{
-                          fontSize: '14px',
-                          padding: '4px 28px 4px 12px',
-                          borderRadius: '20px',
-                          backgroundColor: sopData[0].status === 'On Track' ? '#dcfce7' : sopData[0].status === 'Likely Delay' ? '#fef08a' : '#fecaca',
-                          color: sopData[0].status === 'On Track' ? '#166534' : sopData[0].status === 'Likely Delay' ? '#9a3412' : '#991b1b',
-                          fontWeight: 'bold',
-                          border: 'none',
-                          outline: 'none',
-                          cursor: 'pointer',
-                          appearance: 'menulist',
-                          boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
-                        }}
-                      >
-                        <option value="On Track">On Track</option>
-                        <option value="Likely Delay">Likely Delay</option>
-                        <option value="Critical">Critical</option>
-                      </select>
-                    </div>
+                  <div className="flex flex-col gap-1">
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">SOP Countdown</span>
+                    <span className="text-sm font-black text-blue-600 bg-blue-50 px-3 py-1 rounded-lg border border-blue-100">
+                      {sopData[0].daysToGo} Days Remaining
+                    </span>
                   </div>
+                </div>
 
-                  {/* Overall Project Health */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                    <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#1e3a5f' }}>Overall Project Health:</span>
-                    <div style={{ display: 'flex', gap: '12px' }}>
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-                        <div style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: '#10b981' }}></div>
-                        <span style={{ fontSize: '12px', color: '#4b5563' }}>On Track</span>
-                      </div>
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-                        <div style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: '#f59e0b' }}></div>
-                        <span style={{ fontSize: '12px', color: '#4b5563' }}>At Risk</span>
-                      </div>
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-                        <div style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: '#ef4444' }}></div>
-                        <span style={{ fontSize: '12px', color: '#4b5563' }}>Critical</span>
-                      </div>
-                    </div>
+                <div className="flex items-center gap-4">
+                  <div className="flex flex-col gap-1">
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Workspace Status</span>
+                    <select
+                      value={sopData[0].status}
+                      onChange={(e) => {
+                        const newSop = [...sopData];
+                        newSop[0].status = e.target.value;
+                        setSopData(newSop);
+                      }}
+                      className="bg-white/50 border border-slate-200 rounded-xl px-4 py-2 text-sm font-bold text-slate-700 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all cursor-pointer"
+                    >
+                      <option value="Good">Good</option>
+                      <option value="At Risk">At Risk</option>
+                      <option value="Behind">Behind</option>
+                    </select>
                   </div>
                 </div>
               </div>
+
+                  {/* Overall Project Health */}
+                  <div className="flex items-center gap-8">
+                    <div className="flex flex-col gap-2">
+                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Project Health</span>
+                      <div className="flex bg-slate-200/50 backdrop-blur-md p-1.5 rounded-2xl border border-white/50 shadow-sm gap-2">
+                        <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl transition-all hover:bg-white/60">
+                          <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]"></div>
+                          <span className="text-[11px] font-black text-slate-700 uppercase tracking-tighter">On Track</span>
+                        </div>
+                        <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl transition-all hover:bg-white/60 opacity-40 grayscale hover:grayscale-0 hover:opacity-100">
+                          <div className="w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.4)]"></div>
+                          <span className="text-[11px] font-black text-slate-600 uppercase tracking-tighter">At Risk</span>
+                        </div>
+                        <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl transition-all hover:bg-white/60 opacity-40 grayscale hover:grayscale-0 hover:opacity-100">
+                          <div className="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.4)]"></div>
+                          <span className="text-[11px] font-black text-slate-600 uppercase tracking-tighter">Critical</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
 
 

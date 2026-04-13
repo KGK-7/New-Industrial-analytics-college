@@ -55,7 +55,7 @@ const Header = ({
 
     return (
         <motion.header
-            className="app-header"
+            className="app-header glass-panel border-b border-white/40 sticky top-0 z-[1000]"
             variants={fadeUp}
             initial="hidden"
             animate="visible"
@@ -66,7 +66,7 @@ const Header = ({
 
                 {/* Center - Title */}
                 <div className="flex-1 flex justify-center items-center">
-                    <h1 className="header-title">
+                    <h1 className="header-title aurora-text tracking-tight uppercase">
                         {title}
                     </h1>
                 </div>
@@ -74,24 +74,24 @@ const Header = ({
                 {/* Right side - Date/Time and Profile */}
                 <div className="flex items-center space-x-6 min-w-[300px] justify-end">
                     {/* Date and Time */}
-                    <div className="header-time-badge">
-                        <span className="tabular-nums font-semibold">{currentTime}</span>
-                        <span className="text-slate-600">|</span>
-                        <span>{currentDate}</span>
+                    <div className="header-time-badge glass-panel px-5 py-2.5 rounded-2xl flex items-center gap-3">
+                        <span className="tabular-nums font-black text-slate-800">{currentTime}</span>
+                        <div className="w-1.5 h-1.5 rounded-full bg-slate-200"></div>
+                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">{currentDate}</span>
                     </div>
 
                     {/* Profile Menu with product-gradient background */}
                     <div className="relative" ref={profileMenuRef}>
                         <button
                             onClick={() => setProfileMenuOpen(!profileMenuOpen)}
-                            className="header-profile-btn"
+                            className="header-profile-btn glass-panel w-11 h-11 flex items-center justify-center font-black text-blue-600 hover:scale-110 transition-transform shadow-lg"
                         >
                             {userInitial}
                         </button>
 
                         {profileMenuOpen && (
                             <div
-                                className="fixed z-[9999] w-72 bg-white rounded-xl shadow-lg border border-gray-200 py-2"
+                                className="fixed z-[9999] w-72 premium-card py-2 p-1"
                                 style={{
                                     position: 'fixed',
                                     top: `${profileMenuPosition.top}px`,

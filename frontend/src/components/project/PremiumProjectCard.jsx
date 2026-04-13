@@ -8,79 +8,73 @@ const PremiumProjectCard = ({ project, onClick, isFeatured }) => {
 
   const code = project.code ?? project.name.substring(0, 4).toUpperCase();
   
-  // Randomize a few high-quality Unsplash industrial images deterministically based on the project code
-  const imgOptions = [
-    "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=600&auto=format&fit=crop", // laboratory/industrial
-    "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=600&auto=format&fit=crop", // factory robot
-    "https://images.unsplash.com/photo-1565439390164-98abe1882d33?q=80&w=600&auto=format&fit=crop"  // industrial pipes
-  ];
-  const hash = code.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  const bgImage = imgOptions[hash % imgOptions.length];
-
   return (
     <div 
       onClick={() => onClick(project.id)}
-      className="group flex flex-col bg-white rounded-xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer relative"
+      className="group flex flex-col premium-card hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-500 cursor-pointer relative p-7"
     >
-      {/* Feature highlight strip */}
-      {isFeatured && <div className="absolute top-0 left-0 w-full h-1 bg-blue-600 z-20"></div>}
+      {/* Visual Accent */}
+      <div className={`absolute top-0 left-0 w-1.5 h-full ${isFeatured ? 'bg-blue-600' : 'bg-slate-100 group-hover:bg-blue-400'} transition-colors`}></div>
 
-      {/* Top Banner Image with gradient mask */}
-      <div className="h-40 w-full relative overflow-hidden bg-slate-900">
-        <img 
-          src={bgImage} 
-          alt="Facility background" 
-          className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 group-hover:opacity-80 transition-all duration-500" 
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent"></div>
-        
-        {/* Status Label on image */}
-        <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-md border border-white/20 text-white text-[10px] font-bold px-2 py-1 uppercase tracking-widest rounded">
-          {status}
+      <div className="flex justify-between items-start mb-8">
+        <div className="flex items-center gap-4">
+          <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center font-mono font-black text-sm text-white shadow-lg group-hover:scale-110 transition-transform duration-500">
+            {code.substring(0, 2)}
+          </div>
+          <div>
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-0.5">Workspace</span>
+            <span className="text-[11px] font-bold text-slate-800 font-mono">{code}</span>
+          </div>
         </div>
-
-        {/* Project Initial Icon Overlay */}
-        <div className="absolute bottom-4 left-4 bg-white p-2 rounded-lg shadow-lg flex items-center justify-center font-mono font-black text-xl text-slate-800 border-2 border-white/50 w-12 h-12">
-          {code.substring(0, 2)}
+        
+        {/* Modern Status Badge */}
+        <div className={`px-2 py-1 rounded-md text-[9px] font-black uppercase tracking-widest transition-all ${
+          status === 'Active' || status === 'Complete' 
+            ? 'bg-emerald-50 text-emerald-600 border border-emerald-100/50' 
+            : 'bg-amber-50 text-amber-600 border border-amber-100/50'
+        }`}>
+          {status}
         </div>
       </div>
 
-      {/* Main Content Body */}
-      <div className="p-5 flex-1 flex flex-col">
-        <h3 className="text-lg font-bold text-slate-800 m-0 truncate mb-1 pr-2">{project.name}</h3>
-        <p className="text-xs font-mono font-medium text-slate-400 mb-5">{code}</p>
+      <div className="flex-1 flex flex-col">
+        <div className="mb-8">
+          <h3 className="text-xl font-black text-slate-900 m-0 truncate leading-tight group-hover:text-blue-600 transition-colors">
+            {project.name}
+          </h3>
+        </div>
 
-        {/* Metrics Grid */}
-        <div className="grid grid-cols-2 gap-4 mt-auto mb-5">
-           <div className="flex flex-col gap-1 p-3 bg-slate-50 rounded-lg border border-slate-100">
+        {/* Info Grid - Ultra Clean */}
+        <div className="grid grid-cols-2 gap-4 mb-8">
+           <div className="flex flex-col gap-1.5">
              <div className="flex items-center gap-1.5 text-slate-400">
-               <Database size={14} />
-               <span className="text-[10px] font-bold uppercase tracking-wider">Datasets</span>
+               <Database size={13} />
+               <span className="text-[9px] font-black uppercase tracking-widest">Datasets</span>
              </div>
-             <span className="text-lg font-bold text-slate-700 font-mono">{subModulesCount}</span>
+             <span className="text-sm font-black text-slate-800 font-mono">{subModulesCount}</span>
            </div>
            
-           <div className="flex flex-col gap-1 p-3 bg-slate-50 rounded-lg border border-slate-100">
+           <div className="flex flex-col gap-1.5">
              <div className="flex items-center gap-1.5 text-slate-400">
-               <Layout size={14} />
-               <span className="text-[10px] font-bold uppercase tracking-wider">Layout</span>
+               <Layout size={13} />
+               <span className="text-[9px] font-black uppercase tracking-widest">Configuration</span>
              </div>
              {isConfigured ? (
-               <span className="text-xs font-bold text-emerald-600 flex items-center gap-1 mt-1">
-                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Ready
+               <span className="text-[10px] font-black text-emerald-600 uppercase tracking-tighter flex items-center gap-1">
+                 <span className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse"></span> Ready
                </span>
              ) : (
-               <span className="text-xs font-bold text-slate-400 flex items-center gap-1 mt-1">
-                 <span className="w-1.5 h-1.5 rounded-full border border-slate-400"></span> Pending
+               <span className="text-[10px] font-black text-slate-400 uppercase tracking-tighter flex items-center gap-1">
+                 <span className="w-1 h-1 rounded-full bg-slate-300"></span> Pending
                </span>
              )}
            </div>
         </div>
 
-        {/* Action Button */}
-        <button className="w-full py-2.5 px-4 bg-slate-800 text-white rounded-lg text-sm font-semibold flex items-center justify-center gap-2 group-hover:bg-blue-600 transition-colors">
-          Access Workspace
-          <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
+        {/* Clean Action Button */}
+        <button className="group/btn w-full py-3.5 px-4 bg-slate-50 text-slate-600 rounded-xl text-xs font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-slate-900 hover:text-white transition-all duration-300 border border-slate-100">
+          Open Analytics
+          <ArrowRight size={14} className="transform group-hover/btn:translate-x-1" />
         </button>
       </div>
     </div>
@@ -88,4 +82,3 @@ const PremiumProjectCard = ({ project, onClick, isFeatured }) => {
 };
 
 export default PremiumProjectCard;
-

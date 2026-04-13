@@ -16,39 +16,41 @@ import {
 ───────────────────────────────────────────────────────── */
 
 const CSS = `
-  .sb { box-sizing: border-box; font-family: 'Inter','DM Sans',-apple-system,sans-serif; -webkit-font-smoothing: antialiased; }
+  .sb { box-sizing: border-box; font-family: 'DM Sans', -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
   .sb *, .sb *::before, .sb *::after { box-sizing: inherit; }
 
   /* scrollbar */
   .sb-nav::-webkit-scrollbar { width: 4px; }
   .sb-nav::-webkit-scrollbar-track { background: transparent; }
-  .sb-nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 99px; }
+  .sb-nav::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.08); border-radius: 99px; }
 
   /* ── top-level button ── */
   .sb-btn {
     display: flex; align-items: center;
     width: 100%; border: none; background: none;
     cursor: pointer; text-align: left; font-family: inherit;
-    border-radius: 9px; padding: 10px 14px;
-    color: rgba(255,255,255,0.58);
-    font-size: 15px; font-weight: 500; letter-spacing: -0.01em;
-    gap: 12px; transition: background 0.15s, color 0.15s;
+    border-radius: 12px; padding: 12px 14px;
+    color: #475569;
+    font-size: 14.5px; font-weight: 600; letter-spacing: -0.01em;
+    gap: 12px; transition: all 0.2s var(--premium-easing);
     position: relative; user-select: none;
   }
-  .sb-btn:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.88); }
+  .sb-btn:hover { background: rgba(255,255,255,0.5); color: #1e293b; transform: translateX(2px); }
   .sb-btn.active {
-    background: rgba(255,255,255,0.11);
-    color: #fff;
+    background: white;
+    color: #2563eb;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
   }
   .sb-btn.active::before {
     content: '';
-    position: absolute; left: 0; top: 22%; height: 56%;
-    width: 3px; border-radius: 0 3px 3px 0;
-    background: #5b9cf6;
+    position: absolute; left: 0; top: 25%; height: 50%;
+    width: 3.5px; border-radius: 0 4px 4px 0;
+    background: #2563eb;
   }
-  .sb-btn .sb-ico { flex-shrink: 0; width: 20px; display: flex; align-items: center; justify-content: center; }
+  .sb-btn .sb-ico { flex-shrink: 0; width: 20px; display: flex; align-items: center; justify-content: center; opacity: 0.7; }
+  .sb-btn.active .sb-ico { opacity: 1; color: #2563eb; }
   .sb-btn .sb-lbl { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .sb-btn .sb-chev { flex-shrink: 0; transition: transform 0.22s ease; color: rgba(255,255,255,0.25); }
+  .sb-btn .sb-chev { flex-shrink: 0; transition: transform 0.22s ease; color: #94a3b8; }
   .sb-btn .sb-chev.open { transform: rotate(180deg); }
 
   /* ── sub button ── */
@@ -56,103 +58,105 @@ const CSS = `
     display: flex; align-items: center;
     width: 100%; border: none; background: none;
     cursor: pointer; text-align: left; font-family: inherit;
-    border-radius: 7px; padding: 8px 14px 8px 46px;
-    color: rgba(255,255,255,0.44);
-    font-size: 13.5px; font-weight: 400;
-    gap: 9px; transition: background 0.15s, color 0.15s;
+    border-radius: 10px; padding: 10px 14px 10px 46px;
+    color: #64748b;
+    font-size: 13px; font-weight: 500;
+    gap: 9px; transition: all 0.2s var(--premium-easing);
     user-select: none;
   }
-  .sb-sub:hover { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.78); }
-  .sb-sub.active { color: rgba(255,255,255,0.95); background: rgba(255,255,255,0.07); font-weight: 500; }
+  .sb-sub:hover { background: rgba(255,255,255,0.4); color: #1e293b; transform: translateX(2px); }
+  .sb-sub.active { color: #2563eb; background: white; font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
 
   /* ── file item ── */
   .sb-file {
     display: flex; align-items: center; gap: 8px;
     width: 100%; border: none; background: none;
     cursor: pointer; text-align: left; font-family: inherit;
-    border-radius: 6px; padding: 6px 14px 6px 60px;
-    color: rgba(255,255,255,0.3);
-    font-size: 12px; font-weight: 400;
-    transition: background 0.15s, color 0.15s;
+    border-radius: 8px; padding: 8px 14px 8px 60px;
+    color: #94a3b8;
+    font-size: 12px; font-weight: 500;
+    transition: all 0.2s var(--premium-easing);
     user-select: none;
   }
-  .sb-file:hover { color: rgba(255,255,255,0.6); }
-  .sb-file.active { color: #5b9cf6; font-weight: 500; }
+  .sb-file:hover { color: #475569; background: rgba(255,255,255,0.3); }
+  .sb-file.active { color: #2563eb; font-weight: 700; background: white; }
 
   /* ── collapse panel ── */
   .sb-panel {
     overflow: hidden;
     max-height: 0; opacity: 0;
-    transition: max-height 0.24s ease, opacity 0.2s ease;
+    transition: max-height 0.3s var(--premium-easing), opacity 0.25s ease;
   }
   .sb-panel.open { max-height: 800px; opacity: 1; }
 
   /* ── section label ── */
   .sb-sec {
-    font-size: 10.5px; font-weight: 600;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: rgba(255,255,255,0.2);
-    padding: 16px 14px 5px;
+    font-size: 10px; font-weight: 800;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: #94a3b8;
+    padding: 24px 16px 8px;
+    opacity: 0.8;
   }
 
-  /* ── group header (project name inside dashboard) ── */
+  /* ── group header ── */
   .sb-grp {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 5px 14px 5px 46px;
+    padding: 6px 14px 6px 46px;
     border: none; background: none; cursor: pointer;
     width: 100%; font-family: inherit;
+    transition: background 0.2s;
+    border-radius: 8px;
   }
+  .sb-grp:hover { background: rgba(255,255,255,0.2); }
   .sb-grp-lbl {
-    font-size: 11px; font-weight: 600;
-    letter-spacing: 0.07em; text-transform: uppercase;
-    color: rgba(255,255,255,0.22);
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: #64748b;
     overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   }
 
-  /* ── tooltip for collapsed state ── */
+  /* ── tooltip ── */
   .sb-tip { position: relative; }
   .sb-tip .tip-box {
     display: none; position: absolute;
     left: calc(100% + 12px); top: 50%; transform: translateY(-50%);
-    background: #1e3a5f; border: 1px solid rgba(255,255,255,0.12);
-    color: #fff; font-size: 13px; font-weight: 500;
-    padding: 6px 12px; border-radius: 7px;
+    background: rgba(255,255,255,0.9); backdrop-filter: blur(12px);
+    border: 1px solid rgba(0,0,0,0.06);
+    color: #1e293b; font-size: 12px; font-weight: 700;
+    padding: 6px 12px; border-radius: 10px;
     white-space: nowrap; pointer-events: none; z-index: 9999;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-  }
-  .sb-tip .tip-box::before {
-    content: ''; position: absolute;
-    right: 100%; top: 50%; transform: translateY(-50%);
-    border: 5px solid transparent;
-    border-right-color: rgba(255,255,255,0.12);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
   }
   .sb-tip:hover .tip-box { display: block; }
 
   /* ── footer user row ── */
   .sb-foot {
-    display: flex; align-items: center; gap: 10px;
-    padding: 12px 14px;
-    border-top: 1px solid rgba(255,255,255,0.07);
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    background: rgba(255,255,255,0.2);
   }
   .sb-ava {
-    width: 36px; height: 36px; border-radius: 9px; flex-shrink: 0;
-    background: rgba(255,255,255,0.12);
+    width: 38px; height: 38px; border-radius: 12px; flex-shrink: 0;
+    background: #1e293b;
     display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 700; color: #fff; letter-spacing: 0.03em;
+    font-size: 14px; font-weight: 800; color: #fff; letter-spacing: 0.03em;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   }
   .sb-logout {
     margin-left: auto; flex-shrink: 0;
-    width: 30px; height: 30px; border-radius: 7px;
-    border: 1px solid rgba(255,255,255,0.08);
-    background: none; cursor: pointer;
+    width: 34px; height: 34px; border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.05);
+    background: white; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    color: rgba(255,255,255,0.3);
-    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    color: #64748b;
+    transition: all 0.2s var(--premium-easing);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
   }
-  .sb-logout:hover { background: rgba(239,68,68,0.14); color: #f87171; border-color: rgba(239,68,68,0.25); }
+  .sb-logout:hover { background: #fee2e2; color: #ef4444; border-color: #fecaca; transform: scale(1.05); }
 
-  /* ── divider for collapsed section ── */
-  .sb-div { height: 1px; background: rgba(255,255,255,0.07); margin: 8px 0; }
+  /* ── divider ── */
+  .sb-div { height: 1px; background: rgba(0,0,0,0.05); margin: 12px 16px; }
 `;
 
 let cssInjected = false;
@@ -323,12 +327,15 @@ export default function Sidebar({
       className="sb"
       style={{
         width: W, minWidth: W, height: '100%',
-        background: '#1e3a5f',
+        background: 'rgba(255, 255, 255, 0.4)',
+        backdropFilter: 'blur(40px)',
+        WebkitBackdropFilter: 'blur(40px)',
         display: 'flex', flexDirection: 'column',
         flexShrink: 0,
         overflow: 'hidden',
-        transition: 'width 0.2s ease, min-width 0.2s ease',
-        boxShadow: '1px 0 0 rgba(255,255,255,0.06)',
+        transition: 'width 0.3s var(--premium-easing), min-width 0.3s var(--premium-easing)',
+        borderRight: '1px solid rgba(255, 255, 255, 0.4)',
+        zIndex: 40
       }}
     >
 
@@ -337,16 +344,17 @@ export default function Sidebar({
         padding: collapsed ? '14px 0' : '0 0 6px',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         flexShrink: 0,
-        borderBottom: '1px solid rgba(255,255,255,0.07)',
+        borderBottom: '1px solid rgba(0,0,0,0.06)',
         minHeight: collapsed ? 72 : 90,
       }}>
         {collapsed ? (
           /* Collapsed — initials square */
-          <div style={{
-            width: 36, height: 36, borderRadius: 9,
-            background: 'rgba(255,255,255,0.12)',
+          <div className="sb-ava aurora-text" style={{ 
+            width: 40, height: 40, borderRadius: 12,
+            background: 'white',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 13, fontWeight: 800, color: '#fff',
+            fontSize: 14, fontWeight: 900,
+            boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
           }}>
             {companyName ? companyName.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() : 'CD'}
           </div>
@@ -360,7 +368,7 @@ export default function Sidebar({
                 maxHeight: 60,
                 maxWidth: '100%',
                 objectFit: 'contain',
-                filter: companyLogo ? 'none' : 'brightness(0) invert(1)',
+                filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.05))',
               }}
             />
           </div>
@@ -570,9 +578,9 @@ export default function Sidebar({
                 {user?.full_name || 'User'}
               </div>
               <div style={{
-                fontSize: 12, color: 'rgba(255,255,255,0.35)',
+                fontSize: 11, color: '#94a3b8',
                 overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                textTransform: 'capitalize', marginTop: 1,
+                textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.05em', marginTop: 1,
               }}>
                 {user?.role || 'Member'}
               </div>
