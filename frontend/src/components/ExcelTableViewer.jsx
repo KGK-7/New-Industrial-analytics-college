@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { Snowflake } from 'lucide-react';
 import { 
   PlusIcon as Plus, 
   MagnifyingGlassIcon as Search, 
