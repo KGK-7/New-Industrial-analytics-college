@@ -1198,63 +1198,20 @@ const Dashboard = () => {
         PREMIUM UNIFIED BACKGROUND
         ========================================
       */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(241,245,249,1),rgba(255,255,255,1))]" />
-        
-        <motion.div
-          className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] rounded-full bg-gradient-to-br from-blue-500/10 to-transparent blur-[120px]"
-          animate={{
-            x: [0, 40, 0],
-            y: [0, 20, 0],
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-        />
-        <motion.div
-          className="absolute -bottom-[10%] -right-[10%] w-[50%] h-[50%] rounded-full bg-gradient-to-tl from-indigo-500/10 to-transparent blur-[120px]"
-          animate={{
-            x: [0, -30, 0],
-            y: [0, -15, 0],
-          }}
-          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-        />
-
-        {/* Subtle Technical Grid */}
-        <div className="absolute inset-0 opacity-[0.02]">
+      {/* Optimized Production Background */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 bg-[var(--bg-app)]">
+        {/* Subtle Technical Grid - Scaled down for elegance */}
+        <div className="absolute inset-0 opacity-[0.03]">
           <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <pattern id="dashboard-grid" width="60" height="60" patternUnits="userSpaceOnUse">
-                <path d="M 60 0 L 0 0 0 60" fill="none" stroke="currentColor" strokeWidth="0.5" />
-                <circle cx="0" cy="0" r="1.5" fill="currentColor" opacity="0.1" />
+              <pattern id="dashboard-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" />
               </pattern>
             </defs>
             <rect width="100%" height="100%" fill="url(#dashboard-grid)" />
           </svg>
         </div>
       </div>
-      {/* Global styles */}
-      <style>{`
-        * {
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        }
-        
-        ::-webkit-scrollbar {
-          width: 6px;
-          height: 6px;
-        }
-        
-        ::-webkit-scrollbar-track {
-          background: rgba(255, 255, 255, 0.1);
-        }
-        
-        ::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.3);
-          border-radius: 3px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 255, 255, 0.5);
-        }
-      `}</style>
 
       <div className="flex flex-1 overflow-hidden">
         {/* ── New Sidebar Component ── */}
@@ -1280,14 +1237,14 @@ const Dashboard = () => {
 
         {/* Main Content Area */}
         <div className="flex-1 flex flex-col min-h-0 overflow-hidden relative z-10">
-          {/* Header - Transparent glass background */}
-          <header className="bg-white/40 backdrop-blur-xl border-b border-white/60 flex-shrink-0 sticky top-0 z-50">
+          {/* Header - Unified Design */}
+          <header className="glass-panel backdrop-blur-md flex-shrink-0 sticky top-0 z-50">
             <div className="px-6 py-4 flex items-center justify-between relative z-10">
               {/* Left side - Toggle button */}
               <div className="w-48 flex items-center">
                 <button
                   onClick={() => dispatch(setSidebarCollapsed(!sidebarCollapsed))}
-                  className="p-2 rounded-lg text-[#1e3a5f] hover:bg-gray-100 transition-colors"
+                  className="p-2 rounded-lg text-[var(--text-muted)] hover:bg-[var(--border-light)] transition-colors"
                   title={sidebarCollapsed ? "Open Sidebar" : "Close Sidebar"}
                 >
                   {sidebarCollapsed ? <Menu className="h-6 w-6" /> : <ChevronLeft className="h-6 w-6" />}
@@ -1296,18 +1253,18 @@ const Dashboard = () => {
 
               {/* Center - Title */}
               <div className="flex-1 flex justify-center items-center">
-                <h1 className="text-2xl font-black aurora-text tracking-tight uppercase">
+                <h1 className="text-2xl font-black text-[var(--text-main)] tracking-tight uppercase">
                   {getHeaderTitle()}
                 </h1>
               </div>
 
               {/* Right side - Date/Time and Profile */}
               <div className="flex items-center space-x-6 min-w-[300px] justify-end">
-                {/* Date and Time - Updated for white header */}
-                <div className="flex items-center space-x-3 bg-white/60 backdrop-blur-md px-4 py-2 rounded-xl border border-white/80 shadow-[0_4px_12px_rgba(0,0,0,0.03)]">
-                  <span className="text-sm font-bold text-slate-700 tabular-nums">{currentTime}</span>
-                  <span className="text-slate-300">|</span>
-                  <span className="text-sm font-bold text-slate-700 uppercase tracking-wider">{currentDate}</span>
+                {/* Date and Time - Production Grade Badge */}
+                <div className="flex items-center space-x-3 bg-[var(--bg-app)] px-4 py-2.5 rounded-xl border border-[var(--border-main)] shadow-sm">
+                  <span className="text-xs font-black text-[var(--text-main)] tabular-nums">{currentTime}</span>
+                  <div className="w-1.5 h-1.5 rounded-full bg-[var(--border-main)]"></div>
+                  <span className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-widest leading-none">{currentDate}</span>
                 </div>
 
                 {/* Profile Menu with black background */}

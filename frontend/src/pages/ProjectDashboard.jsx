@@ -7,7 +7,7 @@ import ReactECharts from 'echarts-for-react';
 import * as echarts from 'echarts';
 import '../utils/echarts-theme-v5'; // Register the v5 theme
 import ExcelTableViewer from '../components/ExcelTableViewer';
-import { Layout, Maximize2, Minimize2, Send, Mail, Search, Edit, Plus, Trash2, X, Filter, ChevronUp, ChevronDown, Check, Save, Settings, Download, GripVertical, FolderOpen, Layers, Activity, Grid, List, Bold, Italic, Underline, Eye, Paperclip, ArrowRight, Database } from 'lucide-react';
+import { Layout, Maximize2, Minimize2, Send, Mail, Search, Edit, Plus, Trash2, X, Filter, ChevronUp, ChevronDown, Check, Save, Settings, Download, GripVertical, FolderOpen, Layers, Activity, Grid, List, Bold, Italic, Underline, Eye, Paperclip, ArrowRight, Database, Wallet } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import PdfPreviewModal from '../components/PdfPreviewModal';
@@ -1491,11 +1491,11 @@ const ProjectTitleDashboard = () => {
 
     return (
       <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-[2000] p-4">
-        <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
+        <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl border border-[var(--border-main)] overflow-hidden">
           {/* Header */}
-          <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-start bg-slate-50">
+          <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-start bg-[var(--bg-app)]">
             <div className="flex items-center gap-4">
-              <div className="p-2.5 bg-white border border-slate-200 text-slate-600 rounded-xl shadow-sm">
+              <div className="p-2.5 bg-white border border-[var(--border-main)] text-[var(--text-muted)] rounded-xl shadow-sm">
                 <Settings size={20} />
               </div>
               <div>
@@ -1510,7 +1510,7 @@ const ProjectTitleDashboard = () => {
             </div>
             <button
               onClick={handleCancelConfig}
-              className="text-slate-400 hover:text-slate-600 transition-colors p-1 rounded-full hover:bg-slate-200"
+              className="text-[var(--text-subtle)] hover:text-[var(--text-muted)] transition-colors p-1 rounded-full hover:bg-slate-200"
             >
               <X size={20} />
             </button>
@@ -1519,17 +1519,17 @@ const ProjectTitleDashboard = () => {
           {/* Body */}
           <div className="p-6 overflow-y-auto">
             <p className="text-sm text-slate-500 mb-6">
-              Select the modules and metrics to display for <span className="font-semibold text-slate-700">{activeProject?.name}</span>. Unchecked sections will be hidden from the view.
+              Select the modules and metrics to display for <span className="font-semibold text-[var(--text-main)]">{activeProject?.name}</span>. Unchecked sections will be hidden from the view.
             </p>
 
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400">Available Sections</h3>
+              <h3 className="text-sm font-bold uppercase tracking-widest text-[var(--text-subtle)]">Available Sections</h3>
               <button
                 onClick={handleSelectAllVisibility}
                 className={`px-4 py-2 text-xs font-bold rounded-lg transition-colors border ${
                   allSelected 
                     ? 'bg-slate-800 text-white border-slate-800 hover:bg-slate-700' 
-                    : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
+                    : 'bg-white text-[var(--text-main)] border-slate-300 hover:bg-[var(--bg-app)]'
                 }`}
               >
                 {allSelected ? 'Deselect All' : 'Select All'}
@@ -1542,7 +1542,7 @@ const ProjectTitleDashboard = () => {
                 <h4 className="text-sm font-semibold text-slate-800 mb-3 border-b border-slate-100 pb-2">Overview</h4>
                 <div className="flex flex-col gap-3">
                   {['milestones', 'criticalIssues'].map(key => (
-                    <label key={key} className="flex items-center gap-3 text-sm text-slate-600 cursor-pointer hover:text-slate-900 transition-colors">
+                    <label key={key} className="flex items-center gap-3 text-sm text-[var(--text-muted)] cursor-pointer hover:text-slate-900 transition-colors">
                       <input
                         type="checkbox"
                         checked={tempVisibleSections[key] || false}
@@ -1564,7 +1564,7 @@ const ProjectTitleDashboard = () => {
                     { id: 'resource', label: 'Resource Summary' },
                     { id: 'quality', label: 'Quality Summary' }
                   ].map(item => (
-                    <label key={item.id} className="flex items-center gap-3 text-sm text-slate-600 cursor-pointer hover:text-slate-900 transition-colors">
+                    <label key={item.id} className="flex items-center gap-3 text-sm text-[var(--text-muted)] cursor-pointer hover:text-slate-900 transition-colors">
                       <input
                         type="checkbox"
                         checked={tempVisibleSections[item.id] || false}
@@ -1590,7 +1590,7 @@ const ProjectTitleDashboard = () => {
                     { id: 'validation', label: 'Validation' },
                     { id: 'qualityIssues', label: 'Quality Issues' }
                   ].map(phase => availablePhases[phase.id] && (
-                    <label key={phase.id} className="flex items-center gap-3 text-sm text-slate-600 cursor-pointer hover:text-slate-900 transition-colors bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                    <label key={phase.id} className="flex items-center gap-3 text-sm text-[var(--text-muted)] cursor-pointer hover:text-slate-900 transition-colors bg-[var(--bg-app)] p-2.5 rounded-xl border border-slate-100">
                       <input
                         type="checkbox"
                         checked={tempVisibleSections[phase.id] || false}
@@ -1610,7 +1610,7 @@ const ProjectTitleDashboard = () => {
                     });
                     return !coveredByDefault;
                   }).map(sub => (
-                    <label key={sub.id} className="flex items-center gap-3 text-sm text-slate-600 cursor-pointer hover:text-slate-900 transition-colors bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                    <label key={sub.id} className="flex items-center gap-3 text-sm text-[var(--text-muted)] cursor-pointer hover:text-slate-900 transition-colors bg-[var(--bg-app)] p-2.5 rounded-xl border border-slate-100">
                       <input
                         type="checkbox"
                         checked={tempVisibleSections[sub.id] || false}
@@ -1625,10 +1625,10 @@ const ProjectTitleDashboard = () => {
             </div>
 
             {/* Preview of visible sections */}
-            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <div className="bg-[var(--bg-app)] p-4 rounded-xl border border-[var(--border-main)]">
               <div className="flex justify-between items-center mb-3">
                 <h4 className="text-xs font-bold uppercase tracking-widest text-slate-500 m-0">Live Preview</h4>
-                <span className="text-xs font-mono font-medium text-slate-400 bg-white px-2 py-1 rounded-md border border-slate-200">
+                <span className="text-xs font-mono font-medium text-[var(--text-subtle)] bg-white px-2 py-1 rounded-md border border-[var(--border-main)]">
                   {availableSectionKeys.filter(key => tempVisibleSections[key]).length} active
                 </span>
               </div>
@@ -1640,14 +1640,14 @@ const ProjectTitleDashboard = () => {
                         (activeProject?.submodules || []).find(s => s.id === section)?.name ||
                         section.charAt(0).toUpperCase() + section.slice(1).replace(/([A-Z])/g, ' $1');
                     return (
-                      <span key={section} className="px-3 py-1.5 bg-white border border-slate-300 text-slate-600 rounded-lg text-xs font-medium shadow-sm flex items-center gap-2">
+                      <span key={section} className="px-3 py-1.5 bg-white border border-slate-300 text-[var(--text-muted)] rounded-lg text-xs font-medium shadow-sm flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
                         {displayName}
                       </span>
                     );
                   })}
                 {Object.values(tempVisibleSections).filter(v => v).length === 0 && (
-                  <div className="text-slate-400 text-sm italic w-full text-center py-2">
+                  <div className="text-[var(--text-subtle)] text-sm italic w-full text-center py-2">
                     No sections selected
                   </div>
                 )}
@@ -1656,10 +1656,10 @@ const ProjectTitleDashboard = () => {
           </div>
 
           {/* Footer Actions */}
-          <div className="px-6 py-4 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
+          <div className="px-6 py-4 border-t border-slate-100 bg-[var(--bg-app)] flex justify-end gap-3">
             <button
               onClick={handleCancelConfig}
-              className="px-5 py-2.5 text-sm font-semibold text-slate-600 bg-white border border-slate-300 rounded-xl hover:bg-slate-50 transition-colors shadow-sm"
+              className="px-5 py-2.5 text-sm font-semibold text-[var(--text-muted)] bg-white border border-slate-300 rounded-xl hover:bg-[var(--bg-app)] transition-colors shadow-sm"
             >
               Cancel
             </button>
@@ -3152,13 +3152,13 @@ const ProjectTitleDashboard = () => {
                   <Download size={14} /> Export CSV
                 </button>
               </div>
-              <div style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
-                  <thead>
-                    <tr style={{ backgroundColor: '#f1f5f9', textAlign: 'left' }}>
-                      <th style={{ padding: '12px 20px', color: '#475569', fontWeight: '800', borderBottom: '2px solid #e2e8f0' }}>#</th>
-                      <th style={{ padding: '12px 20px', color: '#1e3a5f', fontWeight: '800', borderBottom: '2px solid #e2e8f0' }}>{humanizeLabel(axisConfigs[activeProject.id]?.[maximizedChart]?.xAxis || 'X Axis')}</th>
-                      <th style={{ padding: '12px 20px', color: '#1e3a5f', fontWeight: '800', borderBottom: '2px solid #e2e8f0' }}>{humanizeLabel(axisConfigs[activeProject.id]?.[maximizedChart]?.yAxis || 'Y Axis')}</th>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse text-xs">
+                      <thead>
+                        <tr className="bg-[var(--bg-app)] text-left">
+                          <th className="p-4 text-[var(--text-muted)] font-black uppercase tracking-widest border-b-2 border-[var(--border-main)]">#</th>
+                          <th className="p-4 text-[var(--text-main)] font-black uppercase tracking-widest border-b-2 border-[var(--border-main)]">{humanizeLabel(axisConfigs[activeProject.id]?.[maximizedChart]?.xAxis || 'X Axis')}</th>
+                          <th className="p-4 text-[var(--text-main)] font-black uppercase tracking-widest border-b-2 border-[var(--border-main)]">{humanizeLabel(axisConfigs[activeProject.id]?.[maximizedChart]?.yAxis || 'Y Axis')}</th>
                       {/* Show other relevant columns if available */}
                       {Object.keys(submoduleData[getTrackerForPhase(maximizedChart)?.trackerId]?.rows[0] || {})
                         .filter(k => k !== axisConfigs[activeProject.id]?.[maximizedChart]?.xAxis && k !== axisConfigs[activeProject.id]?.[maximizedChart]?.yAxis && !k.startsWith('_'))
@@ -3253,19 +3253,19 @@ const ProjectTitleDashboard = () => {
         {/* Projects List or Dashboard Content */}
         {!activeProject ? (
           /* Projects List View */
-          <div className="flex-1 flex flex-col bg-slate-50/30 min-h-screen">
+          <div className="flex-1 flex flex-col bg-[var(--bg-app)]/30 min-h-screen">
             {/* Content Array */}
             <div className="p-6 max-w-[1600px] mx-auto w-full">
               {/* Unified Page Header */}
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <h1 className="text-4xl font-black aurora-text tracking-tighter uppercase mb-0">Projects</h1>
+                    <h1 className="text-4xl font-black text-[var(--text-main)] tracking-tighter uppercase mb-0">Projects</h1>
                     <span className="bg-blue-600 text-white text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-tighter shadow-sm">
                       {projects.length} Active
                     </span>
                   </div>
-                  <p className="text-sm font-bold text-slate-400 uppercase tracking-widest opacity-80">Manage and track your industrial analytics workspaces</p>
+                  <p className="text-sm font-bold text-[var(--text-subtle)] uppercase tracking-widest opacity-80">Manage and track your industrial analytics workspaces</p>
                 </div>
               </div>
 
@@ -3275,7 +3275,7 @@ const ProjectTitleDashboard = () => {
                   <h3 className="text-2xl font-black text-slate-900 m-0 tracking-tight uppercase">Project Overview</h3>
                   <div className="flex items-center gap-2 mt-1">
                     <div className={`w-2 h-2 rounded-full ${projects.length > 0 ? 'bg-emerald-500' : 'bg-slate-300'}`}></div>
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Active Portfolio</span>
+                    <span className="text-[10px] font-bold text-[var(--text-subtle)] uppercase tracking-widest">Active Portfolio</span>
                   </div>
                 </div>
                 
@@ -3284,14 +3284,14 @@ const ProjectTitleDashboard = () => {
                   <div className="flex bg-slate-200/50 backdrop-blur-md p-1.5 rounded-2xl border border-white/50 shadow-sm">
                     <button 
                       onClick={() => setViewMode('grid')}
-                      className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${viewMode === 'grid' ? 'bg-white text-blue-600 shadow-md transform scale-105' : 'text-slate-400 hover:text-slate-600'}`}
+                      className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${viewMode === 'grid' ? 'bg-white text-blue-600 shadow-md transform scale-105' : 'text-[var(--text-subtle)] hover:text-[var(--text-muted)]'}`}
                     >
                       <Grid size={16} />
                       Grid
                     </button>
                     <button 
                       onClick={() => setViewMode('list')}
-                      className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${viewMode === 'list' ? 'bg-white text-blue-600 shadow-md transform scale-105' : 'text-slate-400 hover:text-slate-600'}`}
+                      className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${viewMode === 'list' ? 'bg-white text-blue-600 shadow-md transform scale-105' : 'text-[var(--text-subtle)] hover:text-[var(--text-muted)]'}`}
                     >
                       <List size={16} />
                       List
@@ -3300,7 +3300,7 @@ const ProjectTitleDashboard = () => {
                   
                   <div className="w-px h-8 bg-slate-200 mx-2 hidden md:block"></div>
                   
-                  <button className="hidden md:flex items-center gap-2 text-slate-400 hover:text-slate-600 transition-colors">
+                  <button className="hidden md:flex items-center gap-2 text-[var(--text-subtle)] hover:text-[var(--text-muted)] transition-colors">
                     <Filter size={18} />
                     <span className="text-[10px] font-black uppercase tracking-widest">Filter</span>
                   </button>
@@ -3310,12 +3310,12 @@ const ProjectTitleDashboard = () => {
               {/* Conditional Layout Content */}
               <div className={viewMode === 'grid' ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" : "space-y-4"}>
                 {projects.length === 0 ? (
-                  <div className="col-span-full flex flex-col items-center justify-center py-20 px-6 text-center bg-white rounded-[2rem] border-2 border-dashed border-slate-200">
-                    <div className="w-20 h-20 bg-slate-50 rounded-3xl flex items-center justify-center text-slate-300 mb-6">
+                  <div className="col-span-full flex flex-col items-center justify-center py-20 px-6 text-center bg-white rounded-[2rem] border-2 border-dashed border-[var(--border-main)]">
+                    <div className="w-20 h-20 bg-[var(--bg-app)] rounded-3xl flex items-center justify-center text-slate-300 mb-6">
                       <Layout size={40} />
                     </div>
                     <h3 className="text-xl font-black text-slate-800 mb-2">No projects started yet</h3>
-                    <p className="text-slate-400 text-sm max-w-sm mb-8">Get started by creating your first industrial analytics workspace to track datasets and metrics.</p>
+                    <p className="text-[var(--text-subtle)] text-sm max-w-sm mb-8">Get started by creating your first industrial analytics workspace to track datasets and metrics.</p>
                     <button className="bg-blue-600 text-white px-8 py-3.5 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-slate-900 transition-all shadow-lg shadow-blue-500/10">
                       Create Project
                     </button>
@@ -3333,14 +3333,14 @@ const ProjectTitleDashboard = () => {
                   /* List View Mode */
                   <div className="premium-card overflow-hidden">
                     <table className="w-full border-collapse text-left text-sm">
-                      <thead className="bg-slate-50/50 border-b border-slate-100">
+                      <thead className="bg-[var(--bg-app)]/50 border-b border-slate-100">
                         <tr>
-                          <th className="px-6 py-4 font-black uppercase tracking-wider text-slate-400 text-[10px]">Project Name</th>
-                          <th className="px-6 py-4 font-black uppercase tracking-wider text-slate-400 text-[10px]">Code</th>
-                          <th className="px-6 py-4 font-black uppercase tracking-wider text-slate-400 text-[10px]">Datasets</th>
-                          <th className="px-6 py-4 font-black uppercase tracking-wider text-slate-400 text-[10px]">Layout</th>
-                          <th className="px-6 py-4 font-black uppercase tracking-wider text-slate-400 text-[10px]">Status</th>
-                          <th className="px-6 py-4 font-black uppercase tracking-wider text-slate-400 text-[10px] text-right">Action</th>
+                          <th className="px-6 py-4 font-black uppercase tracking-wider text-[var(--text-subtle)] text-[10px]">Project Name</th>
+                          <th className="px-6 py-4 font-black uppercase tracking-wider text-[var(--text-subtle)] text-[10px]">Code</th>
+                          <th className="px-6 py-4 font-black uppercase tracking-wider text-[var(--text-subtle)] text-[10px]">Datasets</th>
+                          <th className="px-6 py-4 font-black uppercase tracking-wider text-[var(--text-subtle)] text-[10px]">Layout</th>
+                          <th className="px-6 py-4 font-black uppercase tracking-wider text-[var(--text-subtle)] text-[10px]">Status</th>
+                          <th className="px-6 py-4 font-black uppercase tracking-wider text-[var(--text-subtle)] text-[10px] text-right">Action</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-50">
@@ -3348,7 +3348,7 @@ const ProjectTitleDashboard = () => {
                           <tr 
                             key={project.id} 
                             onClick={() => handleProjectSelect(project.id)}
-                            className="group hover:bg-slate-50/50 cursor-pointer transition-colors"
+                            className="group hover:bg-[var(--bg-app)]/50 cursor-pointer transition-colors"
                           >
                             <td className="px-6 py-4">
                               <div className="flex items-center gap-3">
@@ -3359,10 +3359,10 @@ const ProjectTitleDashboard = () => {
                               </div>
                             </td>
                             <td className="px-6 py-4">
-                              <span className="font-mono text-xs text-slate-400 font-bold">{project.code || project.name.substring(0, 4).toUpperCase()}</span>
+                              <span className="font-mono text-xs text-[var(--text-subtle)] font-bold">{project.code || project.name.substring(0, 4).toUpperCase()}</span>
                             </td>
                             <td className="px-6 py-4">
-                              <div className="flex items-center gap-1.5 text-slate-600 font-bold text-xs">
+                              <div className="flex items-center gap-1.5 text-[var(--text-muted)] font-bold text-xs">
                                 <Database size={14} className="text-blue-500" />
                                 {project.submodules ? project.submodules.length : 0}
                               </div>
@@ -3373,7 +3373,7 @@ const ProjectTitleDashboard = () => {
                                   <div className="w-1 h-1 rounded-full bg-emerald-500" /> Ready
                                 </span>
                               ) : (
-                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 text-slate-400 rounded-lg text-[10px] font-black uppercase border border-slate-200">
+                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 text-[var(--text-subtle)] rounded-lg text-[10px] font-black uppercase border border-[var(--border-main)]">
                                   <div className="w-1 h-1 rounded-full bg-slate-400" /> Pending
                                 </span>
                               )}
@@ -3388,7 +3388,7 @@ const ProjectTitleDashboard = () => {
                                 </span>
                             </td>
                             <td className="px-6 py-4 text-right">
-                              <button className="p-2 text-slate-400 hover:text-blue-600 transition-colors">
+                              <button className="p-2 text-[var(--text-subtle)] hover:text-blue-600 transition-colors">
                                 <ArrowRight size={18} />
                               </button>
                             </td>
@@ -3411,18 +3411,18 @@ const ProjectTitleDashboard = () => {
           <>
             <div id="project-dashboard-main-content">
               {/* Updated Date Row with SOP Info */}
-              <div className="premium-card p-6 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="premium-card p-6 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-6 border-none shadow-none bg-transparent">
                 <div className="flex items-center gap-6">
                   <div className="flex flex-col gap-1">
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Report Date</span>
-                    <span className="text-sm font-bold text-slate-700">March 15, 2024</span>
+                    <span className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest">Report Date</span>
+                    <span className="text-sm font-black text-[var(--text-main)]">March 15, 2024</span>
                   </div>
                   
-                  <div className="w-px h-8 bg-slate-200 mx-2 hidden md:block"></div>
+                  <div className="w-px h-8 bg-[var(--border-main)] mx-2 hidden md:block"></div>
 
                   <div className="flex flex-col gap-1">
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">SOP Countdown</span>
-                    <span className="text-sm font-black text-blue-600 bg-blue-50 px-3 py-1 rounded-lg border border-blue-100">
+                    <span className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest">SOP Countdown</span>
+                    <span className="text-sm font-black text-[var(--brand-primary)] bg-blue-50 px-3 py-1 rounded-lg border border-blue-100/50">
                       {sopData[0].daysToGo} Days Remaining
                     </span>
                   </div>
@@ -3430,7 +3430,7 @@ const ProjectTitleDashboard = () => {
 
                 <div className="flex items-center gap-4">
                   <div className="flex flex-col gap-1">
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Workspace Status</span>
+                    <span className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest">Workspace Status</span>
                     <select
                       value={sopData[0].status}
                       onChange={(e) => {
@@ -3438,7 +3438,7 @@ const ProjectTitleDashboard = () => {
                         newSop[0].status = e.target.value;
                         setSopData(newSop);
                       }}
-                      className="bg-white/50 border border-slate-200 rounded-xl px-4 py-2 text-sm font-bold text-slate-700 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all cursor-pointer"
+                      className="bg-[var(--bg-surface)] border border-[var(--border-main)] rounded-xl px-4 py-2 text-sm font-bold text-[var(--text-main)] focus:ring-4 focus:ring-blue-500/10 focus:border-[var(--brand-primary)] outline-none transition-all cursor-pointer shadow-sm"
                     >
                       <option value="Good">Good</option>
                       <option value="At Risk">At Risk</option>
@@ -3449,21 +3449,21 @@ const ProjectTitleDashboard = () => {
               </div>
 
                   {/* Overall Project Health */}
-                  <div className="flex items-center gap-8">
-                    <div className="flex flex-col gap-2">
-                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Project Health</span>
-                      <div className="flex bg-slate-200/50 backdrop-blur-md p-1.5 rounded-2xl border border-white/50 shadow-sm gap-2">
-                        <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl transition-all hover:bg-white/60">
-                          <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]"></div>
-                          <span className="text-[11px] font-black text-slate-700 uppercase tracking-tighter">On Track</span>
+                  <div className="flex items-center gap-12 mt-4 ml-2">
+                    <div className="flex flex-col gap-3">
+                      <span className="text-[10px] font-black text-[var(--text-subtle)] uppercase tracking-[0.2em] pl-1">Project Health Lifecycle</span>
+                      <div className="flex bg-[var(--bg-surface)] p-1.5 rounded-2xl border border-[var(--border-main)] shadow-sm gap-2">
+                        <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl transition-all hover:bg-[var(--bg-app)] cursor-default">
+                          <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.3)]"></div>
+                          <span className="text-[11px] font-black text-[var(--text-main)] uppercase tracking-tight">On Track</span>
                         </div>
-                        <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl transition-all hover:bg-white/60 opacity-40 grayscale hover:grayscale-0 hover:opacity-100">
-                          <div className="w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.4)]"></div>
-                          <span className="text-[11px] font-black text-slate-600 uppercase tracking-tighter">At Risk</span>
+                        <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl transition-all hover:bg-[var(--bg-app)] opacity-30 grayscale hover:opacity-100 hover:grayscale-0 cursor-default">
+                          <div className="w-2.5 h-2.5 rounded-full bg-amber-500"></div>
+                          <span className="text-[11px] font-black text-[var(--text-main)] uppercase tracking-tight">At Risk</span>
                         </div>
-                        <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl transition-all hover:bg-white/60 opacity-40 grayscale hover:grayscale-0 hover:opacity-100">
-                          <div className="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.4)]"></div>
-                          <span className="text-[11px] font-black text-slate-600 uppercase tracking-tighter">Critical</span>
+                        <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl transition-all hover:bg-[var(--bg-app)] opacity-30 grayscale hover:opacity-100 hover:grayscale-0 cursor-default">
+                          <div className="w-2.5 h-2.5 rounded-full bg-red-500"></div>
+                          <span className="text-[11px] font-black text-[var(--text-main)] uppercase tracking-tight">Critical</span>
                         </div>
                       </div>
                     </div>
@@ -3475,21 +3475,9 @@ const ProjectTitleDashboard = () => {
               <div id="dashboard-printable-area" style={{ padding: '20px 25px 25px 25px' }}>
                 {/* Milestones Section */}
                 {visibleSections.milestones && (
-                  <div style={{
-                    backgroundColor: 'white',
-                    borderRadius: '12px',
-                    border: '1px solid #e2e8f0',
-                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-                    overflow: 'hidden',
-                    marginBottom: '28px'
-                  }}>
-                    <div style={{
-                      textAlign: 'center',
-                      padding: '14px 20px 10px',
-                      backgroundColor: '#f8fafc',
-                      borderBottom: '2px solid #e2e8f0'
-                    }}>
-                      <span style={{ fontSize: '18px', fontWeight: '900', color: '#1e3a5f', letterSpacing: '-0.01em' }}>Milestones</span>
+                  <div className="premium-card overflow-hidden mb-8">
+                    <div className="text-center py-4 bg-[var(--bg-app)] border-b border-[var(--border-main)]">
+                      <span className="text-lg font-black text-[var(--text-main)] uppercase tracking-tight">Milestones</span>
                     </div>
                     <div style={{
                       display: 'flex',
@@ -3608,33 +3596,14 @@ const ProjectTitleDashboard = () => {
 
                 {/* Critical Issues Section */}
                 {visibleSections.criticalIssues && (
-                  <div style={{
-                    backgroundColor: 'white',
-                    borderRadius: '12px',
-                    border: '1px solid #e2e8f0',
-                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-                    overflow: 'hidden',
-                    marginBottom: '28px'
-                  }}>
-                    <div style={{
-                      textAlign: 'center',
-                      padding: '14px 20px 10px',
-                      backgroundColor: '#fff5f5',
-                      borderBottom: '2px solid #fecaca'
-                    }}>
-                      <span style={{ fontSize: '18px', fontWeight: '900', color: '#b91c1c', letterSpacing: '-0.01em' }}>Critical Issues</span>
+                  <div className="premium-card overflow-hidden mb-8">
+                    <div className="text-center py-4 bg-[var(--bg-app)] border-b border-[var(--border-main)]">
+                      <span className="text-lg font-black text-[var(--text-main)] uppercase tracking-tight">Critical Issues</span>
                     </div>
-                    <div style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      backgroundColor: '#f8fafc',
-                      padding: '10px 20px',
-                      borderBottom: '1px solid #e2e8f0'
-                    }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <div style={{ backgroundColor: '#ef4444', width: '4px', height: '18px', borderRadius: '2px' }} />
-                        <span style={{ fontSize: '15px', fontWeight: '800', color: '#1e3a5f' }}>Top Critical Issues</span>
+                    <div className="flex justify-between items-center bg-[var(--bg-app)] px-5 py-3 border-b border-[var(--border-main)]">
+                      <div className="flex items-center gap-2">
+                        <div className="bg-[var(--accent-danger)] w-1 h-5 rounded-full" />
+                        <span className="text-[14px] font-black text-[var(--text-main)] uppercase tracking-wider">Top Critical issues</span>
                       </div>
                       <button
                         onClick={() => { setIssuesForm([...criticalIssues]); setShowEditIssues(true); }}
@@ -3644,15 +3613,15 @@ const ProjectTitleDashboard = () => {
                         <Edit className="h-4 w-4" />
                       </button>
                     </div>
-                    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px' }}>
+                    <table className="w-full border-collapse text-sm">
                       <thead>
-                        <tr style={{ borderBottom: '2px solid #e2e8f0' }}>
-                          <th style={{ padding: '12px 15px', textAlign: 'left', color: '#64748b', fontWeight: 'bold' }}>#</th>
-                          <th style={{ padding: '12px 15px', textAlign: 'left', color: '#64748b', fontWeight: 'bold' }}>Issue Description</th>
-                          <th style={{ padding: '12px 15px', textAlign: 'left', color: '#64748b', fontWeight: 'bold' }}>Owner</th>
-                          <th style={{ padding: '12px 15px', textAlign: 'left', color: '#64748b', fontWeight: 'bold' }}>Function</th>
-                          <th style={{ padding: '12px 15px', textAlign: 'left', color: '#64748b', fontWeight: 'bold' }}>Target Date</th>
-                          <th style={{ padding: '12px 15px', textAlign: 'left', color: '#64748b', fontWeight: 'bold' }}>Status</th>
+                        <tr className="border-b-2 border-[var(--border-main)]">
+                          <th className="p-4 text-left text-[11px] font-black text-[var(--text-muted)] uppercase tracking-widest">#</th>
+                          <th className="p-4 text-left text-[11px] font-black text-[var(--text-muted)] uppercase tracking-widest">Description</th>
+                          <th className="p-4 text-left text-[11px] font-black text-[var(--text-muted)] uppercase tracking-widest">Owner</th>
+                          <th className="p-4 text-left text-[11px] font-black text-[var(--text-muted)] uppercase tracking-widest">Function</th>
+                          <th className="p-4 text-left text-[11px] font-black text-[var(--text-muted)] uppercase tracking-widest">Target</th>
+                          <th className="p-4 text-left text-[11px] font-black text-[var(--text-muted)] uppercase tracking-widest">Status</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -3798,42 +3767,25 @@ const ProjectTitleDashboard = () => {
                       gridTemplateColumns: [visibleSections.budget, visibleSections.resource, visibleSections.quality].filter(Boolean).length === 3 ? 'repeat(3, 1fr)' : [visibleSections.budget, visibleSections.resource, visibleSections.quality].filter(Boolean).length === 2 ? 'repeat(2, 1fr)' : '1fr',
                       gap: '20px'
                     }}>
-                      {/* Budget Summary */}
-                      {/* Budget Summary Tracker Table */}
+                      {/* Budget Summary Card */}
                       {visibleSections.budget && (
-                        <div style={{
-                          gridColumn: '1 / -1',
-                          backgroundColor: 'white',
-                          borderRadius: '12px',
-                          border: '1px solid #e2e8f0',
-                          overflow: 'hidden',
-                          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-                          display: 'flex',
-                          flexDirection: 'column'
-                        }}>
-                          <div style={{
-                            padding: '16px 24px',
-                            backgroundColor: '#f8fafc',
-                            borderBottom: '1px solid #e2e8f0',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center'
-                          }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                              <div style={{ backgroundColor: '#3b82f6', color: 'white', padding: '8px', borderRadius: '8px', display: 'flex' }}>
-                                <Settings size={18} />
+                        <div className="premium-card flex flex-col group" style={{ gridColumn: '1 / -1' }}>
+                          <div className="px-6 py-4 bg-[var(--bg-app)] border-b border-[var(--border-main)] flex justify-between items-center group-hover:bg-slate-50 transition-colors">
+                            <div className="flex items-center gap-3">
+                              <div className="p-2 bg-white border border-[var(--border-main)] rounded-xl shadow-sm text-[var(--brand-primary)]">
+                                <Wallet size={16} strokeWidth={2.5} />
                               </div>
-                              <span style={{ fontSize: '18px', fontWeight: '800', color: '#1e3a5f' }}>Budget Summary</span>
+                              <span className="text-[14px] font-black text-[var(--text-main)] uppercase tracking-wider">Financials</span>
                             </div>
-                            <div style={{ display: 'flex', gap: '16px', alignItems: 'center', backgroundColor: '#f8fafc' }}>
-                              <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#64748b', marginRight: '8px' }}>Project Name:</span>
+                            <div className="flex items-center gap-3">
+                              <div className="flex items-center gap-2 px-3 py-1.5 bg-white border border-[var(--border-main)] rounded-lg">
+                                <span className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-widest">Active Budget:</span>
                                 <input
                                   list="projectMasterList"
                                   value={selectedBudgetProject}
                                   onChange={(e) => setSelectedBudgetProject(e.target.value)}
-                                  placeholder="Select or Type project..."
-                                  style={{ padding: '8px 14px', border: '1px solid #cbd5e1', borderRadius: '6px', fontSize: '14px', fontWeight: '700', color: '#1e3a5f', width: '220px', outline: 'none', backgroundColor: 'white' }}
+                                  placeholder="Select project..."
+                                  className="w-40 bg-transparent border-none text-[11px] font-black text-[var(--text-main)] outline-none cursor-pointer"
                                 />
                                 <datalist id="projectMasterList">
                                   {masterProjects.map((p, idx) => (
@@ -3841,61 +3793,47 @@ const ProjectTitleDashboard = () => {
                                   ))}
                                 </datalist>
                               </div>
-                              <div style={{ display: 'flex', alignItems: 'center', marginLeft: '8px', marginRight: '8px' }}>
-                                <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#64748b', marginRight: '8px' }}>Status:</span>
-                                <span style={{ fontSize: '15px', fontWeight: '800', color: '#10b981' }}>
-                                  {masterProjects.find(p => p.name === selectedBudgetProject)?.status || activeProject?.status || 'Active'}
-                                </span>
-                              </div>
-                                {canSaveBudget && (
-                                  <button
-                                    onClick={() => {
-                                      const currentName = selectedBudgetProject || activeProject?.name || '';
-                                      const currentStatus = masterProjects.find(p => p.name === currentName)?.status || activeProject?.status || 'Active';
-                                      setModalProjectName(currentName);
-                                      setModalProjectStatus(currentStatus);
-                                      setEditType('budgetTable');
-                                      setBudgetTableForm([...budgetTableData]);
-                                      setShowEditSummary(true);
-                                    }}
-                                    style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', borderRadius: '6px', border: '1px solid #3b82f6', backgroundColor: '#ffffff', color: '#3b82f6', fontWeight: '700', fontSize: '14px', cursor: 'pointer', transition: 'all 0.2s', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}
-                                    onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#eff6ff'; }}
-                                    onMouseOut={(e) => { e.currentTarget.style.backgroundColor = '#ffffff'; }}
-                                  >
-                                    <Edit size={16} /> Edit Budget
-                                  </button>
-                                )}
+                              {canSaveBudget && (
+                                <button
+                                  onClick={() => {
+                                    const currentName = selectedBudgetProject || activeProject?.name || '';
+                                    const currentStatus = masterProjects.find(p => p.name === currentName)?.status || activeProject?.status || 'Active';
+                                    setModalProjectName(currentName);
+                                    setModalProjectStatus(currentStatus);
+                                    setEditType('budgetTable');
+                                    setBudgetTableForm([...budgetTableData]);
+                                    setShowEditSummary(true);
+                                  }}
+                                  className="p-2 text-[var(--text-subtle)] hover:text-[var(--brand-primary)] hover:bg-blue-50 rounded-lg transition-all"
+                                >
+                                  <Edit size={16} />
+                                </button>
+                              )}
                             </div>
                           </div>
-                          <div style={{ padding: '24px 20px', backgroundColor: '#ffffff' }}>
+                          
+                          <div className="p-6">
                             {summarizedBudgetData && summarizedBudgetData.length > 0 ? (
-                              <div style={{ borderRadius: '8px', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
-                                <table style={{ minWidth: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '14px' }}>
-                                  <thead style={{ backgroundColor: '#f8fafc' }}>
-                                    <tr style={{ borderBottom: '2px solid #e2e8f0' }}>
-                                      <th style={{ padding: '14px 20px', color: '#475569', fontWeight: 'bold' }}>Category</th>
-                                      <th style={{ padding: '14px 20px', color: '#475569', fontWeight: 'bold', textAlign: 'right' }}>Estimated</th>
-                                      <th style={{ padding: '14px 20px', color: '#475569', fontWeight: 'bold', textAlign: 'right' }}>Utilized</th>
-                                      <th style={{ padding: '14px 20px', color: '#475569', fontWeight: 'bold', textAlign: 'right' }}>Balance</th>
+                              <div className="border border-[var(--border-main)] rounded-xl overflow-hidden shadow-sm">
+                                <table className="w-full text-left text-xs border-collapse">
+                                  <thead className="bg-[var(--bg-app)]">
+                                    <tr className="border-b border-[var(--border-main)]">
+                                      <th className="p-4 font-black text-[var(--text-muted)] uppercase tracking-widest">Category</th>
+                                      <th className="p-4 font-black text-[var(--text-muted)] uppercase tracking-widest text-right">Estimated</th>
+                                      <th className="p-4 font-black text-[var(--text-muted)] uppercase tracking-widest text-right">Utilized</th>
+                                      <th className="p-4 font-black text-[var(--text-muted)] uppercase tracking-widest text-right">Balance</th>
                                     </tr>
                                   </thead>
                                   <tbody>
                                     {summarizedBudgetData.map((row, idx) => {
                                       const isGrandTotal = row.category === 'Grand Total';
-                                      const bg = isGrandTotal ? '#f1f5f9' : 'white';
-                                      const fw = isGrandTotal ? 'bold' : 'normal';
-                                      const color = isGrandTotal ? '#1e3a5f' : '#475569';
-
                                       return (
-                                        <tr key={idx} style={{ backgroundColor: bg, borderBottom: '1px solid #f1f5f9' }}>
-                                          <td style={{ padding: '14px 20px', fontWeight: fw, color: color }}>{row.category}</td>
-                                          <td style={{ padding: '14px 20px', fontWeight: fw, color: color, textAlign: 'right' }}>{format(row.approved)}</td>
-                                          <td style={{ padding: '14px 20px', fontWeight: fw, color: color, textAlign: 'right' }}>{format(row.utilized)}</td>
-                                          <td style={{ padding: '14px 20px', fontWeight: fw, color: color, textAlign: 'right' }}>
-                                            <span style={{ 
-                                              color: row.balance < 0 ? '#ef4444' : isGrandTotal ? '#1e3a5f' : '#10b981',
-                                              fontWeight: 'bold'
-                                            }}>
+                                        <tr key={idx} className={`border-b border-[var(--border-light)] ${isGrandTotal ? 'bg-slate-900 text-white font-black' : 'hover:bg-slate-50 transition-colors bg-white font-medium'}`}>
+                                          <td className="p-4">{row.category}</td>
+                                          <td className="p-4 text-right tabular-nums">{format(row.approved)}</td>
+                                          <td className="p-4 text-right tabular-nums">{format(row.utilized)}</td>
+                                          <td className="p-4 text-right tabular-nums">
+                                            <span className={`${row.balance < 0 ? 'text-red-500' : isGrandTotal ? 'text-white' : 'text-emerald-600'} font-black`}>
                                               {format(row.balance)}
                                             </span>
                                           </td>
@@ -3906,113 +3844,85 @@ const ProjectTitleDashboard = () => {
                                 </table>
                               </div>
                             ) : (
-                              <div style={{ textAlign: 'center', padding: '20px', color: '#64748b' }}>No budget data available</div>
+                              <div className="text-center py-10 text-[var(--text-subtle)] text-sm italic bg-[var(--bg-app)] rounded-xl border border-dashed border-[var(--border-main)]">
+                                No budget data available
+                              </div>
                             )}
                           </div>
                         </div>
                       )}
-                      {/* Resource Summary */}
+                      {/* Resource Summary Card */}
                       {visibleSections.resource && (
-                        <div style={{
-                          backgroundColor: 'white',
-                          borderRadius: '12px',
-                          border: '1px solid #e2e8f0',
-                          overflow: 'hidden',
-                          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-                          display: 'flex',
-                          flexDirection: 'column'
-                        }}>
-                          <div style={{
-                            padding: '16px 20px',
-                            backgroundColor: '#f0fdf4',
-                            borderBottom: '1px solid #dcfce7',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center'
-                          }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                              <div style={{ backgroundColor: '#22c55e', color: 'white', padding: '6px', borderRadius: '8px' }}>
-                                <Check size={16} />
+                        <div className="premium-card flex flex-col group">
+                           <div className="px-6 py-4 bg-[var(--bg-app)] border-b border-[var(--border-main)] flex justify-between items-center group-hover:bg-slate-50 transition-colors">
+                            <div className="flex items-center gap-3">
+                              <div className="p-2 bg-white border border-[var(--border-main)] rounded-xl shadow-sm text-emerald-600">
+                                <Check size={16} strokeWidth={2.5} />
                               </div>
-                              <span style={{ fontSize: '15px', fontWeight: '800', color: '#1e3a5f' }}>Resource</span>
+                              <span className="text-[14px] font-black text-[var(--text-main)] uppercase tracking-wider">Resources</span>
                             </div>
                             <button
                               onClick={() => { setEditType('resource'); setSummaryForm({ ...summaryData }); setShowEditSummary(true); }}
-                              className="no-print"
-                              style={{ background: 'none', border: 'none', color: '#22c55e', cursor: 'pointer', padding: '4px' }}
+                              className="p-2 text-[var(--text-subtle)] hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
                             >
                               <Edit className="h-4 w-4" />
                             </button>
                           </div>
-                          <div style={{ padding: '20px', display: 'grid', gap: '12px' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                              <span style={{ fontSize: '13px', color: '#64748b', fontWeight: '600' }}>Deployed</span>
-                              <span style={{ fontSize: '18px', fontWeight: '900', color: '#1e3a5f' }}>{summaryData.resourceDeployed}</span>
+                          <div className="p-6 grid gap-6">
+                            <div className="flex justify-between items-end border-b border-[var(--border-light)] pb-4">
+                              <span className="text-[10px] font-black text-[var(--text-subtle)] uppercase tracking-widest">Team Deployed</span>
+                              <span className="text-2xl font-black text-[var(--text-main)] tabular-nums">{summaryData.resourceDeployed}</span>
                             </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                              <span style={{ fontSize: '13px', color: '#64748b', fontWeight: '600' }}>Shortage</span>
-                              <span style={{ fontSize: '18px', fontWeight: '900', color: '#ef4444' }}>{summaryData.resourceShortage}</span>
+                            <div className="flex justify-between items-end border-b border-[var(--border-light)] pb-4">
+                              <span className="text-[10px] font-black text-[var(--text-subtle)] uppercase tracking-widest">Active Shortage</span>
+                              <span className="text-2xl font-black text-red-500 tabular-nums">{summaryData.resourceShortage}</span>
                             </div>
-                            <div style={{ height: '1px', backgroundColor: '#f1f5f9', margin: '4px 0' }} />
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                              <span style={{ fontSize: '13px', color: '#64748b', fontWeight: '600' }}>Status</span>
-                              <div style={{ textAlign: 'right' }}>
-                                <span style={{ fontSize: '18px', fontWeight: '900', color: '#f59e0b' }}>{summaryData.resourceUtilized}/{summaryData.resourceDeployed}</span>
-                                <div style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 'bold' }}>UTILIZATION</div>
+                            <div className="flex justify-between items-center">
+                              <span className="text-[10px] font-black text-[var(--text-subtle)] uppercase tracking-widest">Utilization Rate</span>
+                              <div className="text-right">
+                                <span className="text-2xl font-black text-[var(--brand-primary)] tabular-nums">
+                                  {Math.round((summaryData.resourceUtilized / (summaryData.resourceDeployed || 1)) * 100)}%
+                                </span>
+                                <div className="text-[9px] font-black text-[var(--text-subtle)] uppercase tracking-[0.2em] mt-1">{summaryData.resourceUtilized}/{summaryData.resourceDeployed} FTE</div>
                               </div>
                             </div>
                           </div>
                         </div>
                       )}
 
-                      {/* Quality Summary */}
+                      {/* Quality Summary Card */}
                       {visibleSections.quality && (
-                        <div style={{
-                          backgroundColor: 'white',
-                          borderRadius: '12px',
-                          border: '1px solid #e2e8f0',
-                          overflow: 'hidden',
-                          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-                          display: 'flex',
-                          flexDirection: 'column'
-                        }}>
-                          <div style={{
-                            padding: '16px 20px',
-                            backgroundColor: '#fff7ed',
-                            borderBottom: '1px solid #ffedd5',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center'
-                          }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                              <div style={{ backgroundColor: '#f59e0b', color: 'white', padding: '6px', borderRadius: '8px' }}>
-                                <Filter size={16} />
+                        <div className="premium-card flex flex-col group">
+                          <div className="px-6 py-4 bg-[var(--bg-app)] border-b border-[var(--border-main)] flex justify-between items-center group-hover:bg-slate-50 transition-colors">
+                            <div className="flex items-center gap-3">
+                              <div className="p-2 bg-white border border-[var(--border-main)] rounded-xl shadow-sm text-amber-500">
+                                <Filter size={16} strokeWidth={2.5} />
                               </div>
-                              <span style={{ fontSize: '15px', fontWeight: '800', color: '#1e3a5f' }}>Quality</span>
+                              <span className="text-[14px] font-black text-[var(--text-main)] uppercase tracking-wider">Quality Assurance</span>
                             </div>
                             <button
                               onClick={() => { setEditType('quality'); setSummaryForm({ ...summaryData }); setShowEditSummary(true); }}
-                              className="no-print"
-                              style={{ background: 'none', border: 'none', color: '#f59e0b', cursor: 'pointer', padding: '4px' }}
+                              className="p-2 text-[var(--text-subtle)] hover:text-amber-500 hover:bg-amber-50 rounded-lg transition-all"
                             >
                               <Edit className="h-4 w-4" />
                             </button>
                           </div>
-                          <div style={{ padding: '20px', display: 'grid', gap: '12px' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                              <span style={{ fontSize: '13px', color: '#64748b', fontWeight: '600' }}>Total Issues</span>
-                              <span style={{ fontSize: '18px', fontWeight: '900', color: '#1e3a5f' }}>{summaryData.qualityTotal}</span>
+                          <div className="p-6 grid gap-6">
+                            <div className="flex justify-between items-end border-b border-[var(--border-light)] pb-4">
+                              <span className="text-[10px] font-black text-[var(--text-subtle)] uppercase tracking-widest">Total Incidents</span>
+                              <span className="text-2xl font-black text-[var(--text-main)] tabular-nums">{summaryData.qualityTotal}</span>
                             </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                              <span style={{ fontSize: '13px', color: '#64748b', fontWeight: '600' }}>Open</span>
-                              <span style={{ fontSize: '18px', fontWeight: '900', color: '#ef4444' }}>{summaryData.qualityOpen}</span>
+                            <div className="flex justify-between items-end border-b border-[var(--border-light)] pb-4">
+                              <span className="text-[10px] font-black text-[var(--text-subtle)] uppercase tracking-widest">Critical Open</span>
+                              <span className="text-2xl font-black text-red-500 tabular-nums">{summaryData.qualityOpen}</span>
                             </div>
-                            <div style={{ height: '1px', backgroundColor: '#f1f5f9', margin: '4px 0' }} />
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                              <span style={{ fontSize: '13px', color: '#64748b', fontWeight: '600' }}>Closed</span>
-                              <div style={{ textAlign: 'right' }}>
-                                <span style={{ fontSize: '18px', fontWeight: '900', color: '#10b981' }}>{summaryData.qualityCompleted}</span>
-                                <div style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 'bold' }}>RESOLUTION</div>
+                            <div className="flex justify-between items-center">
+                              <span className="text-[10px] font-black text-[var(--text-subtle)] uppercase tracking-widest">Resolution Ratio</span>
+                              <div className="text-right">
+                                <span className="text-2xl font-black text-emerald-600 tabular-nums">
+                                  {Math.round((summaryData.qualityCompleted / (summaryData.qualityTotal || 1)) * 100)}%
+                                </span>
+                                <div className="text-[9px] font-black text-[var(--text-subtle)] uppercase tracking-[0.2em] mt-1">{summaryData.qualityCompleted} RESOLVED</div>
                               </div>
                             </div>
                           </div>
@@ -4076,10 +3986,10 @@ const ProjectTitleDashboard = () => {
               chartImages={pdfChartImages}
               isCapturing={isCapturingPdf}
             />
-          </>
-        )}
-      </div>
+        </>
+      )}
     </div>
+  </div>
   );
 };
 
@@ -4453,12 +4363,12 @@ const EmailModal = ({
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.3, ease: 'easeOut' }}
-        className="bg-white rounded-2xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden"
+        className="bg-white rounded-2xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl border border-[var(--border-main)] overflow-hidden"
       >
         {/* Header */}
-        <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-start bg-slate-50">
+        <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-start bg-[var(--bg-app)]">
           <div className="flex items-center gap-4">
-            <div className="p-2.5 bg-white border border-slate-200 text-slate-600 rounded-xl shadow-sm">
+            <div className="p-2.5 bg-white border border-[var(--border-main)] text-[var(--text-muted)] rounded-xl shadow-sm">
               <Mail size={20} />
             </div>
             <div>
@@ -4473,7 +4383,7 @@ const EmailModal = ({
           </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-600 transition-colors p-1 rounded-full hover:bg-slate-200"
+            className="text-[var(--text-subtle)] hover:text-[var(--text-muted)] transition-colors p-1 rounded-full hover:bg-slate-200"
           >
             <X size={20} />
           </button>
@@ -4534,19 +4444,19 @@ const EmailModal = ({
 
             {/* Subject */}
             <div className="space-y-2">
-              <label className="text-xs font-bold uppercase tracking-widest text-slate-400">Subject</label>
+              <label className="text-xs font-bold uppercase tracking-widest text-[var(--text-subtle)]">Subject</label>
               <input
                 type="text"
                 value={emailData.subject}
                 onChange={(e) => setEmailData(prev => ({ ...prev, subject: e.target.value }))}
                 placeholder="Enter report subject..."
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all"
+                className="w-full px-4 py-3 bg-[var(--bg-app)] border border-[var(--border-main)] rounded-xl text-sm text-[var(--text-main)] outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all"
               />
             </div>
 
             {/* Message */}
             <div className="space-y-2">
-              <label className="text-xs font-bold uppercase tracking-widest text-slate-400">Message (Optional)</label>
+              <label className="text-xs font-bold uppercase tracking-widest text-[var(--text-subtle)]">Message (Optional)</label>
               <RichTextEditor
                 value={emailData.message}
                 onChange={(html) => setEmailData(prev => ({ ...prev, message: html }))}
@@ -4556,7 +4466,7 @@ const EmailModal = ({
 
           {/* Attachments Section */}
           <div className="space-y-3">
-             <label className="text-xs font-bold uppercase tracking-widest text-slate-400">Attachments</label>
+             <label className="text-xs font-bold uppercase tracking-widest text-[var(--text-subtle)]">Attachments</label>
              <div className="flex flex-wrap gap-3">
                 {emailData.includePdf ? (
                   <div className="inline-flex items-center gap-3 bg-blue-50/50 border border-blue-100 px-4 py-2.5 rounded-xl text-sm font-semibold text-blue-700 shadow-sm">
@@ -4574,7 +4484,7 @@ const EmailModal = ({
                   <button
                     type="button"
                     onClick={() => setEmailData(prev => ({ ...prev, includePdf: true }))}
-                    className="flex items-center gap-2 px-4 py-2.5 border-2 border-dashed border-slate-200 rounded-xl text-slate-400 text-sm font-bold hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 transition-all"
+                    className="flex items-center gap-2 px-4 py-2.5 border-2 border-dashed border-[var(--border-main)] rounded-xl text-[var(--text-subtle)] text-sm font-bold hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 transition-all"
                   >
                     <Plus size={16} /> Attach Dashboard PDF
                   </button>
@@ -4583,10 +4493,10 @@ const EmailModal = ({
           </div>
 
           {/* Grouped Section Selection */}
-          <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100 space-y-6">
+          <div className="bg-[var(--bg-app)] rounded-2xl p-6 border border-slate-100 space-y-6">
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-2.5">
-                <div className="p-1.5 bg-white border border-slate-200 rounded-lg shadow-sm text-slate-600">
+                <div className="p-1.5 bg-white border border-[var(--border-main)] rounded-lg shadow-sm text-[var(--text-muted)]">
                   <Grid size={16} />
                 </div>
                 <h3 className="text-sm font-bold text-slate-800 m-0">Included Sections</h3>
@@ -4596,7 +4506,7 @@ const EmailModal = ({
                 className={`px-4 py-2 text-xs font-bold rounded-lg transition-all border ${
                   allSelected 
                     ? 'bg-slate-800 text-white border-slate-800 hover:bg-slate-700' 
-                    : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
+                    : 'bg-white text-[var(--text-main)] border-slate-300 hover:bg-[var(--bg-app)]'
                 }`}
               >
                 {allSelected ? 'Deselect All' : 'Select All'}
@@ -4606,13 +4516,13 @@ const EmailModal = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Overview Group */}
               <div>
-                <h4 className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-3 border-b border-slate-200/60 pb-1.5">Overview</h4>
+                <h4 className="text-[11px] font-bold uppercase tracking-widest text-[var(--text-subtle)] mb-3 border-b border-[var(--border-main)]/60 pb-1.5">Overview</h4>
                 <div className="space-y-2">
                   {[
                     { id: 'milestones', label: 'Milestones' },
                     { id: 'criticalIssues', label: 'Critical Issues' }
                   ].map(item => (
-                    <label key={item.id} className="flex items-center gap-3 p-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-600 cursor-pointer hover:border-blue-200 hover:bg-blue-50/30 transition-all shadow-sm">
+                    <label key={item.id} className="flex items-center gap-3 p-2.5 bg-white border border-[var(--border-main)] rounded-xl text-sm font-medium text-[var(--text-muted)] cursor-pointer hover:border-blue-200 hover:bg-blue-50/30 transition-all shadow-sm">
                       <input
                         type="checkbox"
                         checked={emailData.selectedSections[item.id]}
@@ -4627,14 +4537,14 @@ const EmailModal = ({
 
               {/* Summary Cards Group */}
               <div>
-                <h4 className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-3 border-b border-slate-200/60 pb-1.5">Summary Cards</h4>
+                <h4 className="text-[11px] font-bold uppercase tracking-widest text-[var(--text-subtle)] mb-3 border-b border-[var(--border-main)]/60 pb-1.5">Summary Cards</h4>
                 <div className="space-y-2">
                   {[
                     { id: 'budget', label: 'Budget Summary' },
                     { id: 'resource', label: 'Resource Summary' },
                     { id: 'quality', label: 'Quality Summary' }
                   ].map(item => (
-                    <label key={item.id} className="flex items-center gap-3 p-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-600 cursor-pointer hover:border-blue-200 hover:bg-blue-50/30 transition-all shadow-sm">
+                    <label key={item.id} className="flex items-center gap-3 p-2.5 bg-white border border-[var(--border-main)] rounded-xl text-sm font-medium text-[var(--text-muted)] cursor-pointer hover:border-blue-200 hover:bg-blue-50/30 transition-all shadow-sm">
                       <input
                         type="checkbox"
                         checked={emailData.selectedSections[item.id]}
@@ -4649,7 +4559,7 @@ const EmailModal = ({
 
               {/* Metrics & Trackers Group */}
               <div className="md:col-span-2">
-                <h4 className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-3 border-b border-slate-200/60 pb-1.5">Metrics & Trackers</h4>
+                <h4 className="text-[11px] font-bold uppercase tracking-widest text-[var(--text-subtle)] mb-3 border-b border-[var(--border-main)]/60 pb-1.5">Metrics & Trackers</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                   {[
                     { id: 'design', label: 'Design' },
@@ -4659,7 +4569,7 @@ const EmailModal = ({
                     { id: 'validation', label: 'Validation' },
                     { id: 'qualityIssues', label: 'Quality Issues' },
                   ].filter(section => availablePhases[section.id]).map(section => (
-                    <label key={section.id} className="flex items-center gap-3 p-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-600 cursor-pointer hover:border-blue-200 hover:bg-blue-50/30 transition-all shadow-sm">
+                    <label key={section.id} className="flex items-center gap-3 p-2.5 bg-white border border-[var(--border-main)] rounded-xl text-sm font-medium text-[var(--text-muted)] cursor-pointer hover:border-blue-200 hover:bg-blue-50/30 transition-all shadow-sm">
                       <input
                         type="checkbox"
                         checked={emailData.selectedSections[section.id]}
@@ -4679,7 +4589,7 @@ const EmailModal = ({
                     });
                     return !coveredByDefault;
                   }).map(sub => (
-                    <label key={sub.id} className="flex items-center gap-3 p-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-600 cursor-pointer hover:border-blue-200 hover:bg-blue-50/30 transition-all shadow-sm">
+                    <label key={sub.id} className="flex items-center gap-3 p-2.5 bg-white border border-[var(--border-main)] rounded-xl text-sm font-medium text-[var(--text-muted)] cursor-pointer hover:border-blue-200 hover:bg-blue-50/30 transition-all shadow-sm">
                       <input
                         type="checkbox"
                         checked={emailData.selectedSections[sub.id]}
@@ -4695,17 +4605,17 @@ const EmailModal = ({
           </div>
         </div>
         {/* Footer Actions */}
-        <div className="px-6 py-4 border-t border-slate-100 bg-slate-50 flex justify-end gap-3 flex-shrink-0">
+        <div className="px-6 py-4 border-t border-slate-100 bg-[var(--bg-app)] flex justify-end gap-3 flex-shrink-0">
           <button
             onClick={onClose}
-            className="px-5 py-2.5 text-sm font-semibold text-slate-600 bg-white border border-slate-300 rounded-xl hover:bg-slate-50 transition-colors shadow-sm"
+            className="px-5 py-2.5 text-sm font-semibold text-[var(--text-muted)] bg-white border border-slate-300 rounded-xl hover:bg-[var(--bg-app)] transition-colors shadow-sm"
           >
             Cancel
           </button>
           
           <button
             onClick={onPreviewPdf}
-            className="px-5 py-2.5 text-sm font-semibold text-slate-700 bg-white border border-slate-300 rounded-xl hover:bg-slate-50 transition-colors shadow-sm flex items-center gap-2"
+            className="px-5 py-2.5 text-sm font-semibold text-[var(--text-main)] bg-white border border-slate-300 rounded-xl hover:bg-[var(--bg-app)] transition-colors shadow-sm flex items-center gap-2"
           >
             <Eye size={16} />
             Preview Summary

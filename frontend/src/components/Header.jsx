@@ -55,7 +55,7 @@ const Header = ({
 
     return (
         <motion.header
-            className="app-header glass-panel border-b border-white/40 sticky top-0 z-[1000]"
+            className="app-header bg-white/40 backdrop-blur-md border-b border-[var(--border-main)] sticky top-0 z-[1000]"
             variants={fadeUp}
             initial="hidden"
             animate="visible"
@@ -66,7 +66,7 @@ const Header = ({
 
                 {/* Center - Title */}
                 <div className="flex-1 flex justify-center items-center">
-                    <h1 className="header-title aurora-text tracking-tight uppercase">
+                    <h1 className="header-title text-[var(--text-main)] tracking-tight uppercase font-black text-2xl">
                         {title}
                     </h1>
                 </div>
@@ -74,17 +74,17 @@ const Header = ({
                 {/* Right side - Date/Time and Profile */}
                 <div className="flex items-center space-x-6 min-w-[300px] justify-end">
                     {/* Date and Time */}
-                    <div className="header-time-badge glass-panel px-5 py-2.5 rounded-2xl flex items-center gap-3">
-                        <span className="tabular-nums font-black text-slate-800">{currentTime}</span>
-                        <div className="w-1.5 h-1.5 rounded-full bg-slate-200"></div>
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">{currentDate}</span>
+                    <div className="bg-[var(--bg-app)] px-5 py-2.5 rounded-2xl flex items-center gap-3 border border-[var(--border-main)] shadow-sm">
+                        <span className="tabular-nums font-black text-[var(--text-main)] text-xs">{currentTime}</span>
+                        <div className="w-1.5 h-1.5 rounded-full bg-[var(--border-main)]"></div>
+                        <span className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-widest leading-none">{currentDate}</span>
                     </div>
 
-                    {/* Profile Menu with product-gradient background */}
+                    {/* Profile Menu */}
                     <div className="relative" ref={profileMenuRef}>
                         <button
                             onClick={() => setProfileMenuOpen(!profileMenuOpen)}
-                            className="header-profile-btn glass-panel w-11 h-11 flex items-center justify-center font-black text-blue-600 hover:scale-110 transition-transform shadow-lg"
+                            className="w-11 h-11 flex items-center justify-center font-black text-[var(--text-main)] bg-white border border-[var(--border-main)] rounded-xl hover:scale-110 transition-transform shadow-sm"
                         >
                             {userInitial}
                         </button>

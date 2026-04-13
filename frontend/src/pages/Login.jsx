@@ -111,9 +111,9 @@ const Login = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, ease: transitionEasing }}
             >
-              <h1 className="text-6xl xl:text-[5.5rem] font-black tracking-tight leading-[1.05] mb-8">
-                <span className="block text-slate-900">Empower Your</span>
-                <span className="aurora-text block">Industrial Data.</span>
+              <h1 className="text-6xl xl:text-[5.5rem] font-black tracking-tight leading-[1.05] mb-8 text-slate-900">
+                <span className="block">Empower Your</span>
+                <span className="block opacity-80">Industrial Data.</span>
               </h1>
 
               <p className="text-slate-700 text-lg xl:text-xl leading-relaxed max-w-xl font-medium mb-12">

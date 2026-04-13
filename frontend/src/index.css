@@ -5,80 +5,67 @@
 @tailwind utilities;
 
 :root {
-  /* Branding Variables */
-  --navy: #0E1B2E;
-  --accent: #2E7CF6;
-  --green: #12B76A;
-  --amber: #F79009;
-  --red: #F04438;
+  /* Branding & Accents (Professional Muted Tones) */
+  --brand-primary: #2563eb;
+  --brand-secondary: #0f172a;
+  --accent-success: #10b981;
+  --accent-warning: #f59e0b;
+  --accent-danger: #ef4444;
 
-  /* Light theme (default) */
-  --text-primary: #0F172A;
-  --text-secondary: #64748B;
-  --text-tertiary: #94A3B8;
-  --border: rgba(0, 0, 0, 0.07);
-  --surface: #FFFFFF;
-  --bg: #F1F5F9;
+  /* Global Backgrounds & Surfaces */
+  --bg-app: #f8fafc;        /* Professional Slate-50 background */
+  --bg-surface: #ffffff;    /* Card/Surface background */
+  --bg-header: rgba(255, 255, 255, 0.85);
 
-  /* Component surfaces - light */
-  --card-bg: #FFFFFF;
-  --card-border: #E2E8F0;
-  --header-bg: #FFFFFF;
-  --header-border: #E2E8F0;
-  --input-bg: #FFFFFF;
-  --input-border: #CBD5E1;
-  --input-text: #0F172A;
-  --table-header-bg: #EFF6FF;
-  --table-row-hover: #F8FAFC;
-  --table-border: #E2E8F0;
-  --modal-bg: #FFFFFF;
-  --modal-overlay: rgba(15, 23, 42, 0.5);
-  --sidebar-content-bg: #FFFFFF;
-  --badge-bg: #F1F5F9;
-  --badge-text: #475569;
-  --select-bg: #FFFFFF;
-  --scrollbar-thumb: #CBD5E1;
-  --scrollbar-track: #F1F5F9;
+  /* Typography (High Contrast Production Grade) */
+  --text-main: #020617;     /* Almost Black Slate-950 */
+  --text-muted: #475569;    /* Slate-600 */
+  --text-subtle: #94a3b8;   /* Slate-400 */
 
-  /* Typography */
-  --font-primary: 'DM Sans', -apple-system, sans-serif;
-  --font-mono: 'DM Mono', monospace;
+  /* Borders & Dividers */
+  --border-main: #e2e8f0;   /* Slate-200 */
+  --border-light: #f1f5f9;  /* Slate-100 */
+  --border-active: #2563eb;
 
-  /* Premium Design Tokens */
-  --premium-easing: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Elevation */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+
+  /* Tokens */
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --premium-easing: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Legacy Compat (Mapping new vars to old names for compatibility during migration) */
+  --bg: var(--bg-app);
+  --text-primary: var(--text-main);
+  --text-secondary: var(--text-muted);
+  --card-bg: var(--bg-surface);
+  --card-border: var(--border-main);
+  --header-bg: var(--bg-header);
+  --header-border: var(--border-main);
 }
 
-@keyframes aurora {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.aurora-text {
-  background: linear-gradient(-45deg, #2563eb, #4f46e5, #7c3aed, #4338ca, #2563eb);
-  background-size: 300% auto;
-  color: #1e293b;
-  background-clip: text;
-  text-fill-color: transparent;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: aurora 12s ease infinite;
-}
-
+/* Enterprise Design System Utility - Premium Card Standard */
 .premium-card {
-  background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  border-radius: 2rem;
-  box-shadow: 0 8px 32px 0 rgba(15, 23, 42, 0.05);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-main);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s var(--premium-easing), box-shadow 0.2s var(--premium-easing);
+}
+
+.premium-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 
 .glass-panel {
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--bg-header);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-main);
 }
 
 /* ══════════════════════════════════════════
@@ -88,42 +75,25 @@
    ══════════════════════════════════════════ */
 [data-theme="dark"] {
   /* Core surfaces */
-  --bg: #0F1117;
-  --surface: #1A1D27;
-  --card-bg: #1A1D27;
-  --card-border: #2D3148;
-  --border: rgba(255, 255, 255, 0.08);
+  --bg-app: #020617;
+  --bg-surface: #0f172a;
+  --bg-header: rgba(15, 23, 42, 0.85);
 
   /* Text */
-  --text-primary: #F1F5F9;
-  --text-secondary: #94A3B8;
-  --text-tertiary: #475569;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-subtle: #475569;
 
-  /* Header */
-  --header-bg: #1A1D27;
-  --header-border: #2D3148;
+  /* Borders */
+  --border-main: #1e293b;
+  --border-light: #0f172a;
 
-  /* Inputs & selects */
-  --input-bg: #252836;
-  --input-border: #3D4163;
-  --input-text: #F1F5F9;
-  --select-bg: #252836;
-
-  /* Tables */
-  --table-header-bg: #1E2235;
-  --table-row-hover: #252836;
-  --table-border: #2D3148;
-
-  /* Modals */
-  --modal-bg: #1A1D27;
-  --modal-overlay: rgba(0, 0, 0, 0.7);
-
-  /* Misc */
-  --sidebar-content-bg: #1A1D27;
-  --badge-bg: #252836;
-  --badge-text: #94A3B8;
-  --scrollbar-thumb: #3D4163;
-  --scrollbar-track: #1A1D27;
+  /* Compatibility */
+  --bg: var(--bg-app);
+  --text-primary: var(--text-main);
+  --text-secondary: var(--text-muted);
+  --card-bg: var(--bg-surface);
+  --card-border: var(--border-main);
 }
 
 /* ── Apply dark theme to key elements ── */
@@ -307,10 +277,30 @@
 @layer base {
   body {
     @apply antialiased;
-    font-family: var(--font-primary);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     min-height: 100vh;
-    background-color: var(--bg);
-    color: var(--text-primary);
+    background-color: var(--bg-app);
+    color: var(--text-main);
+  }
+
+  /* Production-grade scrollbar system */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: var(--bg-app);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: var(--text-subtle);
+    border-radius: 10px;
+    border: 1px solid var(--bg-app);
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
   }
 
   h1,
@@ -485,111 +475,53 @@
   }
 
   /* ========================================================================== */
-  /* CENTRALIZED SIDEBAR STYLES (EXECUTIVE UI)                                  */
+  /* CENTRALIZED SIDEBAR SYSTEM (PRODUCTION GRADE)                             */
   /* ========================================================================== */
-  .app-sidebar {
-    @apply z-30 flex flex-col transition-all duration-300 ease-in-out;
-    background-color: var(--navy);
-    width: 220px;
-    flex-shrink: 0;
+  .sidebar-container {
+    @apply flex flex-col h-full border-r border-slate-200 transition-all duration-300;
+    width: 260px;
+    background: var(--bg-surface);
   }
 
-  .app-sidebar.collapsed {
-    width: 72px;
-  }
-
-  .sidebar-section-label {
-    font-size: 9px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.28);
-    padding: 20px 16px 8px;
-    font-weight: 500;
+  .sidebar-collapsed {
+    width: 80px;
   }
 
   .sidebar-nav-item {
-    @apply w-full flex items-center cursor-pointer transition-all duration-200 select-none;
-    padding: 8px 16px;
-    color: rgba(255, 255, 255, 0.52);
-    border-radius: 6px;
-    margin: 0 8px 4px 8px;
-    width: calc(100% - 16px);
+    @apply flex items-center gap-3 px-4 py-3 mx-3 my-1 rounded-xl transition-all duration-200 cursor-pointer select-none text-sm font-semibold;
+    color: var(--text-muted);
+  }
+
+  .sidebar-nav-item:hover {
+    background: var(--border-light);
+    color: var(--text-main);
+    transform: translateX(2px);
   }
 
   .sidebar-nav-item-active {
-    background: rgba(46, 124, 246, 0.18);
-    color: #ffffff;
-    font-weight: 500;
+    background: var(--brand-primary);
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
   }
 
-  .sidebar-nav-item:hover:not(.sidebar-nav-item-active) {
-    background: rgba(255, 255, 255, 0.06);
-    color: rgba(255, 255, 255, 0.8);
+  .sidebar-section-title {
+    @apply px-7 pt-6 pb-2 text-[10px] font-black uppercase tracking-widest;
+    color: var(--text-subtle);
   }
 
-  .sidebar-nav-item-inactive {
-    color: rgba(255, 255, 255, 0.52);
+  .sidebar-sub-item {
+    @apply flex items-center gap-3 pl-12 pr-4 py-2.5 mx-3 my-0.5 rounded-lg transition-all text-xs font-semibold;
+    color: var(--text-muted);
   }
 
-  .sidebar-footer {
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
-    padding: 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: auto;
+  .sidebar-sub-item:hover {
+    color: var(--text-main);
+    background: var(--border-light);
   }
 
-  .sidebar-scroll {
-    @apply flex-1 overflow-y-auto relative z-10;
-  }
-
-  .sidebar-scroll::-webkit-scrollbar {
-    width: 4px;
-  }
-
-  .sidebar-scroll::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .sidebar-scroll::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
-  }
-
-  .sidebar-scroll::-webkit-scrollbar-thumb:hover {
-    @apply bg-slate-400;
-  }
-
-  .sidebar-nav-item {
-    @apply w-full flex items-center justify-between cursor-pointer transition-all duration-200 rounded-xl select-none;
-  }
-
-  .sidebar-nav-item-active {
-    @apply bg-white/60 text-indigo-700 shadow-md ring-1 ring-white/60 font-medium;
-  }
-
-  .sidebar-nav-item-hover {
-    @apply hover:bg-white/50 hover:text-slate-800;
-  }
-
-  .sidebar-nav-item-inactive {
-    @apply text-slate-600;
-  }
-
-  .sidebar-subnav-item {
-    @apply w-full flex items-center cursor-pointer transition-all duration-200 rounded-lg px-3 py-2.5 space-x-3 select-none text-sm;
-  }
-
-  .sidebar-subnav-item-active {
-    @apply bg-white/60 text-indigo-700 shadow-md font-medium ring-1 ring-white/60;
-  }
-
-  .sidebar-subnav-item-hover {
-    @apply hover:bg-white/40 hover:text-slate-800;
-  }
-
-  .sidebar-subnav-item-inactive {
-    @apply text-slate-600;
+  .sidebar-sub-item-active {
+    color: var(--brand-primary);
+    background: rgba(37, 99, 235, 0.05);
   }
 
   .sidebar-fixed-btn {
