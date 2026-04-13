@@ -1,10 +1,27 @@
 import React from 'react';
 import {
-  BarChart3, Upload, Database, MessageSquare,
-  Settings, ChevronDown, FileText, Wallet,
-  Users, FolderKanban, Calendar, LogOut,
-  Table2, Layers
-} from 'lucide-react';
+  ChartBarIcon as BarChart3,
+  ArrowUpTrayIcon as Upload,
+  TableCellsIcon as Database,
+  ChatBubbleLeftRightIcon as MessageSquare,
+  Cog6ToothIcon as Settings,
+  ChevronDownIcon as ChevronDown,
+  DocumentTextIcon as FileText,
+  WalletIcon as Wallet,
+  UsersIcon as Users,
+  FolderIcon as FolderKanban,
+  CalendarIcon as Calendar,
+  ArrowRightOnRectangleIcon as LogOut,
+  TableCellsIcon as Table2,
+  ChevronRightIcon as ChevronRight
+} from '@heroicons/react/24/outline';
+
+// Custom Layers Icon
+const LayersIcon = ({ className }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 7.125L12 12.375l9.75-5.25M2.25 12l9.75 5.25 9.75-5.25M2.25 16.875L12 22.125l9.75-5.25" />
+  </svg>
+);
 
 /* ─── small helpers ─────────────────────────────────────── */
 const Panel = ({ open, children }) => (
@@ -19,83 +36,103 @@ const Panel = ({ open, children }) => (
 const SecLabel = ({ label, collapsed }) =>
   collapsed
     ? <div className="h-px bg-[var(--border-light)] mx-4 my-4" />
-    : <div className="sidebar-section-title">{label}</div>;
+    : <div className="sidebar-section-title px-6 mt-6 mb-2 text-[11px] font-bold uppercase tracking-wider text-[var(--text-subtle)]">{label}</div>;
 
 /* ─── top-level nav button ──────────────────────────────── */
 function TopBtn({ icon: Icon, label, active, hasChev, chevOpen, onClick, onToggle, collapsed, badge }) {
   if (collapsed) {
     return (
-      <div className="relative group">
+      <div className="relative group px-3 py-1">
         <button
-          className={`sidebar-nav-item justify-center !px-0 ${active ? 'sidebar-nav-item-active' : ''}`}
+          className={`w-full flex justify-center py-3 rounded-lg transition-all duration-200 ${
+            active 
+              ? 'bg-[var(--brand-primary)] text-white shadow-sm' 
+              : 'text-[var(--text-muted)] hover:bg-[var(--border-light)] hover:text-[var(--text-main)]'
+          }`}
           onClick={onClick}
         >
-          <Icon size={20} strokeWidth={active ? 2.5 : 2} />
+          <Icon className="h-6 w-6" strokeWidth={active ? 2 : 1.5} />
         </button>
         {/* Tooltip */}
-        <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-slate-900 text-white text-[11px] font-bold rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-[100] whitespace-nowrap shadow-xl">
+        <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-slate-900 text-white text-[11px] font-medium rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-[100] whitespace-nowrap shadow-xl">
           {label}
         </div>
       </div>
     );
   }
   return (
-    <button 
-      className={`sidebar-nav-item ${active ? 'sidebar-nav-item-active' : ''}`} 
-      onClick={onClick}
-    >
-      <Icon size={18} strokeWidth={active ? 2.5 : 2} className="shrink-0" />
-      <span className="flex-1 truncate text-left">{label}</span>
-      {badge != null && (
-        <span className="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0">
-          {badge}
-        </span>
-      )}
-      {hasChev && (
-        <span 
-          className="p-1 hover:bg-white/20 rounded transition-colors"
-          onClick={(e) => {
-            if (onToggle) {
-              e.preventDefault();
-              e.stopPropagation();
-              onToggle(e);
-            }
-          }}
-        >
-          <ChevronDown 
-            size={14} 
-            strokeWidth={2.5} 
-            className={`transition-transform duration-300 ${chevOpen ? 'rotate-180' : ''}`} 
-          />
-        </span>
-      )}
-    </button>
+    <div className="px-3 py-1">
+      <button 
+        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group ${
+          active 
+            ? 'bg-[var(--brand-primary)] text-white shadow-sm' 
+            : 'text-[var(--text-muted)] hover:bg-[var(--border-light)] hover:text-[var(--text-main)]'
+        }`} 
+        onClick={onClick}
+      >
+        <Icon className={`h-5 w-5 shrink-0 ${active ? 'text-white' : 'text-[var(--text-subtle)] group-hover:text-[var(--text-main)]'}`} strokeWidth={active ? 2 : 1.5} />
+        <span className="flex-1 truncate text-left text-sm font-medium">{label}</span>
+        {badge != null && (
+          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 ${active ? 'bg-white/20 text-white' : 'bg-blue-50 text-blue-600'}`}>
+            {badge}
+          </span>
+        )}
+        {hasChev && (
+          <span 
+            className={`p-0.5 rounded transition-colors ${active ? 'hover:bg-white/20' : 'hover:bg-black/5'}`}
+            onClick={(e) => {
+              if (onToggle) {
+                e.preventDefault();
+                e.stopPropagation();
+                onToggle(e);
+              }
+            }}
+          >
+            <ChevronDown 
+              className={`h-4 w-4 transition-transform duration-300 ${chevOpen ? 'rotate-180' : ''}`} 
+            />
+          </span>
+        )}
+      </button>
+    </div>
   );
 }
 
 /* ─── sub-level button ──────────────────────────────────── */
 function SubBtn({ icon: Icon, label, active, onClick }) {
   return (
-    <button 
-      className={`sidebar-sub-item ${active ? 'sidebar-sub-item-active' : ''}`} 
-      onClick={onClick}
-    >
-      {Icon && <Icon size={14} strokeWidth={2} className="shrink-0" />}
-      <span className="truncate">{label}</span>
-    </button>
+    <div className="px-3 py-0.5 ml-8">
+      <button 
+        className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all text-sm font-medium ${
+          active 
+            ? 'text-[var(--brand-primary)] bg-blue-50' 
+            : 'text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--border-light)]'
+        }`} 
+        onClick={onClick}
+      >
+        {Icon && <Icon className={`h-4 w-4 shrink-0 ${active ? 'text-[var(--brand-primary)]' : 'text-[var(--text-subtle)]'}`} />}
+        <span className="truncate">{label}</span>
+      </button>
+    </div>
   );
 }
 
 /* ─── file item ─────────────────────────────────────────── */
 function FileBtn({ label, active, onClick }) {
   return (
-    <button 
-      className={`sidebar-sub-item !pl-16 text-[11px] opacity-80 hover:opacity-100 ${active ? 'sidebar-sub-item-active !opacity-100' : ''}`} 
-      onClick={onClick}
-    >
-      <FileText size={12} strokeWidth={2} className="shrink-0" />
-      <span className="truncate">{label}</span>
-    </button>
+    <div className="px-3 py-0.5 ml-12">
+      <button 
+        className={`w-full flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-all text-xs font-medium ${
+          active 
+            ? 'text-[var(--brand-primary)] bg-blue-50/50' 
+            : 'text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--border-light)]'
+        }`} 
+        onClick={onClick}
+      >
+        <FileText className={`h-3.5 w-3.5 shrink-0 ${active ? 'text-[var(--brand-primary)]' : 'text-[var(--text-subtle)]'}`} />
+        <span className="truncate">{label}</span>
+      </button>
+    </div>
   );
 }
 
@@ -106,29 +143,34 @@ function ProjectGroup({ proj, context, isFileSelected, onFileClick, expandedModu
   const hasFiles = proj.submodules?.length > 0;
 
   return (
-    <div className="mb-0.5">
-      <button 
-        className="w-full flex items-center justify-between px-7 py-2 text-[11px] font-bold uppercase tracking-wider text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--border-light)] transition-all rounded-lg mx-3 w-[calc(100%-24px)]" 
-        onClick={(e) => { e.stopPropagation(); toggleMod(moduleId, e); }}
-      >
-        <span className="truncate pr-2">{proj.name}</span>
-        {hasFiles && (
-          <ChevronDown
-            size={12}
-            className={`shrink-0 transition-transform duration-300 opacity-40 ${isOpen ? 'rotate-180' : ''}`}
-          />
-        )}
-      </button>
+    <div className="mb-1">
+      <div className="px-3 ml-8">
+        <button 
+          className={`w-full flex items-center justify-between px-3 py-2 text-[11px] font-bold uppercase tracking-wider transition-all rounded-lg ${
+            isOpen ? 'text-[var(--text-main)] bg-[var(--border-light)]' : 'text-[var(--text-subtle)] hover:text-[var(--text-main)] hover:bg-[var(--border-light)]'
+          }`} 
+          onClick={(e) => { e.stopPropagation(); toggleMod(moduleId, e); }}
+        >
+          <span className="truncate pr-2">{proj.name}</span>
+          {hasFiles && (
+            <ChevronDown
+              className={`h-3.5 w-3.5 shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+            />
+          )}
+        </button>
+      </div>
       {hasFiles && (
         <Panel open={isOpen}>
-          {proj.submodules.map((f) => (
-            <FileBtn
-              key={f.id}
-              label={f.displayName || f.name?.replace(/\.[^/.]+$/, '') || ''}
-              active={isFileSelected(f, context)}
-              onClick={() => onFileClick({ ...f, projectName: f.projectName || proj.name })}
-            />
-          ))}
+          <div className="mt-1">
+            {proj.submodules.map((f) => (
+              <FileBtn
+                key={f.id}
+                label={f.displayName || f.name?.replace(/\.[^/.]+$/, '') || ''}
+                active={isFileSelected(f, context)}
+                onClick={() => onFileClick({ ...f, projectName: f.projectName || proj.name })}
+              />
+            ))}
+          </div>
         </Panel>
       )}
     </div>
@@ -137,6 +179,7 @@ function ProjectGroup({ proj, context, isFileSelected, onFileClick, expandedModu
 
 /* ════════════════════════════════════════════════════════════
    MAIN SIDEBAR
+   Material Google Style Minimalist Design
 ════════════════════════════════════════════════════════════ */
 export default function Sidebar({
   sidebarCollapsed,
@@ -164,11 +207,11 @@ export default function Sidebar({
     : 'U';
 
   return (
-    <aside className={`sidebar-container ${collapsed ? 'sidebar-collapsed' : ''} z-40`}>
+    <aside className={`flex flex-col h-full bg-[var(--bg-surface)] border-r border-[var(--border-main)] transition-all duration-300 shadow-sm ${collapsed ? 'w-20' : 'w-64'} z-40`}>
       {/* ══ LOGO ════════════════════════════════════════════ */}
-      <div className={`flex items-center justify-center shrink-0 border-b border-[var(--border-light)] ${collapsed ? 'h-20' : 'h-24'}`}>
+      <div className={`flex items-center justify-center shrink-0 border-b border-[var(--border-light)] ${collapsed ? 'h-16' : 'h-20'}`}>
         {collapsed ? (
-          <div className="w-10 h-10 rounded-xl bg-[var(--text-main)] flex items-center justify-center text-white text-xs font-black shadow-lg">
+          <div className="w-10 h-10 rounded-xl bg-[var(--brand-primary)] flex items-center justify-center text-white text-sm font-bold shadow-sm">
             {companyName ? companyName.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() : 'CD'}
           </div>
         ) : (
@@ -176,15 +219,14 @@ export default function Sidebar({
             <img
               src={companyLogo || '/caldimlogo.png'}
               alt="Company Logo"
-              className="max-h-12 w-auto object-contain transition-all hover:scale-105 duration-300"
-              style={{ filter: 'contrast(1.1)' }}
+              className="max-h-9 w-auto object-contain transition-all hover:opacity-80 duration-300"
             />
           </div>
         )}
       </div>
 
       {/* ══ NAV ═════════════════════════════════════════════ */}
-      <nav className="flex-1 overflow-y-auto scrollbar-hide py-4">
+      <nav className="flex-1 overflow-y-auto scrollbar-hide py-2">
         {/* — WORKSPACE — */}
         <SecLabel label="Workspace" collapsed={collapsed} />
 
@@ -235,7 +277,7 @@ export default function Sidebar({
             {!collapsed && (
               <Panel open={isOpen('mom')}>
                 <SubBtn
-                  icon={Layers}
+                  icon={LayersIcon}
                   label="All Meetings"
                   active={activeModule === 'meetings'}
                   onClick={() => handleModuleClick('meetings')}
@@ -306,7 +348,7 @@ export default function Sidebar({
             {!collapsed && (
               <Panel open={isOpen('uploads')}>
                 {/* Trackers Button */}
-                <div className="flex items-center pr-4">
+                <div className="flex items-center group relative">
                    <SubBtn
                      icon={Table2}
                      label="Trackers Upload"
@@ -314,11 +356,13 @@ export default function Sidebar({
                      onClick={() => handleModuleClick('upload-trackers')}
                    />
                    <button 
-                      className="p-1 px-2 hover:bg-[var(--border-light)] rounded transition-all text-[var(--text-subtle)] hover:text-[var(--text-main)]"
+                      className={`absolute right-6 p-1 rounded transition-all ${
+                        isOpen('upload-trackers') ? 'text-[var(--brand-primary)]' : 'text-[var(--text-subtle)] hover:text-[var(--text-main)] group-hover:bg-black/5'
+                      }`}
                       onClick={(e) => { e.stopPropagation(); toggleModuleExpansion('upload-trackers', e); }}
                    >
                      {uploadTrackerModules?.length > 0 && (
-                        <ChevronDown size={14} className={`transition-transform duration-300 ${isOpen('upload-trackers') ? 'rotate-180' : ''}`} />
+                        <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-300 ${isOpen('upload-trackers') ? 'rotate-180' : ''}`} />
                      )}
                    </button>
                 </div>
@@ -362,26 +406,26 @@ export default function Sidebar({
 
       {/* ══ FOOTER ══════════════════════════════════════════ */}
       <div className={`p-4 border-t border-[var(--border-light)] flex items-center gap-3 ${collapsed ? 'justify-center' : ''}`}>
-        <div className="w-10 h-10 rounded-xl bg-[var(--text-main)] flex items-center justify-center text-white text-xs font-black shrink-0 shadow-md">
+        <div className="w-9 h-9 rounded-lg bg-[var(--border-light)] flex items-center justify-center text-[var(--text-main)] text-xs font-bold shrink-0">
           {initials}
         </div>
 
         {!collapsed && (
           <>
             <div className="flex-1 min-w-0">
-              <div className="text-sm font-bold text-[var(--text-main)] truncate leading-tight">
+              <div className="text-xs font-bold text-[var(--text-main)] truncate">
                 {user?.full_name || 'User'}
               </div>
-              <div className="text-[10px] font-black text-[var(--text-subtle)] uppercase tracking-widest mt-0.5 truncate">
+              <div className="text-[10px] uppercase tracking-wider text-[var(--text-subtle)] mt-0.5 truncate font-medium">
                 {user?.role || 'Member'}
               </div>
             </div>
             <button 
-              className="p-2 text-[var(--text-subtle)] hover:text-[var(--accent-danger)] hover:bg-red-50 rounded-xl transition-all" 
+              className="p-1.5 text-[var(--text-subtle)] hover:text-[var(--accent-danger)] hover:bg-red-50 rounded-lg transition-all" 
               onClick={onLogout} 
               title="Logout"
             >
-              <LogOut size={16} strokeWidth={2.5} />
+              <LogOut className="h-4 w-4" />
             </button>
           </>
         )}

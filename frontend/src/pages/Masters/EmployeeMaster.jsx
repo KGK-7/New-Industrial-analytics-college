@@ -1,6 +1,35 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { Plus, Search, Edit, Trash2, X, Check, ChevronUp, ChevronDown, Download, Eye, EyeOff, CheckSquare, Square, Snowflake, ChevronLeft, ChevronRight, RefreshCw, Copy, ArrowUp, ArrowDown, Filter } from 'lucide-react';
+import { 
+  PlusIcon as Plus, 
+  MagnifyingGlassIcon as Search, 
+  PencilSquareIcon as Edit, 
+  TrashIcon as Trash2, 
+  XMarkIcon as X, 
+  CheckIcon as Check, 
+  ChevronUpIcon as ChevronUp, 
+  ChevronDownIcon as ChevronDown, 
+  ArrowDownTrayIcon as Download, 
+  EyeIcon as Eye, 
+  EyeSlashIcon as EyeOff, 
+  CheckCircleIcon as CheckSquare, 
+  QueueListIcon as Square, 
+  ChevronLeftIcon as ChevronLeft, 
+  ChevronRightIcon as ChevronRight, 
+  ArrowPathIcon as RefreshCw, 
+  DocumentDuplicateIcon as Copy, 
+  ArrowUpIcon as ArrowUp, 
+  ArrowDownIcon as ArrowDown, 
+  FunnelIcon as Filter 
+} from '@heroicons/react/24/outline';
+
+// Custom Snowflake Icon for Column Freezing
+const Snowflake = ({ className }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18m0-18l-3 3m3-3l3 3m0 12l-3 3m3-3l3 3M3 12h18M3 12l3-3m-3 3l3 3m12 0l3-3m-3 3l3 3M7.875 7.875l8.25 8.25M7.875 7.875l-1.5-3m1.5 3l-3-1.5m12.75 12.75l1.5 3m-1.5-3l3 1.5M16.125 7.875l-8.25 8.25m8.25-8.25l1.5-3m-1.5 3l3-1.5M7.875 16.125l-1.5 3m1.5-3l-3 1.5" />
+  </svg>
+);
+
 import API from '../../utils/api';
 
 const MODULE_LIST = [
@@ -1980,64 +2009,9 @@ const EmployeeMaster = () => {
 
                 {/* RIGHT SIDE - Info, Pagination, and Column Count */}
                 <div className="flex items-center gap-4">
-                  {/* Page Size Selector */}
-                  <div className="flex items-center gap-2">
-                    <span className="text-slate-600 dark:text-slate-400">Show:</span>
-                    <select
-                      value={pageSize}
-                      onChange={(e) => handlePageSizeChange(Number(e.target.value))}
-                      className="px-2 py-1 text-xs border border-slate-300 dark:border-slate-600 rounded focus:outline-none focus:ring-1 focus:ring-gray-500"
-                    >
-                      {pageSizeOptions.map(size => (
-                        <option key={size} value={size}>{size}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Pagination Controls */}
-                  {totalPages > 1 && (
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        disabled={currentPage === 1}
-                        className={`p-1 rounded ${currentPage === 1
-                          ? 'text-slate-400 dark:text-slate-500 cursor-not-allowed'
-                          : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:bg-slate-800'
-                          }`}
-                      >
-                        <ChevronLeft className="h-4 w-4" />
-                      </button>
-
-                      {getPageNumbers().map(pageNum => (
-                        <button
-                          key={pageNum}
-                          onClick={() => handlePageChange(pageNum)}
-                          className={`px-2 py-1 text-xs rounded ${currentPage === pageNum
-                            ? 'bg-blue-600 text-white'
-                            : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:bg-slate-800'
-                            }`}
-                        >
-                          {pageNum}
-                        </button>
-                      ))}
-
-                      <button
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage === totalPages}
-                        className={`p-1 rounded ${currentPage === totalPages
-                          ? 'text-slate-400 dark:text-slate-500 cursor-not-allowed'
-                          : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:bg-slate-800'
-                          }`}
-                      >
-                        <ChevronRight className="h-4 w-4" />
-                      </button>
-                    </div>
-                  )}
-
                   <span className="text-slate-600 dark:text-slate-400">
                     Showing {paginatedEmployees.length} of {sortedEmployees.length} employees
                   </span>
-
                   {selectedEmployees.length > 0 && (
                     <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">
                       {selectedEmployees.length} selected

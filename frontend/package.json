@@ -12,6 +12,7 @@
     "@dotlottie/react-player": "^1.6.19",
     "@handsontable/react": "^16.2.0",
     "@hello-pangea/dnd": "^18.0.1",
+    "@heroicons/react": "^2.2.0",
     "@reduxjs/toolkit": "^2.11.2",
     "axios": "^1.13.4",
     "dayjs": "^1.11.20",

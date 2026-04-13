@@ -1,5 +1,30 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Plus, Search, Edit, Trash2, X, Check, ChevronUp, ChevronDown, Download, Eye, EyeOff, CheckSquare, Square, Snowflake, ChevronLeft, ChevronRight, RefreshCw, Copy, ArrowUp, ArrowDown, Filter, Zap, MoreHorizontal, Info, FileText } from 'lucide-react';
+import { 
+  PlusIcon as Plus, 
+  MagnifyingGlassIcon as Search, 
+  PencilSquareIcon as Edit, 
+  TrashIcon as Trash2, 
+  XMarkIcon as X, 
+  CheckIcon as Check, 
+  ChevronUpIcon as ChevronUp, 
+  ChevronDownIcon as ChevronDown, 
+  ArrowDownTrayIcon as Download, 
+  EyeIcon as Eye, 
+  EyeSlashIcon as EyeOff, 
+  CheckCircleIcon as CheckSquare, 
+  QueueListIcon as Square, 
+  SparklesIcon as Zap,
+  ChevronLeftIcon as ChevronLeft, 
+  ChevronRightIcon as ChevronRight, 
+  ArrowPathIcon as RefreshCw, 
+  DocumentDuplicateIcon as Copy, 
+  ArrowUpIcon as ArrowUp, 
+  ArrowDownIcon as ArrowDown, 
+  FunnelIcon as Filter, 
+  EllipsisHorizontalIcon as MoreHorizontal, 
+  InformationCircleIcon as Info, 
+  DocumentTextIcon as FileText 
+} from '@heroicons/react/24/outline';
 import * as XLSX from 'xlsx';
 import useCurrency from '../hooks/useCurrency';
 
@@ -566,7 +591,7 @@ const ExcelTableViewer = ({ columns: initialColumns, data, fileName, onRefresh, 
 
 
     return (
-        <div className="flex flex-col bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm w-full h-[600px] overflow-hidden master-table-container">
+        <div className="flex flex-col bg-white rounded-2xl border border-[var(--border-main)] shadow-sm w-full h-[600px] overflow-hidden">
             {/* Notification Banner */}
             {notification.show && (
                 <div className={`fixed bottom-4 right-4 px-4 py-3 rounded-lg shadow-lg z-50 ${notification.type === 'success' ? 'bg-green-100 text-green-800 border border-green-200' :
@@ -583,19 +608,19 @@ const ExcelTableViewer = ({ columns: initialColumns, data, fileName, onRefresh, 
             )}
 
             {/* Render Toolbar */}
-            <div className="p-3 border-b border-slate-200 dark:border-slate-700 flex-shrink-0 bg-slate-50 dark:bg-slate-800">
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div className="px-6 py-5 border-b border-[var(--border-main)] bg-white">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
 
                     {/* LEFT SIDE -> Search & Filter Columns */}
                     <div className="flex flex-1 flex-col sm:flex-row gap-2 items-start sm:items-center">
-                        <div className="relative">
-                            <Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
+                        <div className="relative flex-1 max-w-sm">
+                            <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 h-4 w-4 text-[var(--text-meta)]" />
                             <input
                                 type="text"
                                 placeholder="Search rows..."
                                 value={searchTerm}
                                 onChange={e => { setSearchTerm(e.target.value); setCurrentPage(1); }}
-                                className="w-full sm:w-64 h-9 pl-9 pr-3 text-sm border border-slate-300 dark:border-slate-600 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200"
+                                className="w-full h-11 pl-10 pr-4 bg-[var(--bg-app)] border-none rounded-xl text-sm font-medium focus:ring-2 focus:ring-blue-500/20 transition-all placeholder:text-[var(--text-meta)] uppercase tracking-tight"
                             />
                         </div>
 
@@ -609,10 +634,10 @@ const ExcelTableViewer = ({ columns: initialColumns, data, fileName, onRefresh, 
                                     }
                                     setShowFilterDropdown(!showFilterDropdown);
                                 }}
-                                className="flex items-center gap-1.5 h-9 px-3 text-sm border border-slate-300 dark:border-slate-600 rounded-md hover:bg-slate-50 dark:hover:bg-slate-700/80"
+                                className="flex items-center gap-2 h-11 px-4 bg-white border border-[var(--border-main)] rounded-xl text-sm font-bold text-[var(--text-muted)] hover:bg-[var(--bg-app)] transition-all shadow-sm"
                             >
-                                <Filter className="h-4 w-4 text-slate-600 dark:text-slate-400" />
-                                <span className="text-slate-700 dark:text-slate-300">Filter</span>
+                                <Filter className="h-4 w-4 text-[var(--text-meta)]" />
+                                <span>Filter</span>
                             </button>
 
                             {showFilterDropdown && (
@@ -764,16 +789,21 @@ const ExcelTableViewer = ({ columns: initialColumns, data, fileName, onRefresh, 
 
             {/* Render Data Table */}
             <div className="flex-1 overflow-auto relative">
-                <table className="master-table w-full text-left border-collapse">
-                    <thead className="bg-slate-100 dark:bg-slate-700/80 text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-[40]">
-                        <tr>
+                <table className="w-full border-collapse text-left">
+                    <thead className="bg-[var(--bg-app)]/50 text-[var(--text-subtle)] sticky top-0 z-[40]">
+                        <tr className="border-b border-[var(--border-main)]">
                             {/* Checkbox Header */}
                             <th
-                                className={`text-left py-3 px-4 w-10 border-b border-slate-200 dark:border-slate-700 ${isColumnFrozen(0) ? 'frozen-column shadow-[4px_0_10px_rgba(0,0,0,0.05)] pt-0 bg-slate-100 dark:bg-slate-700 z-[45]' : ''}`}
+                                className={`py-4 px-6 w-12 text-center border-b border-[var(--border-main)] ${isColumnFrozen(0) ? 'frozen-column pt-0 bg-white z-[45]' : ''}`}
                                 style={{ left: isColumnFrozen(0) ? '0' : 'auto' }}
                             >
-                                <button onClick={toggleSelectAll} className="p-1 text-slate-400 hover:text-slate-700 mt-0.5">
-                                    {selectAll ? <CheckSquare className="h-4 w-4 text-blue-600" /> : <Square className="h-4 w-4" />}
+                                <button
+                                    onClick={toggleSelectAll}
+                                    className="flex items-center justify-center w-5 h-5 rounded border border-[var(--border-main)] bg-white hover:border-[var(--brand-primary)] transition-all mx-auto"
+                                >
+                                    {selectAll ? (
+                                        <div className="w-2.5 h-2.5 bg-[var(--brand-primary)] rounded-sm"></div>
+                                    ) : null}
                                 </button>
                             </th>
 
@@ -785,7 +815,7 @@ const ExcelTableViewer = ({ columns: initialColumns, data, fileName, onRefresh, 
                                 return (
                                     <th
                                         key={col.id}
-                                        className={`py-3 px-4 text-xs font-semibold uppercase tracking-wider border-b border-slate-200 dark:border-slate-700 cursor-pointer group min-w-[150px] ${isFrozen ? 'frozen-column bg-slate-100 dark:bg-slate-700 shadow-[4px_0_10px_rgba(0,0,0,0.05)] z-[45]' : ''}`}
+                                        className={`py-4 px-6 font-bold uppercase tracking-widest text-[10px] border-b border-[var(--border-main)] cursor-pointer group min-w-[150px] ${isFrozen ? 'frozen-column bg-white z-[45]' : ''}`}
                                         style={{ left: isFrozen ? getFrozenColumnLeft(actualColumnIndex) : 'auto' }}
                                     >
                                         <div className="flex items-center justify-between gap-2">

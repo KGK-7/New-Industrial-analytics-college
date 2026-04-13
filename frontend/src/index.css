@@ -5,60 +5,73 @@
 @tailwind utilities;
 
 :root {
-  /* Branding & Accents (Professional Muted Tones) */
-  --brand-primary: #2563eb;
-  --brand-secondary: #0f172a;
+  /* 
+     LAYERED WHITE SYSTEM (Not Flat White)
+     -------------------------------------
+     Target: Clean, high-quality white theme similar to modern Google products.
+  */
+  --bg-app: #F8FAFC;        /* Soft gray background for the app shell */
+  --bg-surface: #FFFFFF;    /* Pure white cards and surfaces */
+  
+  /* Semantic Colors */
+  --brand-primary: #2563eb; /* Actions only */
   --accent-success: #10b981;
   --accent-warning: #f59e0b;
   --accent-danger: #ef4444;
 
-  /* Global Backgrounds & Surfaces */
-  --bg-app: #f8fafc;        /* Professional Slate-50 background */
-  --bg-surface: #ffffff;    /* Card/Surface background */
-  --bg-header: rgba(255, 255, 255, 0.85);
+  /* Typography Hierarchy */
+  --text-main: #0F172A;     /* Page titles & Primary text */
+  --text-muted: #475569;    /* Section headers & body text */
+  --text-subtle: #94A3B8;   /* Table headers & Meta text */
+  --text-meta: #CBD5E1;     /* Light gray for very secondary info */
 
-  /* Typography (High Contrast Production Grade) */
-  --text-main: #020617;     /* Almost Black Slate-950 */
-  --text-muted: #475569;    /* Slate-600 */
-  --text-subtle: #94a3b8;   /* Slate-400 */
-
-  /* Borders & Dividers */
-  --border-main: #e2e8f0;   /* Slate-200 */
-  --border-light: #f1f5f9;  /* Slate-100 */
+  /* Borders & Dividers (Subtle separation) */
+  --border-main: #E2E8F0;   /* Slate-200 */
+  --border-light: #F1F5F9;  /* Slate-100 */
   --border-active: #2563eb;
 
-  /* Elevation */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  /* STRICT SPACING SYSTEM (8px Scale) */
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --spacing-10: 40px;
+  --spacing-12: 48px;
+  --spacing-16: 64px;
+
+  /* Elevation (Subtle visual hierarchy) */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
 
   /* Tokens */
-  --radius-xl: 1rem;
-  --radius-2xl: 1.5rem;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
   --premium-easing: cubic-bezier(0.4, 0, 0.2, 1);
-
-  /* Legacy Compat (Mapping new vars to old names for compatibility during migration) */
+  
+  /* Legacy Compat Mapping */
   --bg: var(--bg-app);
+  --card-bg: var(--bg-surface);
   --text-primary: var(--text-main);
   --text-secondary: var(--text-muted);
-  --card-bg: var(--bg-surface);
-  --card-border: var(--border-main);
-  --header-bg: var(--bg-header);
-  --header-border: var(--border-main);
 }
 
 /* Enterprise Design System Utility - Premium Card Standard */
 .premium-card {
   background: var(--bg-surface);
-  border: 1px solid var(--border-main);
-  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
-  transition: transform 0.2s var(--premium-easing), box-shadow 0.2s var(--premium-easing);
+  padding: var(--spacing-6); /* Consistent padding 24px */
+  transition: all 0.2s var(--premium-easing);
 }
 
 .premium-card:hover {
   box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 .glass-panel {

@@ -15,11 +15,48 @@ import {
   setBranding
 } from '../store/slices/navSlice';
 import { logout } from '../store/slices/authSlice';
-import {
-  Layout as LayoutIcon, Maximize2, Minimize2, Send, Mail, Search, Edit, Plus, Trash2, X, Filter, ChevronUp, ChevronDown, ChevronLeft, Check, Save, Settings,
-  Users, Shield, FolderKanban, Package, Building, Database, FileUp, LogOut, Menu, User as UserIcon, Bell, ChevronRight, Projector, FileText, Globe, Clock, BarChart3, PieChart, LineChart,
-  MessageSquare, Layers, FolderTree, Calendar, Wallet
-} from 'lucide-react';
+import { 
+  Squares2X2Icon as LayoutIcon, 
+  ArrowsPointingOutIcon as Maximize2, 
+  ArrowsPointingInIcon as Minimize2, 
+  PaperAirplaneIcon as Send, 
+  EnvelopeIcon as Mail, 
+  MagnifyingGlassIcon as Search, 
+  PencilSquareIcon as Edit, 
+  PlusIcon as Plus, 
+  TrashIcon as Trash2, 
+  XMarkIcon as X, 
+  FunnelIcon as Filter, 
+  ChevronUpIcon as ChevronUp, 
+  ChevronDownIcon as ChevronDown, 
+  ChevronLeftIcon as ChevronLeft, 
+  CheckIcon as Check, 
+  BookmarkIcon as Save, 
+  Cog6ToothIcon as Settings,
+  UsersIcon as Users, 
+  ShieldCheckIcon as Shield, 
+  FolderIcon as FolderKanban, 
+  InboxStackIcon as Package, 
+  BuildingOfficeIcon as Building, 
+  ArchiveBoxIcon as Database, 
+  ArrowUpTrayIcon as FileUp, 
+  ArrowRightOnRectangleIcon as LogOut, 
+  Bars3Icon as Menu, 
+  UserIcon, 
+  BellIcon as Bell, 
+  ChevronRightIcon as ChevronRight, 
+  PresentationChartBarIcon as Projector, 
+  DocumentTextIcon as FileText, 
+  GlobeAltIcon as Globe, 
+  ClockIcon as Clock, 
+  ChartBarIcon as BarChart3, 
+  ChartPieIcon as PieChart, 
+  ArrowTrendingUpIcon as LineChart,
+  ChatBubbleLeftRightIcon as MessageSquare, 
+  FolderPlusIcon as FolderTree, 
+  CalendarIcon as Calendar, 
+  WalletIcon as Wallet 
+} from '@heroicons/react/24/outline';
 
 import API from "../utils/api";
 
@@ -99,7 +136,13 @@ const Dashboard = () => {
   const hoverTimeoutRef = useRef(null);
   const [profileMenuPosition, setProfileMenuPosition] = useState({ top: 0, right: 0 });
 
-  // Masters submodules
+  // Custom Layers Icon since it might not have a direct Heroicon equivalent
+  const LayersIcon = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 7.125L12 12.375l9.75-5.25M2.25 12l9.75 5.25 9.75-5.25M2.25 16.875L12 22.125l9.75-5.25" />
+    </svg>
+  );
+
   const mastersSubmodules = useMemo(() => [
     { id: 'employee-master', name: 'Employee Master', path: 'masters/employees', icon: <Users className="h-5 w-5" />, color: '#000000' },
     { id: 'project-master', name: 'Project Master', path: 'masters/project-master', icon: <FolderKanban className="h-5 w-5" />, color: '#333333' },
@@ -1083,7 +1126,7 @@ const Dashboard = () => {
               : 'hover:bg-white/10 text-white'
               }`}
           >
-            <Layers className="h-5 w-5 text-white" />
+            <LayersIcon className="h-5 w-5 text-white" />
             <span className="text-sm font-medium truncate text-white">
               {projectModule.name}
             </span>
@@ -1237,96 +1280,100 @@ const Dashboard = () => {
 
         {/* Main Content Area */}
         <div className="flex-1 flex flex-col min-h-0 overflow-hidden relative z-10">
-          {/* Header - Unified Design */}
-          <header className="glass-panel backdrop-blur-md flex-shrink-0 sticky top-0 z-50">
-            <div className="px-6 py-4 flex items-center justify-between relative z-10">
-              {/* Left side - Toggle button */}
-              <div className="w-48 flex items-center">
+          {/* Header - Modern Minimalist Design */}
+          <header className="h-16 flex-shrink-0 bg-white border-b border-[var(--border-main)] flex items-center px-6 justify-between sticky top-0 z-50">
+            {/* Left side - Breadcrumbs & Toggle */}
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => dispatch(setSidebarCollapsed(!sidebarCollapsed))}
+                className="p-1.5 rounded-lg text-[var(--text-muted)] hover:bg-[var(--border-light)] hover:text-[var(--text-main)] transition-colors"
+                title={sidebarCollapsed ? "Open Sidebar" : "Close Sidebar"}
+              >
+                {sidebarCollapsed ? <Menu className="h-5 w-5" /> : <ChevronLeft className="h-5 w-5" />}
+              </button>
+              
+              <div className="flex items-center space-x-2 text-sm">
+                <span className="text-[var(--text-subtle)] font-medium">Platform</span>
+                <ChevronRight className="h-3.5 w-3.5 text-[var(--text-meta)]" />
+                <span className="text-[var(--text-main)] font-semibold">{getHeaderTitle()}</span>
+              </div>
+            </div>
+
+            {/* Center - Search (Google Style) */}
+            <div className="flex-1 max-w-xl px-8">
+              <div className="relative group">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--text-subtle)] transition-colors group-focus-within:text-[var(--brand-primary)]" />
+                <input 
+                  type="text" 
+                  placeholder="Search project, employee or tracker..." 
+                  className="w-full bg-[var(--bg-app)] border-transparent focus:bg-white focus:border-[var(--brand-primary)] focus:ring-0 rounded-lg pl-10 pr-4 py-2 text-sm transition-all border border-transparent"
+                />
+              </div>
+            </div>
+
+            {/* Right side - Actions & Profile */}
+            <div className="flex items-center space-x-4">
+              {/* Notifications */}
+              <button className="p-2 text-[var(--text-muted)] hover:bg-[var(--border-light)] rounded-lg relative transition-colors">
+                <Bell className="h-5 w-5" />
+                <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 border-2 border-white rounded-full"></span>
+              </button>
+
+              <div className="w-[1px] h-6 bg-[var(--border-light)] mx-1"></div>
+
+              {/* User Identity */}
+              <div className="flex items-center space-x-3 pl-2" ref={profileMenuRef}>
+                <div className="text-right hidden sm:block">
+                  <p className="text-sm font-bold text-[var(--text-main)] leading-tight">{user?.full_name?.split(' ')[0] || 'User'}</p>
+                  <p className="text-[10px] font-medium text-[var(--text-subtle)] uppercase tracking-wider">{user?.role || 'Admin'}</p>
+                </div>
+                
                 <button
-                  onClick={() => dispatch(setSidebarCollapsed(!sidebarCollapsed))}
-                  className="p-2 rounded-lg text-[var(--text-muted)] hover:bg-[var(--border-light)] transition-colors"
-                  title={sidebarCollapsed ? "Open Sidebar" : "Close Sidebar"}
+                  onClick={() => setProfileMenuOpen(!profileMenuOpen)}
+                  className="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center text-[var(--brand-primary)] font-bold text-sm shadow-sm hover:ring-2 hover:ring-blue-200 transition-all"
                 >
-                  {sidebarCollapsed ? <Menu className="h-6 w-6" /> : <ChevronLeft className="h-6 w-6" />}
+                  {getUserInitial()}
                 </button>
-              </div>
 
-              {/* Center - Title */}
-              <div className="flex-1 flex justify-center items-center">
-                <h1 className="text-2xl font-black text-[var(--text-main)] tracking-tight uppercase">
-                  {getHeaderTitle()}
-                </h1>
-              </div>
-
-              {/* Right side - Date/Time and Profile */}
-              <div className="flex items-center space-x-6 min-w-[300px] justify-end">
-                {/* Date and Time - Production Grade Badge */}
-                <div className="flex items-center space-x-3 bg-[var(--bg-app)] px-4 py-2.5 rounded-xl border border-[var(--border-main)] shadow-sm">
-                  <span className="text-xs font-black text-[var(--text-main)] tabular-nums">{currentTime}</span>
-                  <div className="w-1.5 h-1.5 rounded-full bg-[var(--border-main)]"></div>
-                  <span className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-widest leading-none">{currentDate}</span>
-                </div>
-
-                {/* Profile Menu with black background */}
-                <div className="relative" ref={profileMenuRef}>
-                  <button
-                    onClick={() => setProfileMenuOpen(!profileMenuOpen)}
-                    className="bg-[#1e3a5f] w-11 h-11 rounded-full flex items-center justify-center text-white font-bold text-base shadow-md hover:shadow-lg transition-all"
+                {profileMenuOpen && (
+                  <div
+                    className="fixed z-[9999] w-64 bg-white rounded-xl shadow-lg border border-[var(--border-main)] py-1 mt-2"
+                    style={{
+                      position: 'fixed',
+                      top: `${profileMenuPosition.top}px`,
+                      right: `${profileMenuPosition.right}px`
+                    }}
                   >
-                    {getUserInitial()}
-                  </button>
-
-                  {profileMenuOpen && (
-                    <div
-                      className="fixed z-[9999] w-72 bg-white rounded-xl shadow-lg border border-gray-200 py-2"
-                      style={{
-                        position: 'fixed',
-                        top: `${profileMenuPosition.top}px`,
-                        right: `${profileMenuPosition.right}px`
-                      }}
-                    >
-                      <div className="px-5 py-4">
-                        <div className="flex items-center space-x-4">
-                          <div className="bg-[#1e3a5f] w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-md flex-shrink-0">
-                            {getUserInitial()}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="font-bold text-gray-900 text-lg truncate">{user?.full_name || 'User'}</p>
-                            <p className="text-sm text-gray-500 mt-1 truncate">{user?.email || 'user@example.com'}</p>
-                            <span className="inline-block mt-2 px-2.5 py-1 bg-gray-100 rounded-full text-xs font-medium text-gray-700 capitalize">
-                              {user?.role || 'User'}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Menu Items */}
-                      <div className="py-2 border-t border-gray-100">
-                        <button className="w-full px-5 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-3">
-                          <UserIcon className="h-5 w-5 text-gray-500" />
-                          <span className="font-medium">Profile Settings</span>
-                        </button>
-                        <button className="w-full px-5 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-3">
-                          <Settings className="h-5 w-5 text-gray-500" />
-                          <span className="font-medium">Account Settings</span>
-                        </button>
-                      </div>
-
-                      <div className="border-t border-gray-100 py-2">
-                        <button
-                          onClick={() => {
-                            handleLogout();
-                            setProfileMenuOpen(false);
-                          }}
-                          className="w-full px-5 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-3"
-                        >
-                          <LogOut className="h-5 w-5 text-gray-500" />
-                          <span className="font-semibold">Logout</span>
-                        </button>
-                      </div>
+                    <div className="px-4 py-3 border-b border-[var(--border-light)]">
+                      <p className="text-sm font-bold text-[var(--text-main)]">{user?.full_name || 'User'}</p>
+                      <p className="text-xs text-[var(--text-subtle)] truncate">{user?.email || 'user@example.com'}</p>
                     </div>
-                  )}
-                </div>
+
+                    <div className="py-1">
+                      <button className="w-full px-4 py-2.5 text-left text-sm text-[var(--text-muted)] hover:bg-[var(--bg-app)] hover:text-[var(--text-main)] flex items-center space-x-3 transition-colors">
+                        <UserIcon className="h-4 w-4" />
+                        <span>Profile Settings</span>
+                      </button>
+                      <button 
+                        onClick={() => navigate('/dashboard/settings')}
+                        className="w-full px-4 py-2.5 text-left text-sm text-[var(--text-muted)] hover:bg-[var(--bg-app)] hover:text-[var(--text-main)] flex items-center space-x-3 transition-colors"
+                      >
+                        <Settings className="h-4 w-4" />
+                        <span>Platform Settings</span>
+                      </button>
+                    </div>
+
+                    <div className="border-t border-[var(--border-light)] py-1">
+                      <button
+                        onClick={handleLogout}
+                        className="w-full px-4 py-2.5 text-left text-sm text-red-600 hover:bg-red-50 flex items-center space-x-3 transition-colors font-medium"
+                      >
+                        <LogOut className="h-4 w-4" />
+                        <span>Sign out</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </header>

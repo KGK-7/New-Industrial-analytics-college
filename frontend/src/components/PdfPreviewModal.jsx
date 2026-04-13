@@ -2,7 +2,16 @@ import React, { useRef, useState } from 'react';
 import useCurrency from '../hooks/useCurrency';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { X, Download, ArrowUp, ArrowDown, Maximize2, Minimize2, Settings, GripVertical } from 'lucide-react';
+import { 
+  XMarkIcon as X, 
+  ArrowDownTrayIcon as Download, 
+  ArrowUpIcon as ArrowUp, 
+  ArrowDownIcon as ArrowDown, 
+  ArrowsPointingOutIcon as Maximize2, 
+  ArrowsPointingInIcon as Minimize2, 
+  Cog6ToothIcon as Settings, 
+  Bars3BottomLeftIcon as GripVertical 
+} from '@heroicons/react/24/outline';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 
 const PdfPreviewModal = ({ 
@@ -240,68 +249,31 @@ const PdfPreviewModal = ({
           }}>
           <button
             onClick={downloadPdf}
-            style={{
-              padding: '8px 16px',
-              backgroundColor: '#1e3a5f',
-              color: 'white',
-              border: 'none',
-              borderRadius: '6px',
-              fontSize: '14px',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px'
-            }}
+            className="flex items-center gap-2 h-10 px-4 bg-[var(--brand-primary)] text-white rounded-xl text-sm font-bold hover:shadow-lg hover:shadow-blue-500/20 transition-all"
           >
             <Download className="h-4 w-4" />
-            Download PDF
+            <span>Download Report</span>
           </button>
+          
           <button
             onClick={() => setShowSidebar(!showSidebar)}
-            style={{
-              padding: '8px 16px',
-              backgroundColor: showSidebar ? '#1e3a5f' : '#f1f5f9',
-              color: showSidebar ? 'white' : '#64748b',
-              border: '1px solid #e2e8f0',
-              borderRadius: '6px',
-              fontSize: '14px',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              height: '38px',
-              transition: 'all 0.2s',
-              boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
-            }}
+            className={`flex items-center gap-2 h-10 px-4 border rounded-xl text-sm font-bold transition-all shadow-sm ${
+              showSidebar 
+                ? 'bg-blue-50 border-blue-200 text-[var(--brand-primary)]' 
+                : 'bg-white border-[var(--border-main)] text-[var(--text-muted)] hover:bg-[var(--bg-app)]'
+            }`}
             title={showSidebar ? "Hide Customization" : "Customize Layout"}
           >
-            <Settings size={18} />
-            Customize
+            <Settings className="h-4.5 w-4.5" />
+            <span>Customize</span>
           </button>
 
           <button
             onClick={onClose}
-            style={{
-              height: '38px',
-              width: '38px',
-              backgroundColor: '#fee2e2',
-              border: '1px solid #fecaca',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              color: '#991b1b',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              transition: 'all 0.2s',
-              boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
-            }}
+            className="h-10 w-10 flex items-center justify-center bg-rose-50 border border-rose-100 rounded-xl text-rose-600 hover:bg-rose-100 hover:text-rose-700 transition-all shadow-sm"
             title="Close"
-            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#fecaca'}
-            onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#fee2e2'}
           >
-            <X size={20} />
+            <X className="h-5 w-5" />
           </button>
         </div>
         )}

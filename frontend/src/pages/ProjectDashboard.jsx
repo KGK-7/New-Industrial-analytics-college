@@ -7,7 +7,35 @@ import ReactECharts from 'echarts-for-react';
 import * as echarts from 'echarts';
 import '../utils/echarts-theme-v5'; // Register the v5 theme
 import ExcelTableViewer from '../components/ExcelTableViewer';
-import { Layout, Maximize2, Minimize2, Send, Mail, Search, Edit, Plus, Trash2, X, Filter, ChevronUp, ChevronDown, Check, Save, Settings, Download, GripVertical, FolderOpen, Layers, Activity, Grid, List, Bold, Italic, Underline, Eye, Paperclip, ArrowRight, Database, Wallet } from 'lucide-react';
+import { 
+  Squares2X2Icon as Layout, 
+  ArrowsPointingOutIcon as Maximize2, 
+  ArrowsPointingInIcon as Minimize2, 
+  PaperAirplaneIcon as Send, 
+  EnvelopeIcon as Mail, 
+  MagnifyingGlassIcon as Search, 
+  PencilSquareIcon as Edit, 
+  PlusIcon as Plus, 
+  TrashIcon as Trash2, 
+  XMarkIcon as X, 
+  FunnelIcon as Filter, 
+  ChevronUpIcon as ChevronUp, 
+  ChevronDownIcon as ChevronDown, 
+  CheckIcon as Check, 
+  BookmarkIcon as Save, 
+  Cog6ToothIcon as Settings, 
+  ArrowDownTrayIcon as Download, 
+  Bars3BottomLeftIcon as GripVertical, 
+  FolderOpenIcon as FolderOpen, 
+  ClockIcon as Activity, 
+  TableCellsIcon as Database, 
+  WalletIcon as Wallet,
+  EyeIcon as Eye,
+  PaperClipIcon as Paperclip,
+  ArrowRightIcon as ArrowRight,
+  ListBulletIcon as List,
+  SquaresPlusIcon as Grid
+} from '@heroicons/react/24/outline';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import PdfPreviewModal from '../components/PdfPreviewModal';
@@ -3269,139 +3297,141 @@ const ProjectTitleDashboard = () => {
                 </div>
               </div>
 
-              {/* Redesigned Overview Section Header - Image-Free & Standardized */}
-              <div className="flex justify-between items-center mb-8 premium-card p-8">
+              {/* Project Selection Header */}
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                 <div>
-                  <h3 className="text-2xl font-black text-slate-900 m-0 tracking-tight uppercase">Project Overview</h3>
-                  <div className="flex items-center gap-2 mt-1">
-                    <div className={`w-2 h-2 rounded-full ${projects.length > 0 ? 'bg-emerald-500' : 'bg-slate-300'}`}></div>
-                    <span className="text-[10px] font-bold text-[var(--text-subtle)] uppercase tracking-widest">Active Portfolio</span>
-                  </div>
+                  <h1 className="text-2xl font-bold text-[var(--text-main)] tracking-tight">Active Portfolio</h1>
+                  <p className="text-sm text-[var(--text-subtle)] mt-1">Select a workspace to view detailed industrial analytics and performance metrics.</p>
                 </div>
                 
-                <div className="flex items-center gap-4">
-                  {/* Segmented Control Toggle */}
-                  <div className="flex bg-slate-200/50 backdrop-blur-md p-1.5 rounded-2xl border border-white/50 shadow-sm">
+                <div className="flex items-center gap-3">
+                  {/* View Toggle */}
+                  <div className="flex bg-[var(--bg-app)] p-1 rounded-xl border border-[var(--border-main)]">
                     <button 
                       onClick={() => setViewMode('grid')}
-                      className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${viewMode === 'grid' ? 'bg-white text-blue-600 shadow-md transform scale-105' : 'text-[var(--text-subtle)] hover:text-[var(--text-muted)]'}`}
+                      className={`p-2 rounded-lg transition-all ${viewMode === 'grid' ? 'bg-white text-[var(--brand-primary)] shadow-sm' : 'text-[var(--text-meta)] hover:text-[var(--text-subtle)]'}`}
+                      title="Grid View"
                     >
-                      <Grid size={16} />
-                      Grid
+                      <Grid className="h-4 w-4" />
                     </button>
                     <button 
                       onClick={() => setViewMode('list')}
-                      className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${viewMode === 'list' ? 'bg-white text-blue-600 shadow-md transform scale-105' : 'text-[var(--text-subtle)] hover:text-[var(--text-muted)]'}`}
+                      className={`p-2 rounded-lg transition-all ${viewMode === 'list' ? 'bg-white text-[var(--brand-primary)] shadow-sm' : 'text-[var(--text-meta)] hover:text-[var(--text-subtle)]'}`}
+                      title="List View"
                     >
-                      <List size={16} />
-                      List
+                      <List className="h-4 w-4" />
                     </button>
                   </div>
                   
-                  <div className="w-px h-8 bg-slate-200 mx-2 hidden md:block"></div>
+                  <div className="w-px h-6 bg-[var(--border-main)] mx-1"></div>
                   
-                  <button className="hidden md:flex items-center gap-2 text-[var(--text-subtle)] hover:text-[var(--text-muted)] transition-colors">
-                    <Filter size={18} />
-                    <span className="text-[10px] font-black uppercase tracking-widest">Filter</span>
+                  <button className="flex items-center gap-2 px-4 py-2 bg-white border border-[var(--border-main)] rounded-xl text-sm font-bold text-[var(--text-muted)] hover:bg-[var(--bg-app)] transition-all">
+                    <Filter className="h-4 w-4" />
+                    <span>Filter</span>
+                  </button>
+
+                  <button className="flex items-center gap-2 px-4 py-2 bg-[var(--brand-primary)] text-white rounded-xl text-sm font-bold hover:shadow-lg hover:shadow-blue-500/20 transition-all">
+                    <Plus className="h-4 w-4" />
+                    <span>New Project</span>
                   </button>
                 </div>
               </div>
 
-              {/* Conditional Layout Content */}
-              <div className={viewMode === 'grid' ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" : "space-y-4"}>
-                {projects.length === 0 ? (
-                  <div className="col-span-full flex flex-col items-center justify-center py-20 px-6 text-center bg-white rounded-[2rem] border-2 border-dashed border-[var(--border-main)]">
-                    <div className="w-20 h-20 bg-[var(--bg-app)] rounded-3xl flex items-center justify-center text-slate-300 mb-6">
-                      <Layout size={40} />
-                    </div>
-                    <h3 className="text-xl font-black text-slate-800 mb-2">No projects started yet</h3>
-                    <p className="text-[var(--text-subtle)] text-sm max-w-sm mb-8">Get started by creating your first industrial analytics workspace to track datasets and metrics.</p>
-                    <button className="bg-blue-600 text-white px-8 py-3.5 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-slate-900 transition-all shadow-lg shadow-blue-500/10">
-                      Create Project
-                    </button>
+              {/* Grid / List Content */}
+              {projects.length === 0 ? (
+                <div className="bg-white rounded-3xl border border-[var(--border-main)] py-20 px-6 text-center shadow-sm">
+                  <div className="w-16 h-16 bg-[var(--bg-app)] rounded-2xl flex items-center justify-center text-[var(--text-meta)] mx-auto mb-6">
+                    <Layout className="h-8 w-8" />
                   </div>
-                ) : viewMode === 'grid' ? (
-                  projects.map((project, idx) => (
+                  <h3 className="text-lg font-bold text-[var(--text-main)] mb-2">Portfolio is Empty</h3>
+                  <p className="text-[var(--text-subtle)] text-sm max-w-sm mx-auto mb-8">
+                    Create your first industrial analytics workspace to start tracking real-time performance and financial data.
+                  </p>
+                  <button className="bg-[var(--brand-primary)] text-white px-8 py-3 rounded-xl text-sm font-bold hover:shadow-lg transition-all">
+                    Create First Project
+                  </button>
+                </div>
+              ) : viewMode === 'grid' ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {projects.map((project, idx) => (
                     <PremiumProjectCard
                       key={project.id}
                       project={project}
                       onClick={handleProjectSelect}
                       isFeatured={project.dashboardConfig && idx === projects.findIndex(p => p.dashboardConfig)}
                     />
-                  ))
-                ) : (
-                  /* List View Mode */
-                  <div className="premium-card overflow-hidden">
-                    <table className="w-full border-collapse text-left text-sm">
-                      <thead className="bg-[var(--bg-app)]/50 border-b border-slate-100">
-                        <tr>
-                          <th className="px-6 py-4 font-black uppercase tracking-wider text-[var(--text-subtle)] text-[10px]">Project Name</th>
-                          <th className="px-6 py-4 font-black uppercase tracking-wider text-[var(--text-subtle)] text-[10px]">Code</th>
-                          <th className="px-6 py-4 font-black uppercase tracking-wider text-[var(--text-subtle)] text-[10px]">Datasets</th>
-                          <th className="px-6 py-4 font-black uppercase tracking-wider text-[var(--text-subtle)] text-[10px]">Layout</th>
-                          <th className="px-6 py-4 font-black uppercase tracking-wider text-[var(--text-subtle)] text-[10px]">Status</th>
-                          <th className="px-6 py-4 font-black uppercase tracking-wider text-[var(--text-subtle)] text-[10px] text-right">Action</th>
+                  ))}
+                </div>
+              ) : (
+                /* List View Mode */
+                <div className="bg-white rounded-2xl border border-[var(--border-main)] overflow-hidden shadow-sm">
+                  <table className="w-full border-collapse text-left text-sm">
+                    <thead>
+                      <tr className="bg-[var(--bg-app)] border-b border-[var(--border-main)]">
+                        <th className="px-6 py-4 font-bold text-[var(--text-subtle)] uppercase tracking-widest text-[10px]">Project Workspace</th>
+                        <th className="px-6 py-4 font-bold text-[var(--text-subtle)] uppercase tracking-widest text-[10px]">Identifier</th>
+                        <th className="px-6 py-4 font-bold text-[var(--text-subtle)] uppercase tracking-widest text-[10px]">Datasets</th>
+                        <th className="px-6 py-4 font-bold text-[var(--text-subtle)] uppercase tracking-widest text-[10px]">Configuration</th>
+                        <th className="px-6 py-4 font-bold text-[var(--text-subtle)] uppercase tracking-widest text-[10px]">Status</th>
+                        <th className="px-4 py-4"></th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[var(--border-light)]">
+                      {projects.map((project) => (
+                        <tr 
+                          key={project.id} 
+                          onClick={() => handleProjectSelect(project.id)}
+                          className="group hover:bg-[var(--bg-app)] cursor-pointer transition-colors"
+                        >
+                          <td className="px-6 py-5">
+                            <div className="flex items-center gap-3">
+                              <div className="w-9 h-9 rounded-lg bg-[var(--bg-app)] border border-[var(--border-main)] flex items-center justify-center font-bold text-[var(--text-main)] text-xs transition-colors group-hover:border-blue-200 group-hover:bg-blue-50">
+                                {project.name.substring(0, 2).toUpperCase()}
+                              </div>
+                              <span className="font-bold text-[var(--text-main)] group-hover:text-[var(--brand-primary)] transition-colors">{project.name}</span>
+                            </div>
+                          </td>
+                          <td className="px-6 py-5 font-mono text-xs text-[var(--text-meta)] font-bold">
+                            {project.code || project.name.substring(0, 4).toUpperCase()}
+                          </td>
+                          <td className="px-6 py-5">
+                            <div className="flex items-center gap-2 text-[var(--text-muted)] font-bold text-xs">
+                              <Database className="h-4 w-4 text-[var(--text-meta)]" />
+                              <span>{project.submodules ? project.submodules.length : 0} Sources</span>
+                            </div>
+                          </td>
+                          <td className="px-6 py-5 text-xs">
+                            {project.dashboardConfig ? (
+                              <span className="text-emerald-600 font-bold flex items-center gap-1.5 uppercase tracking-tighter">
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Configured
+                              </span>
+                            ) : (
+                              <span className="text-[var(--text-subtle)] font-bold flex items-center gap-1.5 uppercase tracking-tighter">
+                                <span className="w-1.5 h-1.5 rounded-full bg-slate-300" /> Draft
+                              </span>
+                            )}
+                          </td>
+                          <td className="px-6 py-5">
+                              <span className={`inline-flex px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${
+                                project.status === 'Active' || project.status === 'Complete' 
+                                  ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' 
+                                  : 'bg-amber-50 text-amber-700 border border-amber-100'
+                              }`}>
+                                {project.status || 'Active'}
+                              </span>
+                          </td>
+                          <td className="px-4 py-5 text-right">
+                            <ArrowRight className="h-4 w-4 text-[var(--text-meta)] group-hover:text-[var(--brand-primary)] group-hover:translate-x-1 transition-all" />
+                          </td>
                         </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-50">
-                        {projects.map((project) => (
-                          <tr 
-                            key={project.id} 
-                            onClick={() => handleProjectSelect(project.id)}
-                            className="group hover:bg-[var(--bg-app)]/50 cursor-pointer transition-colors"
-                          >
-                            <td className="px-6 py-4">
-                              <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center font-bold text-slate-500 text-xs">
-                                  {project.name.substring(0, 2).toUpperCase()}
-                                </div>
-                                <span className="font-extrabold text-slate-800 group-hover:text-blue-600 transition-colors">{project.name}</span>
-                              </div>
-                            </td>
-                            <td className="px-6 py-4">
-                              <span className="font-mono text-xs text-[var(--text-subtle)] font-bold">{project.code || project.name.substring(0, 4).toUpperCase()}</span>
-                            </td>
-                            <td className="px-6 py-4">
-                              <div className="flex items-center gap-1.5 text-[var(--text-muted)] font-bold text-xs">
-                                <Database size={14} className="text-blue-500" />
-                                {project.submodules ? project.submodules.length : 0}
-                              </div>
-                            </td>
-                            <td className="px-6 py-4">
-                              {project.dashboardConfig ? (
-                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-[10px] font-black uppercase border border-emerald-100">
-                                  <div className="w-1 h-1 rounded-full bg-emerald-500" /> Ready
-                                </span>
-                              ) : (
-                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 text-[var(--text-subtle)] rounded-lg text-[10px] font-black uppercase border border-[var(--border-main)]">
-                                  <div className="w-1 h-1 rounded-full bg-slate-400" /> Pending
-                                </span>
-                              )}
-                            </td>
-                            <td className="px-6 py-4">
-                                <span className={`inline-flex px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${
-                                  project.status === 'Active' || project.status === 'Complete' 
-                                    ? 'bg-emerald-500/10 text-emerald-600' 
-                                    : 'bg-amber-500/10 text-amber-600'
-                                }`}>
-                                  {project.status || 'Active'}
-                                </span>
-                            </td>
-                            <td className="px-6 py-4 text-right">
-                              <button className="p-2 text-[var(--text-subtle)] hover:text-blue-600 transition-colors">
-                                <ArrowRight size={18} />
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
               </div>
             </div>
-          </div>
-        ) : selectedSubmodule ? (
+          ) : selectedSubmodule ? (
           /* Submodule Detail View */
           <div style={{ padding: '0 25px 25px 25px' }}>
             {renderSubmoduleTable(submoduleData[selectedSubmodule.trackerId], getDisplayFileName(selectedSubmodule.name, selectedSubmodule.projectName))}
@@ -3409,28 +3439,33 @@ const ProjectTitleDashboard = () => {
         ) : (
           /* Active Project Dashboard */
           <>
-            <div id="project-dashboard-main-content">
-              {/* Updated Date Row with SOP Info */}
-              <div className="premium-card p-6 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-6 border-none shadow-none bg-transparent">
-                <div className="flex items-center gap-6">
+            <div id="project-dashboard-main-content" className="p-6">
+              {/* Dashboard Action Header */}
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+                <div className="flex items-center gap-8">
                   <div className="flex flex-col gap-1">
-                    <span className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest">Report Date</span>
-                    <span className="text-sm font-black text-[var(--text-main)]">March 15, 2024</span>
+                    <span className="text-[10px] font-bold text-[var(--text-subtle)] uppercase tracking-widest">Global Status</span>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]"></div>
+                      <span className="text-sm font-bold text-[var(--text-main)]">Operational</span>
+                    </div>
                   </div>
                   
                   <div className="w-px h-8 bg-[var(--border-main)] mx-2 hidden md:block"></div>
 
                   <div className="flex flex-col gap-1">
-                    <span className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest">SOP Countdown</span>
-                    <span className="text-sm font-black text-[var(--brand-primary)] bg-blue-50 px-3 py-1 rounded-lg border border-blue-100/50">
-                      {sopData[0].daysToGo} Days Remaining
-                    </span>
+                    <span className="text-[10px] font-bold text-[var(--text-subtle)] uppercase tracking-widest">SOP Milestone</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-bold text-[var(--brand-primary)]">
+                        {sopData[0].daysToGo} Days Remaining
+                      </span>
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4">
-                  <div className="flex flex-col gap-1">
-                    <span className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest">Workspace Status</span>
+                <div className="flex items-center gap-3">
+                  <div className="flex flex-col gap-1 items-end">
+                    <span className="text-[10px] font-bold text-[var(--text-subtle)] uppercase tracking-widest">Health Logic</span>
                     <select
                       value={sopData[0].status}
                       onChange={(e) => {
@@ -3438,159 +3473,149 @@ const ProjectTitleDashboard = () => {
                         newSop[0].status = e.target.value;
                         setSopData(newSop);
                       }}
-                      className="bg-[var(--bg-surface)] border border-[var(--border-main)] rounded-xl px-4 py-2 text-sm font-bold text-[var(--text-main)] focus:ring-4 focus:ring-blue-500/10 focus:border-[var(--brand-primary)] outline-none transition-all cursor-pointer shadow-sm"
+                      className="bg-white border border-[var(--border-main)] rounded-xl px-4 py-2 text-sm font-bold text-[var(--text-main)] focus:ring-4 focus:ring-blue-500/10 focus:border-[var(--brand-primary)] outline-none transition-all cursor-pointer shadow-sm hover:border-blue-200"
                     >
-                      <option value="Good">Good</option>
-                      <option value="At Risk">At Risk</option>
-                      <option value="Behind">Behind</option>
+                      <option value="Good">Health: Good</option>
+                      <option value="At Risk">Health: At Risk</option>
+                      <option value="Behind">Health: Critical</option>
                     </select>
                   </div>
                 </div>
               </div>
 
-                  {/* Overall Project Health */}
-                  <div className="flex items-center gap-12 mt-4 ml-2">
-                    <div className="flex flex-col gap-3">
-                      <span className="text-[10px] font-black text-[var(--text-subtle)] uppercase tracking-[0.2em] pl-1">Project Health Lifecycle</span>
-                      <div className="flex bg-[var(--bg-surface)] p-1.5 rounded-2xl border border-[var(--border-main)] shadow-sm gap-2">
-                        <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl transition-all hover:bg-[var(--bg-app)] cursor-default">
-                          <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.3)]"></div>
-                          <span className="text-[11px] font-black text-[var(--text-main)] uppercase tracking-tight">On Track</span>
-                        </div>
-                        <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl transition-all hover:bg-[var(--bg-app)] opacity-30 grayscale hover:opacity-100 hover:grayscale-0 cursor-default">
-                          <div className="w-2.5 h-2.5 rounded-full bg-amber-500"></div>
-                          <span className="text-[11px] font-black text-[var(--text-main)] uppercase tracking-tight">At Risk</span>
-                        </div>
-                        <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl transition-all hover:bg-[var(--bg-app)] opacity-30 grayscale hover:opacity-100 hover:grayscale-0 cursor-default">
-                          <div className="w-2.5 h-2.5 rounded-full bg-red-500"></div>
-                          <span className="text-[11px] font-black text-[var(--text-main)] uppercase tracking-tight">Critical</span>
-                        </div>
-                      </div>
-                    </div>
+              {/* Quick Summary Cards (Health & Info) */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div className="premium-card p-5 bg-white flex items-center gap-4">
+                  <div className="p-3 bg-emerald-50 text-emerald-600 rounded-2xl border border-emerald-100">
+                    <Activity className="h-6 w-6" />
                   </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-[var(--text-subtle)] uppercase tracking-widest block mb-0.5">Project Health</span>
+                    <span className="text-lg font-bold text-[var(--text-main)]">Optimal</span>
+                  </div>
+                </div>
+
+                <div className="premium-card p-5 bg-white flex items-center gap-4">
+                  <div className="p-3 bg-blue-50 text-[var(--brand-primary)] rounded-2xl border border-blue-100">
+                    <Activity className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-[var(--text-subtle)] uppercase tracking-widest block mb-0.5">SOP Date</span>
+                    <span className="text-lg font-bold text-[var(--text-main)]">15 Jun 2024</span>
+                  </div>
+                </div>
+
+                <div className="premium-card p-5 bg-white flex items-center gap-4">
+                  <div className="p-3 bg-slate-50 text-slate-600 rounded-2xl border border-slate-100">
+                    <Database className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-[var(--text-subtle)] uppercase tracking-widest block mb-0.5">Assigned Datasets</span>
+                    <span className="text-lg font-bold text-[var(--text-main)]">{(activeProject?.submodules || []).length} Active</span>
+                  </div>
+                </div>
+              </div>
 
 
 
               {/* Dashboard Content */}
-              <div id="dashboard-printable-area" style={{ padding: '20px 25px 25px 25px' }}>
+              <div id="dashboard-printable-area">
                 {/* Milestones Section */}
                 {visibleSections.milestones && (
-                  <div className="premium-card overflow-hidden mb-8">
-                    <div className="text-center py-4 bg-[var(--bg-app)] border-b border-[var(--border-main)]">
-                      <span className="text-lg font-black text-[var(--text-main)] uppercase tracking-tight">Milestones</span>
-                    </div>
-                    <div style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      backgroundColor: '#f8fafc',
-                      padding: '10px 20px',
-                      borderBottom: '1px solid #e2e8f0'
-                    }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <div style={{ backgroundColor: '#1e3a5f', width: '4px', height: '18px', borderRadius: '2px' }} />
-                        <span style={{ fontSize: '15px', fontWeight: '800', color: '#1e3a5f' }}>Project Timeline</span>
+                  <div className="premium-card bg-white overflow-hidden mb-8">
+                    <div className="px-6 py-4 bg-[var(--bg-app)] border-b border-[var(--border-main)] flex justify-between items-center">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-white border border-[var(--border-main)] rounded-xl shadow-sm text-[var(--brand-primary)]">
+                          <Activity className="h-4 w-4" />
+                        </div>
+                        <h3 className="text-sm font-bold text-[var(--text-main)] uppercase tracking-widest m-0">Project Milestones</h3>
                       </div>
                       <button
                         onClick={() => { setMilestoneForm({ ...milestones[0] }); setShowEditMilestones(true); }}
-                        className="no-print"
-                        style={{ background: 'none', border: 'none', color: '#3b82f6', cursor: 'pointer', padding: '4px' }}
+                        className="p-2 text-[var(--text-muted)] hover:text-[var(--brand-primary)] hover:bg-blue-50 rounded-lg transition-all no-print"
                       >
                         <Edit className="h-4 w-4" />
                       </button>
                     </div>
-                    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px' }}>
-                      <thead>
-                        <tr style={{ borderBottom: '2px solid #e2e8f0' }}>
-                          <th style={{ width: '120px', padding: '15px', textAlign: 'left', color: '#64748b', fontWeight: 'bold' }}>Category</th>
-                          <th style={{ width: '100px', padding: '15px', textAlign: 'left', color: '#64748b', fontWeight: 'bold' }}>A</th>
-                          <th style={{ width: '100px', padding: '15px', textAlign: 'left', color: '#64748b', fontWeight: 'bold' }}>B</th>
-                          <th style={{ width: '100px', padding: '15px', textAlign: 'left', color: '#64748b', fontWeight: 'bold' }}>C</th>
-                          <th style={{ width: '100px', padding: '15px', textAlign: 'left', color: '#64748b', fontWeight: 'bold' }}>D</th>
-                          <th style={{ width: '100px', padding: '15px', textAlign: 'left', color: '#64748b', fontWeight: 'bold' }}>E</th>
-                          <th style={{ width: '100px', padding: '15px', textAlign: 'left', color: '#64748b', fontWeight: 'bold' }}>F</th>
-                          <th style={{ width: '140px', padding: '15px', textAlign: 'left', color: '#64748b', fontWeight: 'bold' }}>Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {milestones.map((item, idx) => (
-                          <React.Fragment key={idx}>
-                            <tr style={{ borderBottom: '1px solid #f1f5f9' }}>
-                              <td style={{ padding: '12px 15px', fontWeight: 'bold', color: '#1e3a5f', whiteSpace: 'nowrap' }}>Plan</td>
-                              <td style={{ padding: '12px 15px', whiteSpace: 'nowrap', color: '#445164' }}>{formatXAxisValue(item.plan.a)}</td>
-                              <td style={{ padding: '12px 15px', whiteSpace: 'nowrap', color: '#445164' }}>{formatXAxisValue(item.plan.b)}</td>
-                              <td style={{ padding: '12px 15px', whiteSpace: 'nowrap', color: '#445164' }}>{formatXAxisValue(item.plan.c)}</td>
-                              <td style={{ padding: '12px 15px', whiteSpace: 'nowrap', color: '#445164' }}>{formatXAxisValue(item.plan.d)}</td>
-                              <td style={{ padding: '12px 15px', whiteSpace: 'nowrap', color: '#445164' }}>{formatXAxisValue(item.plan.e)}</td>
-                              <td style={{ padding: '12px 15px', whiteSpace: 'nowrap', color: '#445164' }}>{formatXAxisValue(item.plan.f)}</td>
-                              <td style={{ padding: '12px 15px' }}>
-                                <select
-                                  value={item.plan.implementation}
-                                  onChange={(e) => {
-                                    const newMilestones = [...milestones];
-                                    newMilestones[idx].plan.implementation = e.target.value;
-                                    setMilestones(newMilestones);
-                                  }}
-                                  style={{
-                                    display: 'inline-block',
-                                    padding: '4px 24px 4px 12px',
-                                    borderRadius: '6px',
-                                    fontSize: '11px',
-                                    fontWeight: 'bold',
-                                    backgroundColor: item.plan.implementation === 'On Track' ? '#ecfdf5' : item.plan.implementation === 'In Progress' ? '#eff6ff' : '#fff1f2',
-                                    color: item.plan.implementation === 'On Track' ? '#059669' : item.plan.implementation === 'In Progress' ? '#2563eb' : '#dc2626',
-                                    border: `1px solid ${item.plan.implementation === 'On Track' ? '#10b981' : item.plan.implementation === 'In Progress' ? '#3b82f6' : '#f43f5e'}33`,
-                                    cursor: 'pointer',
-                                    outline: 'none',
-                                    appearance: 'menulist'
-                                  }}
-                                >
-                                  <option value="On Track">On Track</option>
-                                  <option value="In Progress">In Progress</option>
-                                  <option value="At Risk">At Risk</option>
-                                </select>
-                              </td>
-                            </tr>
-                            <tr style={{ backgroundColor: '#fcfdff', borderBottom: '1px solid #f1f5f9' }}>
-                              <td style={{ padding: '12px 15px', fontWeight: 'bold', color: '#047857', whiteSpace: 'nowrap' }}>Actual</td>
-                              <td style={{ padding: '12px 15px', whiteSpace: 'nowrap', color: '#445164' }}>{formatXAxisValue(item.actual.a)}</td>
-                              <td style={{ padding: '12px 15px', whiteSpace: 'nowrap', color: '#445164' }}>{formatXAxisValue(item.actual.b)}</td>
-                              <td style={{ padding: '12px 15px', whiteSpace: 'nowrap', color: '#445164' }}>{formatXAxisValue(item.actual.c)}</td>
-                              <td style={{ padding: '12px 15px', whiteSpace: 'nowrap', color: '#445164' }}>{formatXAxisValue(item.actual.d)}</td>
-                              <td style={{ padding: '12px 15px', whiteSpace: 'nowrap', color: '#445164' }}>{formatXAxisValue(item.actual.e)}</td>
-                              <td style={{ padding: '12px 15px', whiteSpace: 'nowrap', color: '#445164' }}>{formatXAxisValue(item.actual.f)}</td>
-                              <td style={{ padding: '12px 15px' }}>
-                                <select
-                                  value={item.actual.implementation}
-                                  onChange={(e) => {
-                                    const newMilestones = [...milestones];
-                                    newMilestones[idx].actual.implementation = e.target.value;
-                                    setMilestones(newMilestones);
-                                  }}
-                                  style={{
-                                    display: 'inline-block',
-                                    padding: '4px 24px 4px 12px',
-                                    borderRadius: '6px',
-                                    fontSize: '11px',
-                                    fontWeight: 'bold',
-                                    backgroundColor: item.actual.implementation === 'On Track' ? '#ecfdf5' : item.actual.implementation === 'In Progress' ? '#eff6ff' : '#fff1f2',
-                                    color: item.actual.implementation === 'On Track' ? '#059669' : item.actual.implementation === 'In Progress' ? '#2563eb' : '#dc2626',
-                                    border: `1px solid ${item.actual.implementation === 'On Track' ? '#10b981' : item.actual.implementation === 'In Progress' ? '#3b82f6' : '#f43f5e'}33`,
-                                    cursor: 'pointer',
-                                    outline: 'none',
-                                    appearance: 'menulist'
-                                  }}
-                                >
-                                  <option value="On Track">On Track</option>
-                                  <option value="In Progress">In Progress</option>
-                                  <option value="At Risk">At Risk</option>
-                                </select>
-                              </td>
-                            </tr>
-                          </React.Fragment>
-                        ))}
-                      </tbody>
-                    </table>
+                    
+                    <div className="overflow-x-auto">
+                      <table className="w-full border-collapse text-left text-sm">
+                        <thead>
+                          <tr className="border-b border-[var(--border-main)]">
+                            <th className="px-6 py-4 font-bold text-[var(--text-subtle)] uppercase tracking-widest text-[10px]">Phase</th>
+                            <th className="px-6 py-4 font-bold text-[var(--text-subtle)] uppercase tracking-widest text-[10px]">A</th>
+                            <th className="px-6 py-4 font-bold text-[var(--text-subtle)] uppercase tracking-widest text-[10px]">B</th>
+                            <th className="px-6 py-4 font-bold text-[var(--text-subtle)] uppercase tracking-widest text-[10px]">C</th>
+                            <th className="px-6 py-4 font-bold text-[var(--text-subtle)] uppercase tracking-widest text-[10px]">D</th>
+                            <th className="px-6 py-4 font-bold text-[var(--text-subtle)] uppercase tracking-widest text-[10px]">E</th>
+                            <th className="px-6 py-4 font-bold text-[var(--text-subtle)] uppercase tracking-widest text-[10px]">F</th>
+                            <th className="px-6 py-4 font-bold text-[var(--text-subtle)] uppercase tracking-widest text-[10px]">Implementation</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[var(--border-light)]">
+                          {milestones.map((item, idx) => (
+                            <React.Fragment key={idx}>
+                              <tr className="hover:bg-[var(--bg-app)]/30 transition-colors">
+                                <td className="px-6 py-4 font-bold text-[var(--text-main)]">Plan</td>
+                                <td className="px-6 py-4 text-[var(--text-meta)] font-medium tabular-nums">{formatXAxisValue(item.plan.a)}</td>
+                                <td className="px-6 py-4 text-[var(--text-meta)] font-medium tabular-nums">{formatXAxisValue(item.plan.b)}</td>
+                                <td className="px-6 py-4 text-[var(--text-meta)] font-medium tabular-nums">{formatXAxisValue(item.plan.c)}</td>
+                                <td className="px-6 py-4 text-[var(--text-meta)] font-medium tabular-nums">{formatXAxisValue(item.plan.d)}</td>
+                                <td className="px-6 py-4 text-[var(--text-meta)] font-medium tabular-nums">{formatXAxisValue(item.plan.e)}</td>
+                                <td className="px-6 py-4 text-[var(--text-meta)] font-medium tabular-nums">{formatXAxisValue(item.plan.f)}</td>
+                                <td className="px-6 py-4">
+                                  <select
+                                    value={item.plan.implementation}
+                                    onChange={(e) => {
+                                      const newMilestones = [...milestones];
+                                      newMilestones[idx].plan.implementation = e.target.value;
+                                      setMilestones(newMilestones);
+                                    }}
+                                    className={`px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest border outline-none transition-all cursor-pointer ${
+                                      item.plan.implementation === 'On Track' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 
+                                      item.plan.implementation === 'In Progress' ? 'bg-blue-50 text-blue-700 border-blue-100' : 
+                                      'bg-amber-50 text-amber-700 border-amber-100'
+                                    }`}
+                                  >
+                                    <option value="On Track">On Track</option>
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="At Risk">At Risk</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr className="bg-[var(--bg-app)]/20 hover:bg-[var(--bg-app)]/50 transition-colors">
+                                <td className="px-6 py-4 font-bold text-emerald-700">Actual</td>
+                                <td className="px-6 py-4 text-[var(--text-meta)] font-medium tabular-nums">{formatXAxisValue(item.actual.a)}</td>
+                                <td className="px-6 py-4 text-[var(--text-meta)] font-medium tabular-nums">{formatXAxisValue(item.actual.b)}</td>
+                                <td className="px-6 py-4 text-[var(--text-meta)] font-medium tabular-nums">{formatXAxisValue(item.actual.c)}</td>
+                                <td className="px-6 py-4 text-[var(--text-meta)] font-medium tabular-nums">{formatXAxisValue(item.actual.d)}</td>
+                                <td className="px-6 py-4 text-[var(--text-meta)] font-medium tabular-nums">{formatXAxisValue(item.actual.e)}</td>
+                                <td className="px-6 py-4 text-[var(--text-meta)] font-medium tabular-nums">{formatXAxisValue(item.actual.f)}</td>
+                                <td className="px-6 py-4">
+                                  <select
+                                    value={item.actual.implementation}
+                                    onChange={(e) => {
+                                      const newMilestones = [...milestones];
+                                      newMilestones[idx].actual.implementation = e.target.value;
+                                      setMilestones(newMilestones);
+                                    }}
+                                    className={`px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest border outline-none transition-all cursor-pointer ${
+                                      item.actual.implementation === 'On Track' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 
+                                      item.actual.implementation === 'In Progress' ? 'bg-blue-50 text-blue-700 border-blue-100' : 
+                                      'bg-amber-50 text-amber-700 border-amber-100'
+                                    }`}
+                                  >
+                                    <option value="On Track">On Track</option>
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="At Risk">At Risk</option>
+                                  </select>
+                                </td>
+                              </tr>
+                            </React.Fragment>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 )}
 
@@ -3726,29 +3751,13 @@ const ProjectTitleDashboard = () => {
                         }).map(phase => (
                           <div
                             key={phase.id}
-                            style={{
-                              border: '1px solid #e2e8f0',
-                              borderRadius: '12px',
-                              overflow: 'hidden',
-                              backgroundColor: 'white',
-                              boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-                              position: 'relative',
-                              transition: 'transform 0.2s, box-shadow 0.2s'
-                            }}
-                            className="hover:shadow-lg"
+                            className="premium-card bg-white border border-[var(--border-main)] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
                           >
-                            <div style={{
-                              backgroundColor: '#f8fafc',
-                              padding: '12px 15px',
-                              borderBottom: '1px solid #e2e8f0',
-                              display: 'flex',
-                              justifyContent: 'space-between',
-                              alignItems: 'center'
-                            }}>
-                              <span style={{ fontSize: '15px', fontWeight: '800', color: '#1e3a5f', letterSpacing: '-0.01em' }}>{humanizeLabel(phase.label)}</span>
+                            <div className="px-5 py-3 bg-[var(--bg-app)] border-b border-[var(--border-main)] flex justify-between items-center">
+                              <span className="text-sm font-bold text-[var(--text-main)] uppercase tracking-widest">{humanizeLabel(phase.label)}</span>
                               {renderChartOptions(phase.id, chartTypes[activeProject.id]?.[phase.id] || phase.defaultType || 'bar')}
                             </div>
-                            <div style={{ padding: '20px' }}>
+                            <div className="p-5">
                               {renderChart(phase.id, chartTypes[activeProject.id]?.[phase.id] || phase.defaultType || 'bar', false, getTrackerForPhase(phase.id)?.trackerId)}
                             </div>
                           </div>
@@ -3760,32 +3769,29 @@ const ProjectTitleDashboard = () => {
 
 
                 {/* Summary Cards */}
+                {/* Summary Cards Grid */}
                 {(visibleSections.budget || visibleSections.resource || visibleSections.quality) && (
-                  <div style={{ marginBottom: '35px' }}>
-                    <div style={{
-                      display: 'grid',
-                      gridTemplateColumns: [visibleSections.budget, visibleSections.resource, visibleSections.quality].filter(Boolean).length === 3 ? 'repeat(3, 1fr)' : [visibleSections.budget, visibleSections.resource, visibleSections.quality].filter(Boolean).length === 2 ? 'repeat(2, 1fr)' : '1fr',
-                      gap: '20px'
-                    }}>
+                  <div className="mb-12">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                       {/* Budget Summary Card */}
                       {visibleSections.budget && (
-                        <div className="premium-card flex flex-col group" style={{ gridColumn: '1 / -1' }}>
-                          <div className="px-6 py-4 bg-[var(--bg-app)] border-b border-[var(--border-main)] flex justify-between items-center group-hover:bg-slate-50 transition-colors">
+                        <div className="premium-card bg-white flex flex-col lg:col-span-3 border border-[var(--border-main)] overflow-hidden shadow-sm">
+                          <div className="px-6 py-4 bg-[var(--bg-app)] border-b border-[var(--border-main)] flex justify-between items-center">
                             <div className="flex items-center gap-3">
                               <div className="p-2 bg-white border border-[var(--border-main)] rounded-xl shadow-sm text-[var(--brand-primary)]">
-                                <Wallet size={16} strokeWidth={2.5} />
+                                <Wallet className="h-4 w-4" />
                               </div>
-                              <span className="text-[14px] font-black text-[var(--text-main)] uppercase tracking-wider">Financials</span>
+                              <h3 className="text-sm font-bold text-[var(--text-main)] uppercase tracking-widest m-0">Financial Performance</h3>
                             </div>
-                            <div className="flex items-center gap-3">
-                              <div className="flex items-center gap-2 px-3 py-1.5 bg-white border border-[var(--border-main)] rounded-lg">
-                                <span className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-widest">Active Budget:</span>
+                            <div className="flex items-center gap-3 no-print">
+                              <div className="flex items-center gap-2 px-3 py-1.5 bg-white border border-[var(--border-main)] rounded-xl">
+                                <span className="text-[10px] font-bold text-[var(--text-subtle)] uppercase tracking-widest whitespace-nowrap">Context:</span>
                                 <input
                                   list="projectMasterList"
                                   value={selectedBudgetProject}
                                   onChange={(e) => setSelectedBudgetProject(e.target.value)}
                                   placeholder="Select project..."
-                                  className="w-40 bg-transparent border-none text-[11px] font-black text-[var(--text-main)] outline-none cursor-pointer"
+                                  className="w-40 bg-transparent border-none text-[11px] font-bold text-[var(--text-main)] outline-none cursor-pointer"
                                 />
                                 <datalist id="projectMasterList">
                                   {masterProjects.map((p, idx) => (
@@ -3804,9 +3810,10 @@ const ProjectTitleDashboard = () => {
                                     setBudgetTableForm([...budgetTableData]);
                                     setShowEditSummary(true);
                                   }}
-                                  className="p-2 text-[var(--text-subtle)] hover:text-[var(--brand-primary)] hover:bg-blue-50 rounded-lg transition-all"
+                                  className="p-2 text-[var(--text-muted)] hover:text-[var(--brand-primary)] hover:bg-blue-50 rounded-lg transition-all"
+                                  title="Edit Financials"
                                 >
-                                  <Edit size={16} />
+                                  <Edit className="h-4 w-4" />
                                 </button>
                               )}
                             </div>
@@ -3814,26 +3821,26 @@ const ProjectTitleDashboard = () => {
                           
                           <div className="p-6">
                             {summarizedBudgetData && summarizedBudgetData.length > 0 ? (
-                              <div className="border border-[var(--border-main)] rounded-xl overflow-hidden shadow-sm">
-                                <table className="w-full text-left text-xs border-collapse">
-                                  <thead className="bg-[var(--bg-app)]">
-                                    <tr className="border-b border-[var(--border-main)]">
-                                      <th className="p-4 font-black text-[var(--text-muted)] uppercase tracking-widest">Category</th>
-                                      <th className="p-4 font-black text-[var(--text-muted)] uppercase tracking-widest text-right">Estimated</th>
-                                      <th className="p-4 font-black text-[var(--text-muted)] uppercase tracking-widest text-right">Utilized</th>
-                                      <th className="p-4 font-black text-[var(--text-muted)] uppercase tracking-widest text-right">Balance</th>
+                              <div className="border border-[var(--border-main)] rounded-2xl overflow-hidden bg-white">
+                                <table className="w-full text-left text-sm border-collapse">
+                                  <thead>
+                                    <tr className="bg-[var(--bg-app)] text-[10px] uppercase tracking-widest font-bold text-[var(--text-subtle)]">
+                                      <th className="px-6 py-4">Financial Category</th>
+                                      <th className="px-6 py-4 text-right">Estimated</th>
+                                      <th className="px-6 py-4 text-right">Utilized</th>
+                                      <th className="px-6 py-4 text-right">Balance</th>
                                     </tr>
                                   </thead>
-                                  <tbody>
+                                  <tbody className="divide-y divide-[var(--border-light)]">
                                     {summarizedBudgetData.map((row, idx) => {
                                       const isGrandTotal = row.category === 'Grand Total';
                                       return (
-                                        <tr key={idx} className={`border-b border-[var(--border-light)] ${isGrandTotal ? 'bg-slate-900 text-white font-black' : 'hover:bg-slate-50 transition-colors bg-white font-medium'}`}>
-                                          <td className="p-4">{row.category}</td>
-                                          <td className="p-4 text-right tabular-nums">{format(row.approved)}</td>
-                                          <td className="p-4 text-right tabular-nums">{format(row.utilized)}</td>
-                                          <td className="p-4 text-right tabular-nums">
-                                            <span className={`${row.balance < 0 ? 'text-red-500' : isGrandTotal ? 'text-white' : 'text-emerald-600'} font-black`}>
+                                        <tr key={idx} className={isGrandTotal ? 'bg-[var(--text-main)] text-white' : 'hover:bg-[var(--bg-app)]/30 transition-colors'}>
+                                          <td className="px-6 py-4 font-bold">{row.category}</td>
+                                          <td className="px-6 py-4 text-right tabular-nums font-medium">{format(row.approved)}</td>
+                                          <td className="px-6 py-4 text-right tabular-nums font-medium">{format(row.utilized)}</td>
+                                          <td className="px-6 py-4 text-right tabular-nums font-bold">
+                                            <span className={row.balance < 0 ? 'text-red-500' : isGrandTotal ? 'text-white' : 'text-emerald-600'}>
                                               {format(row.balance)}
                                             </span>
                                           </td>
@@ -3844,8 +3851,8 @@ const ProjectTitleDashboard = () => {
                                 </table>
                               </div>
                             ) : (
-                              <div className="text-center py-10 text-[var(--text-subtle)] text-sm italic bg-[var(--bg-app)] rounded-xl border border-dashed border-[var(--border-main)]">
-                                No budget data available
+                              <div className="text-center py-12 text-[var(--text-subtle)] text-sm font-medium bg-[var(--bg-app)] rounded-2xl border border-dashed border-[var(--border-main)]">
+                                No financial data available for the selected context.
                               </div>
                             )}
                           </div>
@@ -3853,37 +3860,37 @@ const ProjectTitleDashboard = () => {
                       )}
                       {/* Resource Summary Card */}
                       {visibleSections.resource && (
-                        <div className="premium-card flex flex-col group">
-                           <div className="px-6 py-4 bg-[var(--bg-app)] border-b border-[var(--border-main)] flex justify-between items-center group-hover:bg-slate-50 transition-colors">
+                        <div className="premium-card bg-white flex flex-col border border-[var(--border-main)] overflow-hidden shadow-sm">
+                           <div className="px-6 py-4 bg-[var(--bg-app)] border-b border-[var(--border-main)] flex justify-between items-center">
                             <div className="flex items-center gap-3">
                               <div className="p-2 bg-white border border-[var(--border-main)] rounded-xl shadow-sm text-emerald-600">
-                                <Check size={16} strokeWidth={2.5} />
+                                <Check className="h-4 w-4" />
                               </div>
-                              <span className="text-[14px] font-black text-[var(--text-main)] uppercase tracking-wider">Resources</span>
+                              <h3 className="text-sm font-bold text-[var(--text-main)] uppercase tracking-widest m-0">Resources</h3>
                             </div>
                             <button
                               onClick={() => { setEditType('resource'); setSummaryForm({ ...summaryData }); setShowEditSummary(true); }}
-                              className="p-2 text-[var(--text-subtle)] hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
+                              className="p-2 text-[var(--text-muted)] hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all no-print"
                             >
                               <Edit className="h-4 w-4" />
                             </button>
                           </div>
-                          <div className="p-6 grid gap-6">
+                          <div className="p-8 flex flex-col gap-6">
                             <div className="flex justify-between items-end border-b border-[var(--border-light)] pb-4">
-                              <span className="text-[10px] font-black text-[var(--text-subtle)] uppercase tracking-widest">Team Deployed</span>
-                              <span className="text-2xl font-black text-[var(--text-main)] tabular-nums">{summaryData.resourceDeployed}</span>
+                              <span className="text-[10px] font-bold text-[var(--text-subtle)] uppercase tracking-widest">Global FTE Deployed</span>
+                              <span className="text-2xl font-bold text-[var(--text-main)] tabular-nums">{summaryData.resourceDeployed}</span>
                             </div>
                             <div className="flex justify-between items-end border-b border-[var(--border-light)] pb-4">
-                              <span className="text-[10px] font-black text-[var(--text-subtle)] uppercase tracking-widest">Active Shortage</span>
-                              <span className="text-2xl font-black text-red-500 tabular-nums">{summaryData.resourceShortage}</span>
+                              <span className="text-[10px] font-bold text-[var(--text-subtle)] uppercase tracking-widest">Technical Shortage</span>
+                              <span className="text-2xl font-bold text-red-500 tabular-nums">{summaryData.resourceShortage}</span>
                             </div>
                             <div className="flex justify-between items-center">
-                              <span className="text-[10px] font-black text-[var(--text-subtle)] uppercase tracking-widest">Utilization Rate</span>
+                              <span className="text-[10px] font-bold text-[var(--text-subtle)] uppercase tracking-widest">Active Utilization</span>
                               <div className="text-right">
-                                <span className="text-2xl font-black text-[var(--brand-primary)] tabular-nums">
+                                <span className="text-3xl font-bold text-[var(--brand-primary)] tabular-nums">
                                   {Math.round((summaryData.resourceUtilized / (summaryData.resourceDeployed || 1)) * 100)}%
                                 </span>
-                                <div className="text-[9px] font-black text-[var(--text-subtle)] uppercase tracking-[0.2em] mt-1">{summaryData.resourceUtilized}/{summaryData.resourceDeployed} FTE</div>
+                                <div className="text-[9px] font-bold text-[var(--text-subtle)] uppercase tracking-widest mt-1">{summaryData.resourceUtilized} / {summaryData.resourceDeployed} FTE Units</div>
                               </div>
                             </div>
                           </div>
@@ -3892,37 +3899,37 @@ const ProjectTitleDashboard = () => {
 
                       {/* Quality Summary Card */}
                       {visibleSections.quality && (
-                        <div className="premium-card flex flex-col group">
-                          <div className="px-6 py-4 bg-[var(--bg-app)] border-b border-[var(--border-main)] flex justify-between items-center group-hover:bg-slate-50 transition-colors">
+                        <div className="premium-card bg-white flex flex-col border border-[var(--border-main)] overflow-hidden shadow-sm">
+                          <div className="px-6 py-4 bg-[var(--bg-app)] border-b border-[var(--border-main)] flex justify-between items-center">
                             <div className="flex items-center gap-3">
                               <div className="p-2 bg-white border border-[var(--border-main)] rounded-xl shadow-sm text-amber-500">
-                                <Filter size={16} strokeWidth={2.5} />
+                                <Filter className="h-4 w-4" />
                               </div>
-                              <span className="text-[14px] font-black text-[var(--text-main)] uppercase tracking-wider">Quality Assurance</span>
+                              <h3 className="text-sm font-bold text-[var(--text-main)] uppercase tracking-widest m-0">Quality Governance</h3>
                             </div>
                             <button
                               onClick={() => { setEditType('quality'); setSummaryForm({ ...summaryData }); setShowEditSummary(true); }}
-                              className="p-2 text-[var(--text-subtle)] hover:text-amber-500 hover:bg-amber-50 rounded-lg transition-all"
+                              className="p-2 text-[var(--text-muted)] hover:text-amber-500 hover:bg-amber-50 rounded-lg transition-all no-print"
                             >
                               <Edit className="h-4 w-4" />
                             </button>
                           </div>
-                          <div className="p-6 grid gap-6">
+                          <div className="p-8 flex flex-col gap-6">
                             <div className="flex justify-between items-end border-b border-[var(--border-light)] pb-4">
-                              <span className="text-[10px] font-black text-[var(--text-subtle)] uppercase tracking-widest">Total Incidents</span>
-                              <span className="text-2xl font-black text-[var(--text-main)] tabular-nums">{summaryData.qualityTotal}</span>
+                              <span className="text-[10px] font-bold text-[var(--text-subtle)] uppercase tracking-widest">Total Issue Logs</span>
+                              <span className="text-2xl font-bold text-[var(--text-main)] tabular-nums">{summaryData.qualityTotal}</span>
                             </div>
                             <div className="flex justify-between items-end border-b border-[var(--border-light)] pb-4">
-                              <span className="text-[10px] font-black text-[var(--text-subtle)] uppercase tracking-widest">Critical Open</span>
-                              <span className="text-2xl font-black text-red-500 tabular-nums">{summaryData.qualityOpen}</span>
+                              <span className="text-[10px] font-bold text-[var(--text-subtle)] uppercase tracking-widest">Critical Open Path</span>
+                              <span className="text-2xl font-bold text-red-500 tabular-nums">{summaryData.qualityOpen}</span>
                             </div>
                             <div className="flex justify-between items-center">
-                              <span className="text-[10px] font-black text-[var(--text-subtle)] uppercase tracking-widest">Resolution Ratio</span>
+                              <span className="text-[10px] font-bold text-[var(--text-subtle)] uppercase tracking-widest">Resolution Metric</span>
                               <div className="text-right">
-                                <span className="text-2xl font-black text-emerald-600 tabular-nums">
+                                <span className="text-3xl font-bold text-emerald-600 tabular-nums">
                                   {Math.round((summaryData.qualityCompleted / (summaryData.qualityTotal || 1)) * 100)}%
                                 </span>
-                                <div className="text-[9px] font-black text-[var(--text-subtle)] uppercase tracking-[0.2em] mt-1">{summaryData.qualityCompleted} RESOLVED</div>
+                                <div className="text-[9px] font-bold text-[var(--text-subtle)] uppercase tracking-widest mt-1">{summaryData.qualityCompleted} Closed Logs</div>
                               </div>
                             </div>
                           </div>
@@ -3986,10 +3993,10 @@ const ProjectTitleDashboard = () => {
               chartImages={pdfChartImages}
               isCapturing={isCapturingPdf}
             />
-        </>
-      )}
+          </>
+        )}
+      </div>
     </div>
-  </div>
   );
 };
 

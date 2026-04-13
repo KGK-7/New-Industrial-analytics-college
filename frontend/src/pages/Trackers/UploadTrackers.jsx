@@ -1,13 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedUploadFileId } from '../../store/slices/navSlice';
-import {
-  Upload, File, CheckCircle, Clock, AlertCircle, Download, Trash2, Eye, Edit,
-  Plus, Search, X, ChevronUp, ChevronDown, Filter, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight,
-  AlertTriangle, FileText, FileSpreadsheet, Database,
-  HardDrive, Archive, Check, Calendar, EyeOff, User,
-  Edit2, Save, Columns, Rows, CheckSquare, Square, FolderTree, Layout, RefreshCw
-} from 'lucide-react';
+import { 
+  ArrowUpTrayIcon as Upload, 
+  DocumentIcon as File, 
+  CheckCircleIcon as CheckCircle, 
+  ClockIcon as Clock, 
+  ExclamationCircleIcon as AlertCircle, 
+  ArrowDownTrayIcon as Download, 
+  TrashIcon as Trash2, 
+  EyeIcon as Eye, 
+  PencilSquareIcon as Edit, 
+  PlusIcon as Plus, 
+  MagnifyingGlassIcon as Search, 
+  XMarkIcon as X, 
+  ChevronUpIcon as ChevronUp, 
+  ChevronDownIcon as ChevronDown, 
+  FunnelIcon as Filter, 
+  ChevronLeftIcon as ChevronLeft, 
+  ChevronRightIcon as ChevronRight, 
+  ExclamationTriangleIcon as AlertTriangle, 
+  DocumentTextIcon as FileText, 
+  TableCellsIcon as Database, 
+  FolderIcon as FolderTree,
+  Squares2X2Icon as Layout,
+  ArrowPathIcon as RefreshCw,
+  UserIcon as User,
+  CheckIcon as Check,
+  CalendarIcon as Calendar,
+  ArrowDownTrayIcon as Save,
+  EyeSlashIcon as EyeOff
+} from '@heroicons/react/24/outline';
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -1545,13 +1568,13 @@ const UploadTrackers = () => {
 
   const renderCellContent = (col, value, tracker) => {
     if (col.id === 'fileName') {
-      const getFileColor = (type) => {
+      const getFileBadgeStyles = (type) => {
         switch (type) {
-          case 'CSV': return 'text-blue-600';
+          case 'CSV': return 'bg-blue-50 text-blue-700 border-blue-100';
           case 'XLS':
-          case 'XLSX': return 'text-green-600';
-          case 'JSON': return 'text-purple-600';
-          default: return 'text-gray-600';
+          case 'XLSX': return 'bg-emerald-50 text-emerald-700 border-emerald-100';
+          case 'JSON': return 'bg-indigo-50 text-indigo-700 border-indigo-100';
+          default: return 'bg-slate-50 text-slate-700 border-slate-100';
         }
       };
 
@@ -1563,33 +1586,29 @@ const UploadTrackers = () => {
             openFileDirectly(tracker.id);
           }}
         >
-          <File className="h-4 w-4 text-gray-400 mr-2 group-hover/file:text-blue-500 transition-colors" />
-          <span className={`font-medium ${getFileColor(tracker.fileType)} group-hover/file:text-blue-600 group-hover/file:underline transition-all`}>
-            {getDisplayFileName(value, tracker.project) || '-'}
-          </span>
+          <div className={`flex items-center gap-2 px-2.5 py-1 rounded-lg border text-[11px] font-bold transition-all group-hover/file:shadow-sm ${getFileBadgeStyles(tracker.fileType)}`}>
+            <File className="h-3.5 w-3.5 opacity-70" />
+            <span className="uppercase tracking-tight">
+              {getDisplayFileName(value, tracker.project) || '-'}
+            </span>
+          </div>
         </div>
       );
     } else if (col.id === 'employeeName') {
       return (
-        <div className="flex items-center">
-          <User className="h-4 w-4 text-gray-500 mr-1" />
-          <span className="font-medium">{value || '-'}</span>
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 rounded-full bg-[var(--bg-app)] border border-[var(--border-main)] flex items-center justify-center text-[10px] font-bold text-[var(--text-main)] overflow-hidden">
+            {value ? value.substring(0, 1).toUpperCase() : '?'}
+          </div>
+          <span className="font-bold text-[var(--text-main)] text-xs tracking-tight">{value || '-'}</span>
         </div>
       );
-    } else if (col.id === 'department') {
+    } else if (col.id === 'department' || col.id === 'project') {
       return (
-        <div className="flex items-center">
-          <span className="font-medium">{value || '-'}</span>
-        </div>
-      );
-    } else if (col.id === 'project') {
-      return (
-        <div className="flex items-center">
-          <span className="font-medium">{value || '-'}</span>
-        </div>
+        <span className="font-bold text-[var(--text-muted)] text-[11px] uppercase tracking-wider">{value || '-'}</span>
       );
     }
-    return value || '-';
+    return <span className="text-[var(--text-main)] font-medium">{value || '-'}</span>;
   };
 
   // ==========================================================================
@@ -1926,105 +1945,113 @@ const UploadTrackers = () => {
         <>
           {/* UPLOAD AREA */}
           <PermissionGuard permission="upload_tracker">
-            <div className="bg-white border border-gray-300 rounded p-4 sm:p-6">
-              <div className="text-center">
-                <div
-                  className="border-2 border-dashed border-gray-300 rounded-xl p-4 sm:p-8 hover:border-gray-400 hover:bg-gray-50 cursor-pointer transition-colors"
+            <div className="premium-card bg-white border border-[var(--border-main)] rounded-2xl p-6 mb-6 shadow-sm">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-[var(--text-main)] mb-1">Upload Data Tracker</h3>
+                  <p className="text-sm text-[var(--text-subtle)]">Import industrial datasets (CSV, XLSX, JSON) for real-time analytics.</p>
+                </div>
+                
+                <div 
+                  className="flex-1 w-full md:w-auto border-2 border-dashed border-[var(--border-main)] rounded-2xl p-4 hover:border-[var(--brand-primary)] hover:bg-blue-50/30 cursor-pointer transition-all flex items-center justify-center gap-3 group"
                   onClick={openUploadModal}
                 >
-                  <div className="space-y-2 sm:space-y-3">
-                    <Upload className="h-8 w-8 sm:h-12 sm:w-12 text-gray-400 mx-auto" />
-                    <div>
-                      <p className="font-medium text-sm sm:text-base">Drag & drop files or click to browse</p>
-                      <p className="text-xs text-gray-500">Supports: CSV, Excel, JSON, TXT (Max 50MB)</p>
-                    </div>
+                  <div className="p-2 bg-[var(--bg-app)] rounded-lg group-hover:bg-white transition-colors">
+                    <Upload className="h-5 w-5 text-[var(--brand-primary)]" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-[var(--text-main)]">Browse or Drag Files</p>
+                    <p className="text-[10px] text-[var(--text-meta)] uppercase font-bold tracking-tight">Max 50MB \u2022 XLSX, CSV, JSON</p>
                   </div>
                 </div>
 
                 {selectedFile && (
-                  <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <File className="h-4 w-4 text-blue-600" />
-                        <span className="text-sm font-medium">{getDisplayFileName(selectedFile.name)}</span>
-                      </div>
-                      <span className="text-xs text-gray-600">
-                        {(selectedFile.size / (1024 * 1024)).toFixed(1)} MB
-                      </span>
-                    </div>
-                  </div>
-                )}
-
-                {uploading && (
-                  <div className="mt-4 sm:mt-6">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs sm:text-sm font-medium">Uploading...</span>
-                      <span className="text-xs sm:text-sm text-gray-600">{progress}%</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-1.5 sm:h-2">
-                      <div
-                        className="bg-blue-600 h-1.5 sm:h-2 rounded-full transition-all duration-300"
-                        style={{ width: `${progress}%` }}
-                      ></div>
+                  <div className="flex items-center gap-3 p-3 bg-blue-50/50 border border-blue-100 rounded-xl">
+                    <File className="h-5 w-5 text-blue-600" />
+                    <div>
+                      <p className="text-xs font-bold text-blue-900">{getDisplayFileName(selectedFile.name)}</p>
+                      <p className="text-[10px] text-blue-600 font-bold uppercase">{(selectedFile.size / (1024 * 1024)).toFixed(1)} MB</p>
                     </div>
                   </div>
                 )}
               </div>
+
+              {uploading && (
+                <div className="mt-4 pt-4 border-t border-[var(--border-main)]">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] font-bold text-[var(--brand-primary)] uppercase tracking-widest">Processing Upload...</span>
+                    <span className="text-[10px] font-bold text-[var(--text-main)]">{progress}%</span>
+                  </div>
+                  <div className="w-full bg-[var(--bg-app)] rounded-full h-1.5 overflow-hidden">
+                    <div
+                      className="bg-[var(--brand-primary)] h-full rounded-full transition-all duration-300 shadow-[0_0_8px_rgba(37,99,235,0.4)]"
+                      style={{ width: `${progress}%` }}
+                    ></div>
+                  </div>
+                </div>
+              )}
             </div>
           </PermissionGuard>
 
-          {/* MAIN BORDER CONTAINER */}
+          {/* MAIN CONTAINER */}
           <PermissionGuard permission="view_tracker">
-            <div className="bg-white border border-gray-300 rounded mx-0">
+            <div className="premium-card bg-white border border-[var(--border-main)] rounded-2xl overflow-hidden shadow-sm">
 
               {/* TOOLBAR SECTION */}
-              <div className="p-4 border-b border-gray-300">
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <div className="px-6 py-5 border-b border-[var(--border-main)] bg-white">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
 
-                  {/* LEFT SIDE - Search */}
-                  <div className="flex flex-1 flex-col sm:flex-row gap-2 sm:gap-2 items-start sm:items-center">
-                    {/* Search */}
-                    <div className="relative w-full sm:w-auto">
-                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  {/* LEFT SIDE - Search & Global Info */}
+                  <div className="flex items-center gap-4 flex-1">
+                    <div className="relative flex-1 max-w-sm">
+                      <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 h-4 w-4 text-[var(--text-meta)]" />
                       <input
                         type="text"
-                        placeholder="Search..."
+                        placeholder="Search trackers..."
                         value={searchTerm}
                         onChange={e => setSearchTerm(e.target.value)}
-                        className="w-full sm:w-48 h-10 pl-9 pr-3 text-xs sm:text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-black"
+                        className="w-full h-11 pl-10 pr-4 bg-[var(--bg-app)] border-none rounded-xl text-sm font-medium focus:ring-2 focus:ring-blue-500/20 transition-all placeholder:text-[var(--text-meta)] uppercase tracking-tight"
                       />
+                    </div>
+                    
+                    <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg text-[10px] font-bold uppercase tracking-widest border border-blue-100">
+                      <Database className="h-3.5 w-3.5" />
+                      <span>{trackers.length} Datasets</span>
                     </div>
                   </div>
 
                   {/* RIGHT SIDE - Filter and Export */}
-                  <div className="flex gap-2 mt-2 sm:mt-0">
+                  <div className="flex items-center gap-3">
                     {/* Department Filter */}
                     <div className="relative">
-                      <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                      <Filter className="absolute left-3.5 top-1/2 transform -translate-y-1/2 h-4 w-4 text-[var(--text-meta)]" />
                       <input
                         type="text"
-                        placeholder="Filter by department..."
+                        placeholder="Department..."
                         value={departmentFilter}
                         onChange={(e) => setDepartmentFilter(e.target.value)}
-                        className="h-10 pl-9 pr-3 text-xs sm:text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-black w-full sm:w-48"
+                        className="h-11 pl-10 pr-10 bg-white border border-[var(--border-main)] rounded-xl text-sm font-medium focus:ring-4 focus:ring-blue-500/10 focus:border-[var(--brand-primary)] outline-none transition-all w-full md:w-48 placeholder:text-[var(--text-meta)]"
                       />
                       {departmentFilter && (
                         <button
                           onClick={() => setDepartmentFilter('')}
-                          className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                          className="absolute right-3.5 top-1/2 transform -translate-y-1/2 text-[var(--text-meta)] hover:text-[var(--text-main)]"
                         >
-                          <X className="h-3 w-3 sm:h-4 sm:w-4" />
+                          <X className="h-4 w-4" />
                         </button>
                       )}
                     </div>
 
-                    {/* Export Button with Dropdown */}
+                    <div className="w-px h-6 bg-[var(--border-main)] mx-1"></div>
+
+                    {/* Export Button */}
                     <div className="relative">
                       <button
                         onClick={() => setShowExportDropdown(!showExportDropdown)}
-                        className="flex items-center gap-1 h-10 px-3 text-xs sm:text-sm border border-gray-300 rounded hover:bg-gray-50"
+                        className="flex items-center gap-2 h-11 px-4 bg-white border border-[var(--border-main)] rounded-xl text-sm font-bold text-[var(--text-muted)] hover:bg-[var(--bg-app)] transition-all shadow-sm"
                       >
                         <Download className="h-4 w-4" />
+                        <span className="hidden sm:inline">Export</span>
                       </button>
 
                       {/* Export Dropdown */}
@@ -2068,80 +2095,83 @@ const UploadTrackers = () => {
               </div>
 
               {/* TABLE SECTION */}
-              <div className="overflow-auto max-h-[calc(100vh-300px)] bg-white rounded-lg shadow-sm border border-gray-200">
-                <table className="min-w-full text-xs sm:text-sm">
-                  <thead className="bg-gray-50 sticky top-0 z-10">
-                    <tr className="border-b-2 border-slate-200">
+              <div className="overflow-auto max-h-[calc(100vh-320px)] bg-white">
+                <table className="w-full border-collapse text-left">
+                  <thead className="bg-[var(--bg-app)]/50 sticky top-0 z-10">
+                    <tr className="border-b border-[var(--border-main)]">
                       {/* Checkbox column */}
-                      <th className="text-left py-3.5 px-4 font-semibold text-slate-600 cursor-pointer whitespace-nowrap w-12 hover:bg-slate-100/80 transition-colors">
-                        <div className="flex items-center justify-center">
-                          <button
-                            onClick={toggleSelectAll}
-                            className="p-1 text-slate-400 hover:text-slate-600 transition-colors"
-                          >
-                            {selectAll ? (
-                              <CheckSquare className="h-4 w-4 text-blue-600" />
-                            ) : (
-                              <Square className="h-4 w-4" />
-                            )}
-                          </button>
-                        </div>
+                      <th className="py-4 px-6 w-12 text-center">
+                        <button
+                          onClick={toggleSelectAll}
+                          className="flex items-center justify-center w-5 h-5 rounded border border-[var(--border-main)] bg-white hover:border-[var(--brand-primary)] transition-all"
+                        >
+                          {selectAll ? (
+                            <div className="w-2.5 h-2.5 bg-[var(--brand-primary)] rounded-sm"></div>
+                          ) : null}
+                        </button>
                       </th>
                       {visibleColumns.map(col => (
                         <th
                           key={col.id}
-                          className="text-left py-3.5 px-4 font-semibold text-slate-600 cursor-pointer hover:bg-slate-100/80 transition-colors whitespace-nowrap"
+                          className="py-4 px-6 font-bold text-[var(--text-subtle)] uppercase tracking-widest text-[10px] cursor-pointer hover:text-[var(--text-main)] transition-colors"
                           onClick={() => col.sortable && handleSort(col.id)}
                         >
-                          <div className="flex items-center space-x-2">
-                            <span className="uppercase tracking-wider text-[10px]">{col.label}</span>
-                            {col.sortable && getSortIcon(col.id)}
+                          <div className="flex items-center gap-2">
+                            <span>{col.label}</span>
+                            {col.sortable && (
+                              <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                                {getSortIcon(col.id)}
+                              </div>
+                            )}
                           </div>
                         </th>
                       ))}
-                      <th className="text-left py-3.5 px-4 font-semibold text-slate-600 whitespace-nowrap uppercase tracking-wider text-[10px]">Actions</th>
+                      <th className="py-4 px-6 font-bold text-[var(--text-subtle)] uppercase tracking-widest text-[10px] text-right">Actions</th>
                     </tr>
                   </thead>
 
-                  <tbody className="divide-y divide-gray-100">
+                  <tbody className="divide-y divide-[var(--border-light)]">
                     {sortedTrackers.map((tracker) => (
                       <tr
                         key={tracker.id}
-                        className={`hover:bg-blue-50/50 transition-colors border-b border-gray-100 ${selectedTrackers.includes(tracker.id) ? 'bg-blue-50' : 'even:bg-gray-50/30'
-                          }`}
+                        className={`group h-[56px] transition-all hover:bg-[var(--bg-app)]/40 ${selectedTrackers.includes(tracker.id) ? 'bg-blue-50/50' : ''}`}
                       >
                         {/* Checkbox cell */}
-                        <td className="py-3 px-4 whitespace-nowrap w-10">
-                          <div className="flex items-center justify-center">
-                            <input
-                              type="checkbox"
-                              checked={selectedTrackers.includes(tracker.id)}
-                              onChange={() => toggleTrackerSelection(tracker.id)}
-                              className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                            />
-                          </div>
+                        <td className="px-6 text-center">
+                          <button
+                            onClick={() => toggleTrackerSelection(tracker.id)}
+                            className={`flex items-center justify-center w-5 h-5 rounded border transition-all ${
+                              selectedTrackers.includes(tracker.id) 
+                                ? 'bg-[var(--brand-primary)] border-[var(--brand-primary)] shadow-[0_0_8px_rgba(37,99,235,0.2)]' 
+                                : 'bg-white border-[var(--border-main)] group-hover:border-[var(--brand-primary)]'
+                            }`}
+                          >
+                            {selectedTrackers.includes(tracker.id) && (
+                              <Check className="h-3 w-3 text-white" />
+                            )}
+                          </button>
                         </td>
                         {visibleColumns.map(col => (
-                          <td key={col.id} className="py-3 px-4 whitespace-nowrap">
+                          <td key={col.id} className="px-6">
                             {renderCellContent(col, tracker[col.id], tracker)}
                           </td>
                         ))}
-                        <td className="py-3 px-4 whitespace-nowrap text-left">
-                          <div className="flex items-center space-x-2">
+                        <td className="px-6 text-right">
+                          <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                             <button
                               onClick={() => openFileDirectly(tracker.id)}
-                              className="p-1.5 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-full transition-colors"
-                              title="View File"
+                              className="p-2 text-[var(--text-meta)] hover:text-[var(--brand-primary)] hover:bg-blue-50 rounded-lg transition-all"
+                              title="View Dataset"
                             >
-                              <Eye className="h-4 w-4" />
+                              <Eye className="h-4.5 w-4.5" />
                             </button>
                             <PermissionGuard permission="delete_tracker">
                               <button
                                 onClick={() => showDeleteConfirmation(tracker.id, getDisplayFileName(tracker.fileName, tracker.project))}
-                                className="p-1.5 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-full transition-colors"
-                                title="Delete"
+                                className="p-2 text-rose-300 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
+                                title="Remove Tracker"
                               >
-                                <Trash2 className="h-4 w-4" />
+                                <Trash2 className="h-4.5 w-4.5" />
                               </button>
                             </PermissionGuard>
                           </div>
@@ -2153,46 +2183,29 @@ const UploadTrackers = () => {
               </div>
 
               {/* FOOTER SECTION */}
-              <div className="px-4 py-3 border-t border-gray-300 text-xs text-gray-900 flex flex-col sm:flex-row items-center justify-between gap-2 bg-white">
-                {/* LEFT SIDE - Upload and Action Buttons */}
-                <div className="flex items-center gap-2">
-                  <PermissionGuard permission="upload_tracker">
-                    <button
-                      onClick={openUploadModal}
-                      className="flex items-center gap-1 h-10 px-3 text-xs border border-gray-300 rounded hover:bg-gray-50"
-                    >
-                      <Plus className="h-4 w-4" />
-                    </button>
-                  </PermissionGuard>
-
-                  {/* Delete button only */}
+              <div className="px-6 py-4 bg-[var(--bg-app)]/30 border-t border-[var(--border-main)] flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
                   {selectedTrackers.length > 0 && (
-                    <div className="flex items-center gap-1 ml-1">
-                      <PermissionGuard permission="delete_tracker">
-                        <button
-                          onClick={handleBulkDelete}
-                          className="flex items-center gap-1 h-10 px-3 text-xs sm:text-sm border border-gray-300 rounded hover:bg-red-50 hover:text-red-700 hover:border-red-300"
-                          title={selectedTrackers.length === 1 ? "Delete selected upload" : "Delete selected uploads"}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                          {selectedTrackers.length > 1 && <span>Delete ({selectedTrackers.length})</span>}
-                        </button>
-                      </PermissionGuard>
-                    </div>
+                    <PermissionGuard permission="delete_tracker">
+                      <button
+                        onClick={handleBulkDelete}
+                        className="flex items-center gap-2 h-9 px-4 bg-rose-600 text-white rounded-xl text-xs font-bold hover:shadow-lg hover:shadow-rose-500/20 transition-all"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                        <span>Delete Selected ({selectedTrackers.length})</span>
+                      </button>
+                    </PermissionGuard>
                   )}
+                  
+                  <div className="flex items-center gap-2 px-3 py-1.5 bg-white border border-[var(--border-main)] rounded-lg shadow-xs">
+                    <span className="text-[10px] font-bold text-[var(--text-subtle)] uppercase tracking-widest">
+                      Showing {sortedTrackers.length} of {trackers.length} entries
+                    </span>
+                  </div>
                 </div>
 
-                {/* RIGHT SIDE - Info */}
-                <div className="flex items-center gap-4">
-                  <span>
-                    Showing {sortedTrackers.length} of {trackers.length} uploads
-                    {departmentFilter && ` (Filtered by: ${departmentFilter})`}
-                  </span>
-                  {selectedTrackers.length > 0 && (
-                    <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">
-                      {selectedTrackers.length} selected
-                    </span>
-                  )}
+                <div className="flex items-center gap-2">
+                   {/* Pagination or other controls if added later */}
                 </div>
               </div>
             </div>
