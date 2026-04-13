@@ -298,13 +298,11 @@ const BudgetUpload = () => {
           {/* LEFT: UPLOAD SECTION */}
           <PermissionGuard permission="upload_budget">
             <div
-              className="border-2 border-dashed border-slate-200 rounded-2xl p-10 hover:border-blue-400 hover:bg-blue-50/30 cursor-pointer transition-all group flex flex-col items-center justify-center"
+              className="border-[1.5px] border-dashed border-[#93C5FD] bg-[#F0F4FF] rounded-2xl p-10 hover:bg-[#E0EBFF] cursor-pointer transition-all group flex flex-col items-center justify-center h-full"
               onClick={() => setShowUploadModal(true)}
             >
-              <div className="flex flex-col items-center justify-center text-center space-y-4">
-                <div className="p-4 bg-slate-50 rounded-full group-hover:bg-blue-100 transition-colors">
-                  <Upload className="h-10 w-10 text-slate-400 group-hover:text-blue-600" />
-                </div>
+              <div className="flex flex-col items-center justify-center text-center space-y-3">
+                <Upload className="h-6 w-6 text-[#2563EB] mb-1" />
                 <div>
                   <p className="text-lg font-semibold text-slate-800">Upload Budget</p>
                   <p className="text-sm text-slate-500 mt-1">Drag & drop or click to browse files</p>
@@ -315,13 +313,11 @@ const BudgetUpload = () => {
 
           {/* RIGHT: DOWNLOAD SECTION */}
           <div
-            className="border-2 border-dashed border-slate-200 rounded-2xl p-10 hover:border-green-400 hover:bg-green-50/30 cursor-pointer transition-all group flex flex-col items-center justify-center"
+            className="border-[1.5px] border-dashed border-[#93C5FD] bg-[#F0F4FF] rounded-2xl p-10 hover:bg-[#E0EBFF] cursor-pointer transition-all group flex flex-col items-center justify-center h-full"
             onClick={handleDownloadTemplate}
           >
-            <div className="flex flex-col items-center justify-center text-center space-y-4">
-              <div className="p-4 bg-slate-50 rounded-full group-hover:bg-green-100 transition-colors">
-                <Download className="h-10 w-10 text-slate-400 group-hover:text-green-600" />
-              </div>
+            <div className="flex flex-col items-center justify-center text-center space-y-3">
+              <Download className="h-6 w-6 text-[#2563EB] mb-1" />
               <div>
                 <p className="text-lg font-semibold text-slate-800">Download Template</p>
                 <p className="text-sm text-slate-500 mt-1">Get an empty Excel file to fill data</p>
@@ -553,9 +549,9 @@ const BudgetUpload = () => {
 
               <div>
                 <label className="block text-sm font-bold text-slate-700 mb-2">File *</label>
-                <div className={`relative border-2 border-dashed rounded-2xl p-8 transition-all text-center ${uploadForm.file ? 'border-green-200 bg-green-50/30' :
-                  uploadErrors.file ? 'border-red-200 bg-red-50/30' :
-                    'border-slate-200 hover:border-blue-400 hover:bg-blue-50/30'
+                <div className={`relative border-[1.5px] border-dashed rounded-2xl p-8 transition-all text-center ${uploadForm.file ? 'border-green-300 bg-green-50' :
+                  uploadErrors.file ? 'border-red-300 bg-red-50' :
+                    'border-[#93C5FD] bg-[#F0F4FF] hover:bg-[#E0EBFF]'
                   }`}>
                   <input
                     type="file"
@@ -564,12 +560,10 @@ const BudgetUpload = () => {
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                   />
                   <div className="flex flex-col items-center">
-                    <div className={`p-4 rounded-full mb-3 ${uploadForm.file ? 'bg-green-100 text-green-600' :
-                      uploadErrors.file ? 'bg-red-100 text-red-600' :
-                        'bg-slate-100 text-slate-400'
-                      }`}>
-                      <Upload className="h-8 w-8" />
-                    </div>
+                    <Upload className={`h-6 w-6 mb-3 ${uploadForm.file ? 'text-green-600' :
+                      uploadErrors.file ? 'text-red-600' :
+                        'text-[#2563EB]'
+                      }`} />
                     <p className="text-sm font-bold text-slate-800">
                       {uploadForm.file ? uploadForm.file.name : 'Click to upload or drag and drop'}
                     </p>

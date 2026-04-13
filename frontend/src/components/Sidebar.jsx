@@ -44,9 +44,9 @@ function TopBtn({ icon: Icon, label, active, hasChev, chevOpen, onClick, onToggl
     return (
       <div className="relative group px-3 py-1">
         <button
-          className={`w-full flex justify-center py-3 rounded-lg transition-all duration-200 ${
+          className={`w-full flex justify-center py-3 rounded-md transition-all duration-200 ${
             active 
-              ? 'bg-[var(--brand-primary)] text-white shadow-sm' 
+              ? 'bg-[#EEF4FF] text-[#2563EB]' 
               : 'text-[var(--text-muted)] hover:bg-[var(--border-light)] hover:text-[var(--text-main)]'
           }`}
           onClick={onClick}
@@ -63,14 +63,14 @@ function TopBtn({ icon: Icon, label, active, hasChev, chevOpen, onClick, onToggl
   return (
     <div className="px-3 py-1">
       <button 
-        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group ${
+        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-[6px] transition-all duration-200 group ${
           active 
-            ? 'bg-[var(--brand-primary)] text-white shadow-sm' 
+            ? 'bg-[#EEF4FF] text-[#2563EB]' 
             : 'text-[var(--text-muted)] hover:bg-[var(--border-light)] hover:text-[var(--text-main)]'
         }`} 
         onClick={onClick}
       >
-        <Icon className={`h-5 w-5 shrink-0 ${active ? 'text-white' : 'text-[var(--text-subtle)] group-hover:text-[var(--text-main)]'}`} strokeWidth={active ? 2 : 1.5} />
+        <Icon className={`h-5 w-5 shrink-0 ${active ? 'text-[#2563EB]' : 'text-[var(--text-subtle)] group-hover:text-[var(--text-main)]'}`} strokeWidth={active ? 2 : 1.5} />
         <span className="flex-1 truncate text-left text-sm font-medium">{label}</span>
         {badge != null && (
           <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 ${active ? 'bg-white/20 text-white' : 'bg-blue-50 text-blue-600'}`}>

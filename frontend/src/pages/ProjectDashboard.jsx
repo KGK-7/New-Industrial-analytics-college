@@ -75,20 +75,40 @@ const getDisplayFileName = (fileName, projectName) => {
 // Get status color
 const getStatusColor = (status) => {
   switch (status) {
-    case 'Open': return { bg: '#fee2e2', text: '#991b1b' };
-    case 'Closed': return { bg: '#d1fae5', text: '#065f46' };
-    case 'In Progress': return { bg: '#dbeafe', text: '#1e40af' };
+    case 'Open':
+    case 'At Risk':
+    case 'Under Review':
+    case 'Likely Delay':
+      return { bg: '#FEF3C7', text: '#92400E' }; // Amber
+    case 'Closed':
     case 'On Track':
     case 'Active':
     case 'Complete':
-    case 'Good': return { bg: '#d1fae5', text: '#065f46' };
-    case 'Ahead of timeline': return { bg: '#d1fae5', text: '#065f46' };
-    case 'At Risk':
-    case 'Under Review': return { bg: '#fed7aa', text: '#9a3412' };
+    case 'Good':
+    case 'Ahead of timeline':
+    case 'Operational':
+      return { bg: '#DCFCE7', text: '#166534' }; // Green
+    case 'In Progress':
     case 'Pending':
-    case 'Not Started': return { bg: '#f3f4f6', text: '#4b5563' };
-    default: return { bg: '#f3f4f6', text: '#1f2937' };
+    case 'Under Investigation':
+      return { bg: '#DBEAFE', text: '#1E40AF' }; // Blue
+    case 'Not Started':
+      return { bg: '#F3F4F6', text: '#4B5563' }; // Grey
+    default:
+      return { bg: '#F3F4F6', text: '#6B7280' };
   }
+};
+
+// Get tracker category style
+const getTrackerTypeStyle = (category) => {
+  const cat = String(category).toLowerCase();
+  if (cat.includes('issue') || cat.includes('risk') || cat.includes('critical')) {
+    return { bg: '#FEF3C7', text: '#92400E', label: 'Issues' }; // Amber
+  }
+  if (cat.includes('build') || cat.includes('release') || cat.includes('production') || cat.includes('sop')) {
+    return { bg: '#DCFCE7', text: '#166534', label: 'Build/Release' }; // Green
+  }
+  return { bg: '#DBEAFE', text: '#1E40AF', label: 'Process' }; // Blue
 };
 
 // Humanize raw field names and format them for display
@@ -3528,7 +3548,10 @@ const ProjectTitleDashboard = () => {
                         <div className="p-2 bg-white border border-[var(--border-main)] rounded-xl shadow-sm text-[var(--brand-primary)]">
                           <Activity className="h-4 w-4" />
                         </div>
-                        <h3 className="text-sm font-bold text-[var(--text-main)] uppercase tracking-widest m-0">Project Milestones</h3>
+                        <div className="flex items-center gap-2">
+                          <h3 className="text-sm font-bold text-[var(--text-main)] uppercase tracking-widest m-0">Project Milestones</h3>
+                          <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#DBEAFE] text-[#1E40AF]">Process</span>
+                        </div>
                       </div>
                       <button
                         onClick={() => { setMilestoneForm({ ...milestones[0] }); setShowEditMilestones(true); }}
@@ -3539,7 +3562,7 @@ const ProjectTitleDashboard = () => {
                     </div>
                     
                     <div className="overflow-x-auto">
-                      <table className="w-full border-collapse text-left text-sm">
+                      <table className="master-table w-full border-collapse text-left text-sm">
                         <thead>
                           <tr className="border-b border-[var(--border-main)]">
                             <th className="px-6 py-4 font-bold text-[var(--text-subtle)] uppercase tracking-widest text-[10px]">Phase</th>
@@ -3626,9 +3649,12 @@ const ProjectTitleDashboard = () => {
                       <span className="text-lg font-black text-[var(--text-main)] uppercase tracking-tight">Critical Issues</span>
                     </div>
                     <div className="flex justify-between items-center bg-[var(--bg-app)] px-5 py-3 border-b border-[var(--border-main)]">
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-3">
                         <div className="bg-[var(--accent-danger)] w-1 h-5 rounded-full" />
-                        <span className="text-[14px] font-black text-[var(--text-main)] uppercase tracking-wider">Top Critical issues</span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-[14px] font-black text-[var(--text-main)] uppercase tracking-wider">Top Critical issues</span>
+                          <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#FEF3C7] text-[#92400E]">Issues</span>
+                        </div>
                       </div>
                       <button
                         onClick={() => { setIssuesForm([...criticalIssues]); setShowEditIssues(true); }}
@@ -3638,7 +3664,8 @@ const ProjectTitleDashboard = () => {
                         <Edit className="h-4 w-4" />
                       </button>
                     </div>
-                    <table className="w-full border-collapse text-sm">
+                    <div className="overflow-x-auto">
+                      <table className="master-table w-full border-collapse text-sm">
                       <thead>
                         <tr className="border-b-2 border-[var(--border-main)]">
                           <th className="p-4 text-left text-[11px] font-black text-[var(--text-muted)] uppercase tracking-widest">#</th>
@@ -3696,6 +3723,7 @@ const ProjectTitleDashboard = () => {
                       </tbody>
                     </table>
                   </div>
+                </div>
                 )}
 
                 {/* Project Metrics Charts */}
@@ -3754,7 +3782,17 @@ const ProjectTitleDashboard = () => {
                             className="premium-card bg-white border border-[var(--border-main)] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
                           >
                             <div className="px-5 py-3 bg-[var(--bg-app)] border-b border-[var(--border-main)] flex justify-between items-center">
-                              <span className="text-sm font-bold text-[var(--text-main)] uppercase tracking-widest">{humanizeLabel(phase.label)}</span>
+                              <div className="flex items-center gap-2">
+                                <span className="text-sm font-bold text-[var(--text-main)] uppercase tracking-widest">{humanizeLabel(phase.label)}</span>
+                                {(() => {
+                                  const style = getTrackerTypeStyle(phase.id);
+                                  return (
+                                    <span style={{ backgroundColor: style.bg, color: style.text }} className="px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-widest">
+                                      {style.label}
+                                    </span>
+                                  );
+                                })()}
+                              </div>
                               {renderChartOptions(phase.id, chartTypes[activeProject.id]?.[phase.id] || phase.defaultType || 'bar')}
                             </div>
                             <div className="p-5">

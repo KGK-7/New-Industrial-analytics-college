@@ -10,8 +10,9 @@
      -------------------------------------
      Target: Clean, high-quality white theme similar to modern Google products.
   */
-  --bg-app: #F8FAFC;        /* Soft gray background for the app shell */
-  --bg-surface: #FFFFFF;    /* Pure white cards and surfaces */
+  --bg-app: #F5F6F8;        /* System-standard secondary background */
+  --bg-surface: #FFFFFF;    /* Pure white surfaces */
+  --border-subtle: #E5E7EB; /* Standard gray-200 for separation */
   
   /* Semantic Colors */
   --brand-primary: #2563eb; /* Actions only */
@@ -291,9 +292,17 @@
   body {
     @apply antialiased;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    min-height: 100vh;
     background-color: var(--bg-app);
     color: var(--text-main);
+  }
+
+  label {
+    display: block;
+    font-size: 12px;
+    color: #6B7280;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    margin-bottom: var(--spacing-2);
   }
 
   /* Production-grade scrollbar system */
@@ -418,17 +427,26 @@
     min-width: 100%;
   }
 
-  .master-table thead,
   .master-table th {
     @apply sticky top-0 z-30;
-  }
-
-  .master-table th {
-    @apply bg-blue-50 text-black font-semibold text-[13px] border-b border-slate-200/80 py-3 px-6 text-left whitespace-nowrap;
+    background-color: #F1F5F9 !important;
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid #E2E8F0 !important;
+    padding: var(--spacing-3) var(--spacing-6);
+    text-align: left;
+    white-space: nowrap;
   }
 
   .master-table td {
     @apply border-b border-slate-100/80 py-3.5 px-6 whitespace-nowrap text-sm text-slate-700;
+  }
+
+  .master-table tbody tr:nth-child(even) td {
+    background-color: #FAFAFA;
   }
 
   .master-table tbody tr {
@@ -436,7 +454,7 @@
   }
 
   .master-table tbody tr:hover td {
-    @apply bg-slate-50/50;
+    background-color: #F9FAFB !important;
   }
 
   .master-table-checkbox-cell {
@@ -512,9 +530,9 @@
   }
 
   .sidebar-nav-item-active {
-    background: var(--brand-primary);
-    color: white !important;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+    background: #EEF4FF !important;
+    color: #2563EB !important;
+    border-radius: 6px;
   }
 
   .sidebar-section-title {
