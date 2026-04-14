@@ -78,35 +78,8 @@ def login(data: dict, db: Session = Depends(get_db)):
                 },
             }
 
-    # 2. Legacy Fallback (Checking Employees table directly)
-    employee = db.query(Employee).filter(Employee.email == data["email"]).first()
-    if employee and employee.hashed_password and verify_password(data["password"], employee.hashed_password):
-        user_role = db.query(Role).filter(Role.name == (employee.role or "User")).first()
-        permissions = user_role.permissions if user_role else []
-        
-        access_token = create_access_token({
-            "sub": str(employee.id),
-            "email": employee.email,
-            "full_name": employee.name,
-            "employee_id": employee.employee_id,
-            "role": employee.role or "User"
-        })
-        refresh_token = create_refresh_token(str(employee.id))
-        
-        return {
-            "access_token": access_token,
-            "refresh_token": refresh_token,
-            "user": {
-                "id": employee.id,
-                "email": employee.email,
-                "full_name": employee.name,
-                "employee_id": employee.employee_id,
-                "role": employee.role or "User",
-                "permissions": permissions
-            },
-        }
-
-    # 3. Final Fallback (User table)
+    # 1. ApplicationAccess check already performed above.
+    # 2. Final Fallback (User table)
     user = db.query(User).filter(User.email == data["email"]).first()
     if user and verify_password(data["password"], user.hashed_password):
         access_token = create_access_token({
@@ -125,8 +98,10 @@ def login(data: dict, db: Session = Depends(get_db)):
                 "email": user.email,
                 "full_name": "User",
                 "employee_id": user.employee_id,
+                "permissions": []
             },
         }
+
 
     raise HTTPException(status_code=401, detail="Invalid credentials")
 

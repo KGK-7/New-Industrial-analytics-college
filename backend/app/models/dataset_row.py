@@ -7,5 +7,5 @@ class DatasetRow(Base):
     __tablename__ = "dataset_rows"
 
     id = Column(Integer, primary_key=True)
-    dataset_id = Column(Integer, ForeignKey("datasets.id"))
+    dataset_id = Column(Integer, ForeignKey("datasets.id"), index=True)
     row_data = Column(JSONB)

@@ -13,6 +13,8 @@ def create_user(employee_id, email, password, name="Admin User", department="Adm
         'Budget Upload', 'Settings'
     ]
 
+    from app.models.application_access import ApplicationAccess
+    
     employee = Employee(
         employee_id=employee_id,
         name=name,
@@ -21,13 +23,23 @@ def create_user(employee_id, email, password, name="Admin User", department="Adm
         role="Admin",
         status="Active",
         modules=admin_modules,
-        hashed_password=hash_password(password),
     )
 
     try:
         db.add(employee)
         db.commit()
-        print(f"Successfully created admin user: {email} (ID: {employee_id})")
+        db.refresh(employee)
+        
+        # Create Auth record
+        access = ApplicationAccess(
+            employee_id=employee.id,
+            email=email,
+            hashed_password=hash_password(password)
+        )
+        db.add(access)
+        db.commit()
+        
+        print(f"Successfully created admin user and auth record: {email} (ID: {employee_id})")
     except Exception as e:
         db.rollback()
         print(f"Error creating user: {e}")

@@ -72,10 +72,6 @@ def create_employee(db: Session, employee: EmployeeCreate) -> Employee:
     data = employee.model_dump(exclude={"id"})
     password = data.pop("password", None)
     
-    # Still keep hashed_password in employee for now as per user request
-    if password:
-        data["hashed_password"] = hash_password(password)
-        
     db_employee = Employee(**data)
     db.add(db_employee)
     db.commit()
@@ -120,8 +116,7 @@ def update_employee(db: Session, employee_id: int, employee: EmployeeUpdate) -> 
     
     # Handle password update
     password = update_data.pop("password", None)
-    if password:
-        update_data["hashed_password"] = hash_password(password)
+    # hashed_password is now handled in ApplicationAccess instead of Employee profile
             
     for field, value in update_data.items():
         setattr(db_employee, field, value)

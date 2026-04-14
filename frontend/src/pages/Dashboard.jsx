@@ -1299,17 +1299,8 @@ const Dashboard = () => {
               </div>
             </div>
 
-            {/* Center - Search (Google Style) */}
-            <div className="flex-1 max-w-xl px-8">
-              <div className="relative group">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--text-subtle)] transition-colors group-focus-within:text-[var(--brand-primary)]" />
-                <input 
-                  type="text" 
-                  placeholder="Search project, employee or tracker..." 
-                  className="w-full bg-[var(--bg-app)] border-transparent focus:bg-white focus:border-[var(--brand-primary)] focus:ring-0 rounded-lg pl-10 pr-4 py-2 text-sm transition-all border border-transparent"
-                />
-              </div>
-            </div>
+            {/* Center - Empty/Placeholder */}
+            <div className="flex-1 px-8"></div>
 
             {/* Right side - Actions & Profile */}
             <div className="flex items-center space-x-4">

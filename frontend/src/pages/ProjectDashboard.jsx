@@ -446,6 +446,7 @@ const ProjectTitleDashboard = () => {
     gateway: false,
     validation: false,
     qualityIssues: false,
+    productGrade: false,
     sopTables: false
   });
 
@@ -491,6 +492,7 @@ const ProjectTitleDashboard = () => {
         gateway: false,
         validation: false,
         qualityIssues: false,
+        productGrade: false,
         sopTables: false
       });
     }
@@ -504,7 +506,8 @@ const ProjectTitleDashboard = () => {
       build: false,
       gateway: false,
       validation: false,
-      qualityIssues: false
+      qualityIssues: false,
+      productGrade: true
     };
 
     if (!activeProject || !activeProject.submodules) return phases;
@@ -1177,10 +1180,10 @@ const ProjectTitleDashboard = () => {
     const availableSectionKeys = [
       'milestones', 'criticalIssues',
       'budget', 'resource', 'quality',
-      ...['design', 'partDevelopment', 'build', 'gateway', 'validation', 'qualityIssues'],
+      ...['design', 'partDevelopment', 'build', 'gateway', 'validation', 'qualityIssues', 'productGrade'],
       ...(activeProject?.submodules || [])
         .filter(sub => {
-          const defaultIds = ['design', 'partDevelopment', 'build', 'gateway', 'validation', 'qualityIssues'];
+          const defaultIds = ['design', 'partDevelopment', 'build', 'gateway', 'validation', 'qualityIssues', 'productGrade'];
           return !defaultIds.some(id => {
             const tracker = getTrackerForPhase(id);
             return tracker && tracker.id === sub.id;
@@ -1188,7 +1191,7 @@ const ProjectTitleDashboard = () => {
         })
         .map(sub => sub.id)
     ].filter(key => {
-      if (['design', 'partDevelopment', 'build', 'gateway', 'validation', 'qualityIssues'].includes(key)) {
+      if (['design', 'partDevelopment', 'build', 'gateway', 'validation', 'qualityIssues', 'productGrade'].includes(key)) {
         return availablePhases[key];
       }
       return true;
@@ -1518,10 +1521,10 @@ const ProjectTitleDashboard = () => {
     const availableSectionKeys = [
       'milestones', 'criticalIssues',
       'budget', 'resource', 'quality',
-      ...['design', 'partDevelopment', 'build', 'gateway', 'validation', 'qualityIssues'],
+      ...['design', 'partDevelopment', 'build', 'gateway', 'validation', 'qualityIssues', 'productGrade'],
       ...(activeProject?.submodules || [])
         .filter(sub => {
-          const defaultIds = ['design', 'partDevelopment', 'build', 'gateway', 'validation', 'qualityIssues'];
+          const defaultIds = ['design', 'partDevelopment', 'build', 'gateway', 'validation', 'qualityIssues', 'productGrade'];
           return !defaultIds.some(id => {
             const tracker = getTrackerForPhase(id);
             return tracker && tracker.id === sub.id;
@@ -1529,7 +1532,7 @@ const ProjectTitleDashboard = () => {
         })
         .map(sub => sub.id)
     ].filter(key => {
-      if (['design', 'partDevelopment', 'build', 'gateway', 'validation', 'qualityIssues'].includes(key)) {
+      if (['design', 'partDevelopment', 'build', 'gateway', 'validation', 'qualityIssues', 'productGrade'].includes(key)) {
         return availablePhases[key];
       }
       return true;
@@ -1636,7 +1639,8 @@ const ProjectTitleDashboard = () => {
                     { id: 'build', label: 'Build' },
                     { id: 'gateway', label: 'Gateway' },
                     { id: 'validation', label: 'Validation' },
-                    { id: 'qualityIssues', label: 'Quality Issues' }
+                    { id: 'qualityIssues', label: 'Quality Issues' },
+                    { id: 'productGrade', label: 'Product Grade' }
                   ].map(phase => availablePhases[phase.id] && (
                     <label key={phase.id} className="flex items-center gap-3 text-sm text-[var(--text-muted)] cursor-pointer hover:text-slate-900 transition-colors bg-[var(--bg-app)] p-2.5 rounded-xl border border-slate-100">
                       <input
@@ -3973,6 +3977,85 @@ const ProjectTitleDashboard = () => {
                           </div>
                         </div>
                       )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Product Grade Section */}
+                {visibleSections.productGrade && (
+                  <div className="premium-card bg-white border border-[var(--border-main)] overflow-hidden mb-12 shadow-sm">
+                    <div className="px-6 py-5 bg-[var(--bg-app)] border-b border-[var(--border-main)] flex justify-between items-center">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2.5 bg-white border border-[var(--border-main)] rounded-xl shadow-sm text-blue-600">
+                          <Save className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <h3 className="text-sm font-bold text-[var(--text-main)] uppercase tracking-widest m-0">Product Grade Analysis</h3>
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-tighter">Live Status</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3 no-print">
+                        <button 
+                          className="px-5 py-2.5 bg-[var(--brand-primary)] text-white rounded-xl text-xs font-black uppercase tracking-widest hover:shadow-lg hover:shadow-blue-500/20 transition-all flex items-center gap-2"
+                          onClick={() => alert('Triggering advanced product grade analysis engine...')}
+                        >
+                          <Activity className="h-4 w-4" />
+                          Initialize Analysis
+                        </button>
+                      </div>
+                    </div>
+                    
+                    <div className="p-8">
+                      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                        {/* Overall Grade */}
+                        <div className="flex flex-col items-center justify-center p-6 bg-blue-50/50 rounded-2xl border border-blue-100/50 relative overflow-hidden group">
+                          <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:scale-110 transition-transform">
+                            <Save className="h-16 w-16" />
+                          </div>
+                          <span className="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-4">Master Grade</span>
+                          <div className="text-6xl font-black text-blue-700 tracking-tighter mb-2">A<span className="text-2xl font-bold">+</span></div>
+                          <span className="text-[11px] font-bold text-blue-500 uppercase tracking-widest">Premium Output</span>
+                        </div>
+
+                        {/* Parameter Grid */}
+                        <div className="md:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-6">
+                          <div className="space-y-4">
+                            <div className="flex justify-between items-center pb-2 border-b border-slate-100">
+                              <span className="text-[10px] font-bold text-[var(--text-subtle)] uppercase tracking-widest">Material Quality</span>
+                              <span className="text-xs font-bold text-emerald-600">98%</span>
+                            </div>
+                            <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                              <div className="bg-emerald-500 h-full rounded-full" style={{ width: '98%' }}></div>
+                            </div>
+                            <p className="text-[11px] text-[var(--text-meta)] leading-relaxed italic">High-strength alloy verification completed successfully.</p>
+                          </div>
+
+                          <div className="space-y-4">
+                            <div className="flex justify-between items-center pb-2 border-b border-slate-100">
+                              <span className="text-[10px] font-bold text-[var(--text-subtle)] uppercase tracking-widest">Execution Sync</span>
+                              <span className="text-xs font-bold text-blue-600">92%</span>
+                            </div>
+                            <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                              <div className="bg-blue-500 h-full rounded-full" style={{ width: '92%' }}></div>
+                            </div>
+                            <p className="text-[11px] text-[var(--text-meta)] leading-relaxed italic">Process alignment across all industrial workstreams.</p>
+                          </div>
+
+                          <div className="space-y-4">
+                            <div className="flex justify-between items-center pb-2 border-b border-slate-100">
+                              <span className="text-[10px] font-bold text-[var(--text-subtle)] uppercase tracking-widest">Durability Index</span>
+                              <span className="text-xs font-bold text-amber-600">88%</span>
+                            </div>
+                            <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                              <div className="bg-amber-500 h-full rounded-full" style={{ width: '88%' }}></div>
+                            </div>
+                            <p className="text-[11px] text-[var(--text-meta)] leading-relaxed italic">Standard operational wear-tear analysis in progress.</p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}

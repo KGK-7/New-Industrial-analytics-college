@@ -8,8 +8,8 @@ class BudgetSummary(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     project_name = Column(String, unique=True, index=True, nullable=False)
-    uploaded_by = Column(String)
-    department = Column(String)
+    uploaded_by = Column(String, index=True)
+    department = Column(String, index=True)
     budget_data = Column(JSONB, default=[])
     attachment_data = Column(LargeBinary, nullable=True)
     attachment_name = Column(String, nullable=True)

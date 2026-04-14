@@ -9,6 +9,7 @@ if backend_dir not in sys.path:
 from app.core.database import SessionLocal
 from app.models.employee import Employee
 from app.core.security import hash_password
+from app.models.application_access import ApplicationAccess
 
 def create_super_admin():
     db = SessionLocal()
@@ -27,31 +28,44 @@ def create_super_admin():
     department = "IT Administration"
 
     try:
-        # Check if user already exists
-        existing_user = db.query(Employee).filter(Employee.email == email).first()
-        if existing_user:
-            print(f"User with email {email} already exists. Updating permissions...")
-            existing_user.modules = all_modules
-            existing_user.role = "Super Admin"
-            existing_user.hashed_password = hash_password(password)
+        # Check if employee profile already exists
+        employee = db.query(Employee).filter(Employee.email == email).first()
+        if employee:
+            print(f"Employee with email {email} already exists. Updating profile...")
+            employee.modules = all_modules
+            employee.role = "Super Admin"
             db.commit()
-            print(f"Successfully updated super admin user: {email}")
-            return
+        else:
+            employee = Employee(
+                employee_id=employee_id,
+                name=name,
+                email=email,
+                department=department,
+                role="Super Admin",
+                status="Active",
+                modules=all_modules,
+            )
+            db.add(employee)
+            db.commit()
+            db.refresh(employee)
 
-        employee = Employee(
-            employee_id=employee_id,
-            name=name,
-            email=email,
-            department=department,
-            role="Super Admin",
-            status="Active",
-            modules=all_modules,
-            hashed_password=hash_password(password),
-        )
+        # Sync/Create Auth in application_access
+        access = db.query(ApplicationAccess).filter(ApplicationAccess.email == email).first()
+        if access:
+            access.hashed_password = hash_password(password)
+            access.employee_id = employee.id
+            db.commit()
+        else:
+            access = ApplicationAccess(
+                employee_id=employee.id,
+                email=email,
+                hashed_password=hash_password(password)
+            )
+            db.add(access)
+            db.commit()
+            
+        print(f"Successfully synchronized super admin: {email}")
 
-        db.add(employee)
-        db.commit()
-        print(f"Successfully created super admin user: {email} (ID: {employee_id})")
     except Exception as e:
         db.rollback()
         print(f"Error creating super admin: {e}")

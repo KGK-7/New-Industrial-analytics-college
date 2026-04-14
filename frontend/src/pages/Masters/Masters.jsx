@@ -5,8 +5,8 @@ import {
   File, Clock, User, ChevronRight, Database, FileSpreadsheet,
   Archive, FileText, X, Eye, Edit, Check,
   Users, Package, Building, Briefcase,
-  UserCog, FolderOpen, Square, Layers, BarChart3, FileUp,
-  Shield, FolderKanban, Download, Share2, Star, MoreVertical,
+  UserCog, FolderOpen, Square, Layers, BarChart3, FileUp, ArrowRight,
+  Shield, FolderKanban, Download, Share2, Star, MoreVertical, Globe,
   Filter, Grid, List, Sparkles, Bookmark, Activity, Zap, Wallet
 } from 'lucide-react';
 
@@ -278,6 +278,7 @@ const Masters = () => {
   const [hoveredModule, setHoveredModule] = useState(null);
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [counts, setCounts] = useState({ employees: 0, projects: 0, budgets: 0 });
 
   // File viewer modal state
   const [fileViewerModal, setFileViewerModal] = useState({
@@ -288,52 +289,52 @@ const Masters = () => {
 
   // Master modules data
   const staticMasterModules = [
-    {
-      id: 1,
-      name: 'Employee Master',
-      masterModuleId: 'employee-master',
-      path: 'masters/employees',
-      type: 'master',
-      description: 'Manage employee records and basic profiles.',
-      icon: <Users className="h-5 w-5" />,
-      imageUrl: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      gist: [
-        { label: 'Basic Info', val: 'Names, Contacts, Emails', icon: <UserCog className="h-4 w-4" /> },
-        { label: 'Organization', val: 'Departments & Designations', icon: <Building className="h-4 w-4" /> },
-        { label: 'Access', val: 'System Roles', icon: <Shield className="h-4 w-4" /> }
-      ]
-    },
-    {
-      id: 3,
-      name: 'Project Master',
-      masterModuleId: 'project-master',
-      path: 'masters/project-master',
-      type: 'master',
-      description: 'Manage project client details and timelines.',
-      icon: <FolderKanban className="h-5 w-5" />,
-      imageUrl: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      gist: [
-        { label: 'Basic Info', val: 'Project Name & Client', icon: <Briefcase className="h-4 w-4" /> },
-        { label: 'Timelines', val: 'Start & End Dates', icon: <Clock className="h-4 w-4" /> },
-        { label: 'Management', val: 'Assigned PMs & Status', icon: <Layers className="h-4 w-4" /> }
-      ]
-    },
-    {
-      id: 4,
-      name: 'Budget Master',
-      masterModuleId: 'budget-master',
-      path: 'masters/budget-master',
-      type: 'master',
-      description: 'Manage itemized project budgets.',
-      icon: <Wallet className="h-5 w-5" />,
-      imageUrl: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      gist: [
-        { label: 'Estimates', val: 'Unit Costs & Totals', icon: <Database className="h-4 w-4" /> },
-        { label: 'Tracking', val: 'Utilized & Committed', icon: <BarChart3 className="h-4 w-4" /> },
-        { label: 'Revisions', val: 'Status & Comments', icon: <Check className="h-4 w-4" /> }
-      ]
-    }
-  ];
+  {
+    id: 'employee-master',
+    name: 'Employee Master',
+    subtitle: 'Manage organizational hierarchy and data',
+    code: 'EM',
+    icon: <Users className="h-4 w-4" />,
+    path: '/dashboard/masters/employees',
+    ctaLabel: 'Open employee data',
+    badgeStyles: { bg: '#DBEAFE', text: '#1E40AF' },
+    gist: [
+      { label: 'Roles & permissions', key: 'roles', icon: <UserCog className="h-4 w-4" /> },
+      { label: 'Access levels', key: 'access', icon: <Shield className="h-4 w-4" /> },
+      { label: 'Employees', key: 'employees', icon: <Users className="h-4 w-4" /> }
+    ]
+  },
+  {
+    id: 'project-master',
+    name: 'Project Master',
+    subtitle: 'Track project lifecycle and configurations',
+    code: 'PM',
+    icon: <FolderKanban className="h-4 w-4" />,
+    path: '/dashboard/masters/project-master',
+    ctaLabel: 'Open project data',
+    badgeStyles: { bg: '#EDE9FE', text: '#5B21B6' },
+    gist: [
+      { label: 'Projects', key: 'projects', icon: <Grid className="h-4 w-4" /> },
+      { label: 'Team members', key: 'team', icon: <Users className="h-4 w-4" /> },
+      { label: 'Milestones', key: 'milestones', icon: <Activity className="h-4 w-4" /> }
+    ]
+  },
+  {
+    id: 'budget-master',
+    name: 'Budget Master',
+    subtitle: 'Financial governance and expense tracking',
+    code: 'BM',
+    icon: <Wallet className="h-4 w-4" />,
+    path: '/dashboard/masters/budget-master',
+    ctaLabel: 'Open budget data',
+    badgeStyles: { bg: '#DCFCE7', text: '#166534' },
+    gist: [
+      { label: 'Budget lines', key: 'budgets', icon: <Database className="h-4 w-4" /> },
+      { label: 'Change log', key: 'audit', icon: <FileText className="h-4 w-4" /> },
+      { label: 'Currency', key: 'currency', icon: <Globe className="h-4 w-4" /> }
+    ]
+  }
+];
 
   // Load dynamic modules
   useEffect(() => {
@@ -386,10 +387,29 @@ const Masters = () => {
       }
     };
 
+    const fetchCounts = async () => {
+      try {
+        const [empRes, projRes, budRes] = await Promise.all([
+          API.get('/employees'),
+          API.get('/projects/'),
+          API.get('/budget/')
+        ]);
+        setCounts({
+          employees: empRes.data?.length || 0,
+          projects: projRes.data?.length || 0,
+          budgets: budRes.data?.length || 0
+        });
+      } catch (err) {
+        console.error('Error fetching master counts:', err);
+      }
+    };
+
     loadDynamicModules();
+    fetchCounts();
 
     const handleMastersUpdate = () => {
       loadDynamicModules();
+      fetchCounts();
     };
 
     window.addEventListener('mastersUpdate', handleMastersUpdate);
@@ -400,9 +420,9 @@ const Masters = () => {
   }, []);
 
   // Handle module click - Navigate to the correct submodule path
-  const handleModuleClick = (module) => {
-    console.log(`Opening master: ${module.name}`);
-    navigate(`/dashboard/${module.path}`);
+  const handleModuleClick = (moduleId) => {
+    const module = staticMasterModules.find(m => m.id === moduleId);
+    if (module) navigate(module.path);
   };
 
   // Handle "Open Module" button click
@@ -410,15 +430,15 @@ const Masters = () => {
     localStorage.setItem('active_master_submodule', masterModuleId);
 
     // Find the module to get its path
-    const module = staticMasterModules.find(m => m.masterModuleId === masterModuleId);
-    const path = module ? module.path : 'masters';
+    const module = staticMasterModules.find(m => m.id === masterModuleId);
+    const path = module ? module.path : '/dashboard/masters';
 
     const event = new CustomEvent('openMasterSubmodule', {
       detail: { masterModuleId }
     });
     window.dispatchEvent(event);
 
-    navigate(`/dashboard/${path}`);
+    navigate(path);
   };
 
   // Handle file click
@@ -544,77 +564,72 @@ const Masters = () => {
 
       {/* Masters Grid/List */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-        {filteredModules.map((master) => (
-          <div
-            key={master.id}
-            className="group relative bg-white dark:bg-slate-800 border hover:border-[#1e3a5f]/20 border-transparent dark:hover:border-blue-500/30 transition-all duration-500 cursor-pointer flex flex-col h-full rounded-[2rem] shadow-md hover:shadow-2xl overflow-hidden"
-            onClick={() => handleModuleClick(master)}
-          >
-            {/* Top Image Header */}
-            <div className="relative h-52 w-full overflow-hidden flex-shrink-0">
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent z-10 pointer-events-none"></div>
-              {master.imageUrl && (
-                <img 
-                  src={master.imageUrl} 
-                  alt={master.name} 
-                  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-in-out"
-                />
-              )}
-              <div className="absolute bottom-5 left-6 right-6 z-20 flex items-center gap-4 text-white">
-                <div className="flex items-center justify-center h-12 w-12 rounded-2xl bg-white/20 backdrop-blur-md shadow-lg border border-white/10 group-hover:bg-[#1e3a5f] group-hover:border-[#1e3a5f] transition-all duration-300">
-                  {React.cloneElement(master.icon, { className: "h-6 w-6 text-white" })}
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold tracking-tight text-white mb-0.5">
-                    {master.name}
+        {filteredModules.map((module) => (
+            <div
+              key={module.id}
+              className="premium-card p-5 bg-white flex flex-col hover:border-[var(--brand-primary)] hover:ring-1 hover:ring-[var(--brand-primary)] transition-all duration-300 cursor-pointer relative group"
+              onClick={() => handleModuleClick(module.id)}
+            >
+              {/* Header Info */}
+              <div className="flex justify-between items-start mb-4">
+                <div className="flex items-center gap-3">
+                  <div 
+                    className="w-10 h-10 rounded-xl flex items-center justify-center font-mono font-bold text-sm shadow-sm border border-transparent transition-colors"
+                    style={{ 
+                      backgroundColor: module.badgeStyles.bg, 
+                      color: module.badgeStyles.text 
+                    }}
+                  >
+                    {module.code}
+                  </div>
+                  <h3 className="text-lg font-bold text-[var(--text-main)] m-0 truncate leading-tight group-hover:text-[var(--brand-primary)] transition-colors">
+                    {module.name}
                   </h3>
-                  <p className="text-xs font-medium text-white/80 line-clamp-1">
-                    {master.description}
-                  </p>
                 </div>
               </div>
-            </div>
 
-            <div className="flex flex-col flex-1 p-6 sm:p-8 bg-white dark:bg-slate-800 relative z-20">
-              {/* Information Gist Details */}
-              {master.gist && (
-                <div className="flex flex-col gap-3 flex-1 mb-8">
-                  {master.gist.map((item, idx) => (
-                    <div key={idx} className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 hover:bg-white dark:bg-slate-700/30 border border-transparent dark:hover:bg-slate-700 hover:border-slate-200 dark:hover:border-slate-600 transition-all shadow-sm hover:shadow-md">
-                      <div className="flex items-center justify-center h-10 w-10 rounded-full bg-slate-200/50 dark:bg-slate-600 text-[#1e3a5f] dark:text-blue-400 group-hover:scale-110 transition-transform">
-                        {item.icon}
+              {/* Gist List */}
+              <div className="space-y-4 mb-4">
+                {module.gist.map((item, idx) => {
+                  let displayVal = '';
+                  if (item.key === 'employees' || (module.id === 'employee-master' && item.key === 'roles')) {
+                    displayVal = item.key === 'employees' ? `${counts.employees} employees` : '';
+                  } else if (item.key === 'projects') {
+                    displayVal = `${counts.projects} projects`;
+                  } else if (item.key === 'budgets') {
+                    displayVal = `${counts.budgets} budget lines`;
+                  }
+
+                  return (
+                    <div key={idx} className="flex items-center justify-between group/item">
+                      <div className="flex items-center gap-2">
+                        <div className="text-[#9CA3AF] h-4 w-4 flex-shrink-0">
+                          {React.cloneElement(item.icon, { className: "h-4 w-4" })}
+                        </div>
+                        <span className="text-[13px] font-medium text-[#374151]">
+                          {item.label}
+                        </span>
                       </div>
-                      <div className="flex flex-col">
-                        <span className="text-sm font-bold text-slate-800 dark:text-slate-200">{item.label}</span>
-                        <span className="text-xs font-medium text-slate-500 mt-0.5">{item.val}</span>
-                      </div>
+                      {displayVal && (
+                        <span className="text-[11px] font-bold text-[var(--text-main)] font-mono">
+                          {displayVal}
+                        </span>
+                      )}
                     </div>
-                  ))}
-                </div>
-              )}
+                  );
+                })}
+              </div>
 
-              <div className="mt-auto">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleOpenModule(master.masterModuleId);
-                  }}
-                  className="relative group/btn w-full inline-flex items-center justify-between px-6 py-4 overflow-hidden text-white font-bold rounded-2xl bg-[#1e3a5f] dark:bg-slate-700 shadow-[0_4px_15px_rgba(30,58,95,0.2)] hover:shadow-[0_8px_25px_rgba(30,58,95,0.4)] transition-all duration-300"
-                >
-                  <span className="absolute inset-0 w-0 bg-gradient-to-r from-[#2c538a] to-[#467abf] transition-all duration-500 ease-out group-hover/btn:w-full"></span>
-                  
-                  <span className="relative flex items-center gap-3 tracking-widest text-[11px] sm:text-xs uppercase z-10 font-black">
-                    <Zap className="h-4 w-4" />
-                    Open Master Data
+              {/* Action Footer */}
+              <div className="mt-auto pt-4 border-t border-[#F3F4F6] group-hover:border-blue-100 transition-colors">
+                <div className="flex items-center justify-between">
+                  <span className="text-[14px] font-medium text-[#2563EB] group-hover:underline transition-all">
+                    {module.ctaLabel}
                   </span>
-                  
-                  <span className="relative flex items-center justify-center w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm group-hover/btn:bg-white group-hover/btn:text-[#1e3a5f] transition-all duration-500 z-10">
-                    <ChevronRight className="h-5 w-5 group-hover/btn:translate-x-0.5 transition-transform" />
-                  </span>
-                </button>
+                  <ArrowRight className="h-4 w-4 text-[var(--text-meta)] transform group-hover:translate-x-1 group-hover:text-[var(--brand-primary)] transition-all" />
+                </div>
               </div>
             </div>
-          </div>
         ))}
       </div>
     </div>
