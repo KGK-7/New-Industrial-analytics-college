@@ -763,11 +763,11 @@ const Dashboard = () => {
             }`}
         >
           <div className={`flex items-center ${isSidebarExpanded ? 'space-x-3.5' : 'justify-center'}`}>
-            <div className={`transition-colors text-white`}>
+            <div className={`transition-colors ${isActive ? 'text-white' : 'text-[var(--text-muted)]'}`}>
               <BarChart3 className={`${isSidebarExpanded ? 'h-5 w-5' : 'h-5 w-5'}`} />
             </div>
             {isSidebarExpanded && (
-              <span className={`font-semibold text-base text-white`}>
+              <span className={`font-bold text-xs uppercase tracking-widest ${isActive ? 'text-white' : 'text-[var(--text-secondary)]'}`}>
                 Dashboard
               </span>
             )}
@@ -1121,9 +1121,9 @@ const Dashboard = () => {
                 }));
               }
             }}
-            className={`flex-1 flex items-center space-x-2.5 rounded-lg px-3 py-2.5 transition-all duration-300 cursor-pointer ${isHovered
-              ? 'bg-white/15 text-white shadow-sm'
-              : 'hover:bg-white/10 text-white'
+            className={`flex-1 flex items-center space-x-2.5 px-3 py-2.5 transition-all duration-100 cursor-pointer ${isHovered
+              ? 'bg-[var(--border-light)] text-[var(--text-main)]'
+              : 'hover:bg-[var(--border-light)] text-[var(--text-main)]'
               }`}
           >
             <LayersIcon className="h-5 w-5 text-white" />
@@ -1182,11 +1182,11 @@ const Dashboard = () => {
             }
           }
         }}
-        className={`w-full flex items-center space-x-2.5 rounded-lg px-3 py-2 transition-all duration-300 ${isSelected
-          ? 'bg-white/25 shadow-sm text-white font-medium'
+        className={`w-full flex items-center space-x-2.5 px-3 py-2 transition-all duration-100 ${isSelected
+          ? 'bg-[var(--border-light)] text-[var(--brand-primary)] border-l-2 border-[var(--brand-primary)]'
           : isHovered
-            ? 'bg-white/15 text-white shadow-sm'
-            : 'hover:bg-white/10 text-white'
+            ? 'bg-[var(--border-light)] text-[var(--text-main)]'
+            : 'hover:bg-[var(--border-light)] text-[var(--text-main)]'
           }`}
       >
         <span className={`text-sm truncate text-white ${isSelected ? 'font-medium' : ''
@@ -1210,19 +1210,19 @@ const Dashboard = () => {
           onMouseEnter={() => setHoveredModule(module.id)}
           onMouseLeave={() => setHoveredModule(null)}
           onClick={() => handleModuleClick(module.id)}
-          className={`w-full flex items-center transition-all duration-300 ${isSidebarExpanded ? 'px-4 py-3.5 space-x-3.5' : 'justify-center px-2 py-3.5'
-            } rounded-xl ${isActive
-              ? 'bg-white/20 shadow-md text-white'
+          className={`w-full flex items-center transition-all duration-100 ${isSidebarExpanded ? 'px-4 py-3.5 space-x-3.5' : 'justify-center px-2 py-3.5'
+            } ${isActive
+              ? 'bg-[#18181B] text-white'
               : isHovered
-                ? 'bg-white/15 shadow-sm text-white'
-                : 'hover:bg-white/10 text-white'
+                ? 'bg-[var(--border-light)] text-[var(--text-main)]'
+                : 'hover:bg-[var(--border-light)] text-[var(--text-main)]'
             }`}
         >
-          <div className="text-white">
+          <div className={`${isActive ? 'text-white' : 'text-[var(--text-muted)]'}`}>
             {module.icon}
           </div>
           {isSidebarExpanded && (
-            <span className="font-semibold text-base text-white">
+            <span className={`font-bold text-xs uppercase tracking-widest ${isActive ? 'text-white' : 'text-[var(--text-secondary)]'}`}>
               {module.name}
             </span>
           )}
@@ -1243,17 +1243,6 @@ const Dashboard = () => {
       */}
       {/* Optimized Production Background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 bg-[var(--bg-app)]">
-        {/* Subtle Technical Grid - Scaled down for elegance */}
-        <div className="absolute inset-0 opacity-[0.03]">
-          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="dashboard-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#dashboard-grid)" />
-          </svg>
-        </div>
       </div>
 
       <div className="flex flex-1 overflow-hidden">
@@ -1280,22 +1269,22 @@ const Dashboard = () => {
 
         {/* Main Content Area */}
         <div className="flex-1 flex flex-col min-h-0 overflow-hidden relative z-10">
-          {/* Header - Modern Minimalist Design */}
-          <header className="h-16 flex-shrink-0 bg-white border-b border-[var(--border-main)] flex items-center px-6 justify-between sticky top-0 z-50">
+          {/* Header - Industrial Functional Header */}
+          <header className="h-12 flex-shrink-0 bg-white border-b border-[var(--border-main)] flex items-center px-4 justify-between sticky top-0 z-50">
             {/* Left side - Breadcrumbs & Toggle */}
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => dispatch(setSidebarCollapsed(!sidebarCollapsed))}
-                className="p-1.5 rounded-lg text-[var(--text-muted)] hover:bg-[var(--border-light)] hover:text-[var(--text-main)] transition-colors"
+                className="p-1 text-[var(--text-muted)] hover:bg-[var(--border-light)] hover:text-[var(--text-main)] transition-colors border border-transparent hover:border-[var(--border-main)]"
                 title={sidebarCollapsed ? "Open Sidebar" : "Close Sidebar"}
               >
-                {sidebarCollapsed ? <Menu className="h-5 w-5" /> : <ChevronLeft className="h-5 w-5" />}
+                {sidebarCollapsed ? <Menu className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
               </button>
               
-              <div className="flex items-center space-x-2 text-sm">
-                <span className="text-[var(--text-subtle)] font-medium">Platform</span>
-                <ChevronRight className="h-3.5 w-3.5 text-[var(--text-meta)]" />
-                <span className="text-[var(--text-main)] font-semibold">{getHeaderTitle()}</span>
+              <div className="flex items-center space-x-2 text-[11px] font-bold uppercase tracking-widest">
+                <span className="text-[var(--text-subtle)]">System</span>
+                <ChevronRight className="h-3 w-3 text-[var(--text-meta)]" />
+                <span className="text-[var(--text-main)]">{getHeaderTitle()}</span>
               </div>
             </div>
 
@@ -1315,13 +1304,13 @@ const Dashboard = () => {
               {/* User Identity */}
               <div className="flex items-center space-x-3 pl-2" ref={profileMenuRef}>
                 <div className="text-right hidden sm:block">
-                  <p className="text-sm font-bold text-[var(--text-main)] leading-tight">{user?.full_name?.split(' ')[0] || 'User'}</p>
-                  <p className="text-[10px] font-medium text-[var(--text-subtle)] uppercase tracking-wider">{user?.role || 'Admin'}</p>
+                  <p className="text-[11px] font-black text-[var(--text-main)] leading-tight uppercase tracking-tighter">{user?.full_name?.split(' ')[0] || 'User'}</p>
+                  <p className="text-[9px] font-bold text-[var(--text-subtle)] uppercase tracking-widest">{user?.role || 'Admin'}</p>
                 </div>
                 
                 <button
                   onClick={() => setProfileMenuOpen(!profileMenuOpen)}
-                  className="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center text-[var(--brand-primary)] font-bold text-sm shadow-sm hover:ring-2 hover:ring-blue-200 transition-all"
+                  className="w-8 h-8 bg-[var(--border-light)] border border-[var(--border-main)] flex items-center justify-center text-[var(--brand-primary)] font-bold text-xs hover:bg-[var(--border-main)] transition-all"
                 >
                   {getUserInitial()}
                 </button>
@@ -1371,7 +1360,7 @@ const Dashboard = () => {
 
           {/* Main Content Area */}
           <main className="flex-1 min-h-0 overflow-hidden">
-            <div className="h-full overflow-auto p-6 lg:p-10">
+            <div className="h-full overflow-auto p-4">
               <Outlet />
             </div>
           </main>

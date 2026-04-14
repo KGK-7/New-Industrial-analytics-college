@@ -87,21 +87,17 @@ const FileContentViewer = ({ fileData, trackerInfo, onClose, onSaveData }) => {
   const renderTableView = () => {
     if (!editedData || editedData.length === 0) {
       return (
-        <div className="text-center py-12">
-          <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-[#1e3a5f]/5 to-transparent rounded-full blur-3xl"></div>
-            <Database className="h-16 w-16 text-[#1e3a5f]/20 mx-auto mb-4 relative" />
-          </div>
-          <p className="text-gray-500 font-medium">No data available in this file</p>
-          <p className="text-sm text-gray-400 mt-1">Upload data to get started</p>
+        <div className="text-center py-12 border-2 border-dashed border-[var(--border-main)]">
+          <Database className="h-12 w-12 text-[var(--text-subtle)] mx-auto mb-4" />
+          <p className="text-[var(--text-main)] font-bold uppercase tracking-widest text-xs">No data available</p>
         </div>
       );
     }
 
     return (
-      <div className="overflow-auto border border-gray-200 rounded-xl bg-white shadow-lg shadow-[#1e3a5f]/5">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gradient-to-r from-[#f0f5fa] to-[#e6eef8] sticky top-0">
+      <div className="overflow-auto border border-[var(--border-main)] bg-white">
+        <table className="min-w-full divide-y divide-[var(--border-main)] font-mono">
+          <thead className="bg-[#F4F4F5] sticky top-0">
             <tr>
               <th className="px-3 py-3 w-10">
                 {isEditing && (
@@ -127,19 +123,19 @@ const FileContentViewer = ({ fileData, trackerInfo, onClose, onSaveData }) => {
             {editedData.map((row, rowIndex) => (
               <tr 
                 key={rowIndex} 
-                className={`hover:bg-gradient-to-r hover:from-[#f0f5fa] hover:to-transparent transition-all duration-200 ${
-                  selectedRows.has(rowIndex) ? 'bg-[#1e3a5f]/5' : ''
+                className={`transition-colors duration-100 border-b border-[var(--border-light)] ${
+                  selectedRows.has(rowIndex) ? 'bg-[#18181B] text-white' : 'hover:bg-[var(--bg-app)]'
                 }`}
               >
                 <td className="px-3 py-2">
                   {isEditing && (
-                    <button onClick={() => handleRowSelect(rowIndex)} className="focus:outline-none hover:scale-110 transition-transform">
+                    <button onClick={() => handleRowSelect(rowIndex)} className="focus:outline-none">
                       {selectedRows.has(rowIndex) ? (
-                        <div className="bg-[#1e3a5f] rounded p-0.5">
-                          <Check className="h-4 w-4 text-white" />
+                        <div className="bg-white text-black p-0.5 border border-black">
+                          <Check className="h-3 w-3" />
                         </div>
                       ) : (
-                        <Square className="h-4 w-4 text-gray-400 hover:text-[#1e3a5f]/40" />
+                        <div className="h-4 w-4 border border-[var(--border-main)] bg-white" />
                       )}
                     </button>
                   )}
@@ -157,7 +153,7 @@ const FileContentViewer = ({ fileData, trackerInfo, onClose, onSaveData }) => {
                         onChange={handleCellChange}
                         onBlur={handleCellBlur}
                         onKeyPress={handleKeyPress}
-                        className="w-full px-2 py-1 border border-[#1e3a5f] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/20 focus:border-[#1e3a5f] shadow-sm"
+                        className="w-full px-2 py-1 bg-white border border-black focus:outline-none"
                         autoFocus
                       />
                     ) : (
@@ -176,9 +172,9 @@ const FileContentViewer = ({ fileData, trackerInfo, onClose, onSaveData }) => {
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div className="flex items-center justify-between bg-gradient-to-r from-white to-[#f8faff] p-4 rounded-xl shadow-lg border border-gray-200">
+      <div className="flex items-center justify-between bg-white p-4 border border-[var(--border-main)]">
         <div className="flex items-center space-x-3">
-          <div className="p-2.5 bg-gradient-to-br from-[#1e3a5f] to-[#2c4c7c] rounded-xl shadow-lg shadow-[#1e3a5f]/20">
+          <div className="p-2.5 bg-[#18181B]">
             <FileText className="h-5 w-5 text-white" />
           </div>
           <div>
@@ -196,43 +192,40 @@ const FileContentViewer = ({ fileData, trackerInfo, onClose, onSaveData }) => {
           {selectedRows.size > 0 && (
             <button
               onClick={handleDeleteSelected}
-              className="px-3 py-1.5 bg-gradient-to-r from-red-50 to-red-100 text-red-600 rounded-lg text-sm font-medium hover:from-red-100 hover:to-red-200 transition-all duration-200 flex items-center shadow-sm border border-red-200"
+              className="px-3 py-1.5 bg-red-100 text-red-800 text-xs font-bold uppercase tracking-widest hover:bg-red-200 transition-all border border-red-300"
             >
-              <Archive className="h-4 w-4 mr-1" />
               Delete ({selectedRows.size})
             </button>
           )}
           <button
             onClick={() => setIsEditing(!isEditing)}
-            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 flex items-center shadow-sm ${
+            className={`px-3 py-1.5 text-xs font-bold uppercase tracking-widest border transition-all ${
               isEditing
-                ? 'bg-gradient-to-r from-green-50 to-green-100 text-green-600 border border-green-200 hover:from-green-100 hover:to-green-200'
-                : 'bg-gradient-to-r from-gray-50 to-gray-100 text-gray-600 border border-gray-200 hover:from-gray-100 hover:to-gray-200'
+                ? 'bg-green-100 text-green-800 border-green-300'
+                : 'bg-zinc-100 text-zinc-800 border-zinc-300'
             }`}
           >
-            <Edit className="h-4 w-4 mr-1" />
             {isEditing ? 'Editing Mode' : 'Edit Mode'}
           </button>
           {isEditing && (
             <button
               onClick={handleSave}
-              className="px-3 py-1.5 bg-gradient-to-r from-[#1e3a5f] to-[#2c4c7c] text-white rounded-lg text-sm font-medium hover:from-[#2c4c7c] hover:to-[#1e3a5f] transition-all duration-200 flex items-center shadow-lg shadow-[#1e3a5f]/20"
+              className="px-3 py-1.5 bg-[#18181B] text-white text-xs font-bold uppercase tracking-widest border border-black hover:bg-black transition-all"
             >
-              <Check className="h-4 w-4 mr-1" />
-              Save Changes
+              Save Data
             </button>
           )}
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-all duration-200 hover:scale-110"
+            className="p-2 hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all"
           >
-            <X className="h-5 w-5 text-gray-500" />
+            <X className="h-5 w-5 text-zinc-500" />
           </button>
         </div>
       </div>
 
       {/* Table View */}
-      <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+      <div className="bg-white border border-[var(--border-main)] overflow-hidden">
         {renderTableView()}
       </div>
 
@@ -531,25 +524,20 @@ const Masters = () => {
   // Loading state with enhanced animation
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-[#f0f5fa] p-6 flex items-center justify-center">
-        <div className="text-center">
-          <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-[#1e3a5f]/20 to-transparent rounded-full blur-3xl animate-pulse"></div>
-            <div className="relative animate-spin rounded-full h-16 w-16 border-4 border-[#1e3a5f]/10 border-t-[#1e3a5f] mx-auto mb-4"></div>
-          </div>
-          <h3 className="text-lg font-semibold text-gray-700 mb-1">Loading Masters</h3>
-          <p className="text-sm text-gray-500">Preparing your workspace...</p>
+      <div className="min-h-screen bg-[var(--bg-app)] flex items-center justify-center p-8">
+        <div className="w-64 h-2 bg-[var(--border-main)] overflow-hidden">
+          <div className="h-full bg-[var(--brand-primary)] animate-[shimmer_1.5s_infinite]" style={{ width: '40%' }}></div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-[#f0f5fa] p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen bg-[var(--bg-app)]">
       {/* File Viewer Modal */}
       {fileViewerModal.isOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-fadeIn">
-          <div className="bg-white rounded-2xl w-full max-w-6xl max-h-[90vh] overflow-auto shadow-2xl transform transition-all animate-slideUp">
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+          <div className="bg-white w-full max-w-6xl max-h-[90vh] overflow-auto border border-black shadow-none">
             <FileContentViewer
               fileData={fileViewerModal.fileData}
               trackerInfo={fileViewerModal.trackerInfo}
@@ -563,26 +551,22 @@ const Masters = () => {
       )}
 
       {/* Masters Grid/List */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 border-t border-l border-[var(--border-main)]">
         {filteredModules.map((module) => (
             <div
               key={module.id}
-              className="premium-card p-5 bg-white flex flex-col hover:border-[var(--brand-primary)] hover:ring-1 hover:ring-[var(--brand-primary)] transition-all duration-300 cursor-pointer relative group"
+              className="system-panel bg-white flex flex-col hover:bg-[var(--bg-app)] border-r border-b border-[var(--border-main)] transition-all duration-100 cursor-pointer relative group p-6"
               onClick={() => handleModuleClick(module.id)}
             >
               {/* Header Info */}
-              <div className="flex justify-between items-start mb-4">
-                <div className="flex items-center gap-3">
+              <div className="flex justify-between items-start mb-6">
+                <div className="flex items-center gap-4">
                   <div 
-                    className="w-10 h-10 rounded-xl flex items-center justify-center font-mono font-bold text-sm shadow-sm border border-transparent transition-colors"
-                    style={{ 
-                      backgroundColor: module.badgeStyles.bg, 
-                      color: module.badgeStyles.text 
-                    }}
+                    className="w-12 h-12 flex items-center justify-center font-mono font-bold text-base border border-black bg-[#18181B] text-white"
                   >
                     {module.code}
                   </div>
-                  <h3 className="text-lg font-bold text-[var(--text-main)] m-0 truncate leading-tight group-hover:text-[var(--brand-primary)] transition-colors">
+                  <h3 className="text-sm font-black text-[var(--text-main)] uppercase tracking-[0.2em] leading-tight">
                     {module.name}
                   </h3>
                 </div>
@@ -621,12 +605,10 @@ const Masters = () => {
               </div>
 
               {/* Action Footer */}
-              <div className="mt-auto pt-4 border-t border-[#F3F4F6] group-hover:border-blue-100 transition-colors">
-                <div className="flex items-center justify-between">
-                  <span className="text-[14px] font-medium text-[#2563EB] group-hover:underline transition-all">
-                    {module.ctaLabel}
-                  </span>
-                  <ArrowRight className="h-4 w-4 text-[var(--text-meta)] transform group-hover:translate-x-1 group-hover:text-[var(--brand-primary)] transition-all" />
+              <div className="mt-8 pt-6 border-t border-[var(--border-main)]">
+                <div className="flex items-center justify-between text-[11px] font-black uppercase tracking-[0.1em] text-[var(--brand-primary)]">
+                  <span>{module.ctaLabel}</span>
+                  <ArrowRight className="h-4 w-4" />
                 </div>
               </div>
             </div>

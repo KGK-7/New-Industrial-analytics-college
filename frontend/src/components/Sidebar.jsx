@@ -44,9 +44,9 @@ function TopBtn({ icon: Icon, label, active, hasChev, chevOpen, onClick, onToggl
     return (
       <div className="relative group px-3 py-1">
         <button
-          className={`w-full flex justify-center py-3 rounded-md transition-all duration-200 ${
+          className={`w-full flex justify-center py-3 transition-all duration-200 ${
             active 
-              ? 'bg-[#EEF4FF] text-[#2563EB]' 
+              ? 'bg-[#18181B] text-white' 
               : 'text-[var(--text-muted)] hover:bg-[var(--border-light)] hover:text-[var(--text-main)]'
           }`}
           onClick={onClick}
@@ -54,7 +54,7 @@ function TopBtn({ icon: Icon, label, active, hasChev, chevOpen, onClick, onToggl
           <Icon className="h-6 w-6" strokeWidth={active ? 2 : 1.5} />
         </button>
         {/* Tooltip */}
-        <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-slate-900 text-white text-[11px] font-medium rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-[100] whitespace-nowrap shadow-xl">
+        <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-slate-900 text-white text-[11px] font-medium rounded-none opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-[100] whitespace-nowrap">
           {label}
         </div>
       </div>
@@ -63,15 +63,15 @@ function TopBtn({ icon: Icon, label, active, hasChev, chevOpen, onClick, onToggl
   return (
     <div className="px-3 py-1">
       <button 
-        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-[6px] transition-all duration-200 group ${
+        className={`w-full flex items-center gap-3 px-3 py-2.5 transition-all duration-200 group ${
           active 
-            ? 'bg-[#EEF4FF] text-[#2563EB]' 
+            ? 'bg-[#18181B] text-white' 
             : 'text-[var(--text-muted)] hover:bg-[var(--border-light)] hover:text-[var(--text-main)]'
         }`} 
         onClick={onClick}
       >
-        <Icon className={`h-5 w-5 shrink-0 ${active ? 'text-[#2563EB]' : 'text-[var(--text-subtle)] group-hover:text-[var(--text-main)]'}`} strokeWidth={active ? 2 : 1.5} />
-        <span className="flex-1 truncate text-left text-sm font-medium">{label}</span>
+        <Icon className={`h-5 w-5 shrink-0 ${active ? 'text-white' : 'text-[var(--text-subtle)] group-hover:text-[var(--text-main)]'}`} strokeWidth={active ? 2 : 1.5} />
+        <span className="flex-1 truncate text-left text-xs font-semibold uppercase tracking-wider">{label}</span>
         {badge != null && (
           <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 ${active ? 'bg-white/20 text-white' : 'bg-blue-50 text-blue-600'}`}>
             {badge}
@@ -103,10 +103,10 @@ function SubBtn({ icon: Icon, label, active, onClick }) {
   return (
     <div className="px-3 py-0.5 ml-8">
       <button 
-        className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all text-sm font-medium ${
+        className={`w-full flex items-center gap-3 px-3 py-2 transition-all text-xs font-medium border-l-2 ${
           active 
-            ? 'text-[var(--brand-primary)] bg-blue-50' 
-            : 'text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--border-light)]'
+            ? 'text-[var(--brand-primary)] bg-[var(--border-light)] border-[var(--brand-primary)]' 
+            : 'text-[var(--text-muted)] hover:text-[var(--text-main)] border-transparent hover:bg-[var(--border-light)]'
         }`} 
         onClick={onClick}
       >
@@ -122,9 +122,9 @@ function FileBtn({ label, active, onClick }) {
   return (
     <div className="px-3 py-0.5 ml-12">
       <button 
-        className={`w-full flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-all text-xs font-medium ${
+        className={`w-full flex items-center gap-2.5 px-3 py-1.5 transition-all text-[11px] font-medium border-l border-transparent ${
           active 
-            ? 'text-[var(--brand-primary)] bg-blue-50/50' 
+            ? 'text-[var(--brand-primary)] bg-[var(--border-light)] border-[var(--brand-primary)]' 
             : 'text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--border-light)]'
         }`} 
         onClick={onClick}
@@ -146,7 +146,7 @@ function ProjectGroup({ proj, context, isFileSelected, onFileClick, expandedModu
     <div className="mb-1">
       <div className="px-3 ml-8">
         <button 
-          className={`w-full flex items-center justify-between px-3 py-2 text-[11px] font-bold uppercase tracking-wider transition-all rounded-lg ${
+          className={`w-full flex items-center justify-between px-3 py-2 text-[10px] font-bold uppercase tracking-widest transition-all ${
             isOpen ? 'text-[var(--text-main)] bg-[var(--border-light)]' : 'text-[var(--text-subtle)] hover:text-[var(--text-main)] hover:bg-[var(--border-light)]'
           }`} 
           onClick={(e) => { e.stopPropagation(); toggleMod(moduleId, e); }}
@@ -207,11 +207,11 @@ export default function Sidebar({
     : 'U';
 
   return (
-    <aside className={`flex flex-col h-full bg-[var(--bg-surface)] border-r border-[var(--border-main)] transition-all duration-300 shadow-sm ${collapsed ? 'w-20' : 'w-64'} z-40`}>
+    <aside className={`flex flex-col h-full bg-[var(--bg-surface)] border-r border-[var(--border-main)] transition-all duration-300 ${collapsed ? 'w-20' : 'w-64'} z-40`}>
       {/* ══ LOGO ════════════════════════════════════════════ */}
-      <div className={`flex items-center justify-center shrink-0 border-b border-[var(--border-light)] ${collapsed ? 'h-16' : 'h-20'}`}>
+      <div className={`flex items-center justify-center shrink-0 border-b border-[var(--border-main)] ${collapsed ? 'h-16' : 'h-20'}`}>
         {collapsed ? (
-          <div className="w-10 h-10 rounded-xl bg-[var(--brand-primary)] flex items-center justify-center text-white text-sm font-bold shadow-sm">
+          <div className="w-10 h-10 bg-[var(--brand-primary)] flex items-center justify-center text-white text-xs font-bold">
             {companyName ? companyName.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() : 'CD'}
           </div>
         ) : (
@@ -219,7 +219,7 @@ export default function Sidebar({
             <img
               src={companyLogo || '/caldimlogo.png'}
               alt="Company Logo"
-              className="max-h-9 w-auto object-contain transition-all hover:opacity-80 duration-300"
+              className="max-h-9 w-auto object-contain grayscale"
             />
           </div>
         )}
@@ -405,23 +405,23 @@ export default function Sidebar({
       </nav>
 
       {/* ══ FOOTER ══════════════════════════════════════════ */}
-      <div className={`p-4 border-t border-[var(--border-light)] flex items-center gap-3 ${collapsed ? 'justify-center' : ''}`}>
-        <div className="w-9 h-9 rounded-lg bg-[var(--border-light)] flex items-center justify-center text-[var(--text-main)] text-xs font-bold shrink-0">
+      <div className={`p-4 border-t border-[var(--border-main)] flex items-center gap-3 ${collapsed ? 'justify-center' : ''}`}>
+        <div className="w-9 h-9 bg-[var(--border-light)] border border-[var(--border-main)] flex items-center justify-center text-[var(--text-main)] text-xs font-bold shrink-0">
           {initials}
         </div>
 
         {!collapsed && (
           <>
             <div className="flex-1 min-w-0">
-              <div className="text-xs font-bold text-[var(--text-main)] truncate">
+              <div className="text-[11px] font-bold text-[var(--text-main)] truncate uppercase tracking-tighter">
                 {user?.full_name || 'User'}
               </div>
-              <div className="text-[10px] uppercase tracking-wider text-[var(--text-subtle)] mt-0.5 truncate font-medium">
+              <div className="text-[10px] uppercase tracking-widest text-[var(--text-subtle)] mt-0.5 truncate font-bold">
                 {user?.role || 'Member'}
               </div>
             </div>
             <button 
-              className="p-1.5 text-[var(--text-subtle)] hover:text-[var(--accent-danger)] hover:bg-red-50 rounded-lg transition-all" 
+              className="p-1.5 text-[var(--text-subtle)] hover:text-[var(--accent-danger)] hover:bg-zinc-100 transition-all border border-transparent hover:border-zinc-200" 
               onClick={onLogout} 
               title="Logout"
             >

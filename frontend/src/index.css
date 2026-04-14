@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,52 +6,49 @@
 
 :root {
   /* 
-     LAYERED WHITE SYSTEM (Not Flat White)
+     INDUSTRIAL SYSTEM (Flat & Functional)
      -------------------------------------
-     Target: Clean, high-quality white theme similar to modern Google products.
+     Target: High-density, system-oriented interface.
   */
-  --bg-app: #F5F6F8;        /* System-standard secondary background */
+  --bg-app: #FAFAFA;        /* Zinc-50 equivalent */
   --bg-surface: #FFFFFF;    /* Pure white surfaces */
-  --border-subtle: #E5E7EB; /* Standard gray-200 for separation */
+  --border-subtle: #E4E4E7; /* Zinc-200 */
   
-  /* Semantic Colors */
-  --brand-primary: #2563eb; /* Actions only */
-  --accent-success: #10b981;
-  --accent-warning: #f59e0b;
-  --accent-danger: #ef4444;
+  /* Semantic Colors (Meanings only) */
+  --brand-primary: #18181B; /* High-contrast neutral */
+  --accent-success: #166534;
+  --accent-warning: #92400e;
+  --accent-danger: #991b1b;
 
   /* Typography Hierarchy */
-  --text-main: #0F172A;     /* Page titles & Primary text */
-  --text-muted: #475569;    /* Section headers & body text */
-  --text-subtle: #94A3B8;   /* Table headers & Meta text */
-  --text-meta: #CBD5E1;     /* Light gray for very secondary info */
+  --text-main: #09090B;     /* Zinc-950 */
+  --text-muted: #3F3F46;    /* Zinc-700 */
+  --text-subtle: #71717A;   /* Zinc-500 */
+  --text-meta: #A1A1AA;     /* Zinc-400 */
 
-  /* Borders & Dividers (Subtle separation) */
-  --border-main: #E2E8F0;   /* Slate-200 */
-  --border-light: #F1F5F9;  /* Slate-100 */
-  --border-active: #2563eb;
+  /* Borders & Dividers (Sharp separation) */
+  --border-main: #D4D4D8;   /* Zinc-300 */
+  --border-light: #F4F4F5;  /* Zinc-100 */
+  --border-active: #18181B;
 
-  /* STRICT SPACING SYSTEM (8px Scale) */
+  /* INDUSTRIAL SPACING SYSTEM (Functional Scale) */
   --spacing-1: 4px;
   --spacing-2: 8px;
   --spacing-3: 12px;
   --spacing-4: 16px;
   --spacing-6: 24px;
   --spacing-8: 32px;
-  --spacing-10: 40px;
-  --spacing-12: 48px;
-  --spacing-16: 64px;
 
-  /* Elevation (Subtle visual hierarchy) */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+  /* No Elevation (System Flat) */
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
 
-  /* Tokens */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --premium-easing: cubic-bezier(0.4, 0, 0.2, 1);
+  /* Sharp Edges */
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --premium-easing: linear;
   
   /* Legacy Compat Mapping */
   --bg: var(--bg-app);
@@ -61,18 +58,20 @@
 }
 
 /* Enterprise Design System Utility - Premium Card Standard */
-.premium-card {
+/* System Architectural Panel */
+.system-panel, .premium-card {
   background: var(--bg-surface);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  padding: var(--spacing-6); /* Consistent padding 24px */
-  transition: all 0.2s var(--premium-easing);
+  border: 1px solid var(--border-main);
+  border-radius: 0;
+  box-shadow: none;
+  padding: var(--spacing-4);
+  transition: background 0.1s linear;
 }
 
-.premium-card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-1px);
+.system-panel:hover, .premium-card:hover {
+  background: var(--border-light);
+  transform: none;
+  box-shadow: none;
 }
 
 .glass-panel {
@@ -88,19 +87,19 @@
            modals, badges, text, borders across all modules
    ══════════════════════════════════════════ */
 [data-theme="dark"] {
-  /* Core surfaces */
-  --bg-app: #020617;
-  --bg-surface: #0f172a;
-  --bg-header: rgba(15, 23, 42, 0.85);
+  /* Industrial Dark Palette */
+  --bg-app: #09090B;
+  --bg-surface: #18181B;
+  --bg-header: #18181B;
 
   /* Text */
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --text-subtle: #475569;
+  --text-main: #FAFAFA;
+  --text-muted: #A1A1AA;
+  --text-subtle: #52525B;
 
   /* Borders */
-  --border-main: #1e293b;
-  --border-light: #0f172a;
+  --border-main: #27272A;
+  --border-light: #18181B;
 
   /* Compatibility */
   --bg: var(--bg-app);
@@ -291,18 +290,19 @@
 @layer base {
   body {
     @apply antialiased;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
     background-color: var(--bg-app);
     color: var(--text-main);
   }
 
   label {
     display: block;
-    font-size: 12px;
-    color: #6B7280;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-    margin-bottom: var(--spacing-2);
+    font-size: 11px;
+    color: var(--text-subtle);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--spacing-1);
   }
 
   /* Production-grade scrollbar system */
@@ -316,13 +316,13 @@
   }
   
   ::-webkit-scrollbar-thumb {
-    background: var(--text-subtle);
-    border-radius: 10px;
-    border: 1px solid var(--bg-app);
+    background: var(--border-main);
+    border-radius: 0;
+    border: none;
   }
   
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--text-muted);
+    background: var(--text-subtle);
   }
 
   h1,
@@ -344,8 +344,9 @@
   }
 
   .font-mono {
-    font-family: 'DM Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
     font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
   }
 }
 
@@ -372,7 +373,7 @@
   }
 
   .master-table-container {
-    @apply flex flex-col h-full bg-white flex-1 overflow-hidden relative shadow-sm rounded-xl border border-slate-200/80;
+    @apply flex flex-col h-full bg-white flex-1 overflow-hidden relative border border-zinc-300;
   }
 
   .master-table-inner {
@@ -429,20 +430,20 @@
 
   .master-table th {
     @apply sticky top-0 z-30;
-    background-color: #F1F5F9 !important;
-    font-size: 12px;
-    font-weight: 600;
-    color: #475569 !important;
+    background-color: #F4F4F5 !important; /* Zinc-100 */
+    font-size: 11px;
+    font-weight: 700;
+    color: #3F3F46 !important;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    border-bottom: 1px solid #E2E8F0 !important;
-    padding: var(--spacing-3) var(--spacing-6);
+    border-bottom: 2px solid #D4D4D8 !important;
+    padding: var(--spacing-2) var(--spacing-4);
     text-align: left;
     white-space: nowrap;
   }
 
   .master-table td {
-    @apply border-b border-slate-100/80 py-3.5 px-6 whitespace-nowrap text-sm text-slate-700;
+    @apply border-b border-zinc-100 py-2 px-4 whitespace-nowrap text-[13px] text-zinc-900 font-mono;
   }
 
   .master-table tbody tr:nth-child(even) td {
@@ -530,9 +531,9 @@
   }
 
   .sidebar-nav-item-active {
-    background: #EEF4FF !important;
-    color: #2563EB !important;
-    border-radius: 6px;
+    background: #18181B !important;
+    color: #FFFFFF !important;
+    border-radius: 0;
   }
 
   .sidebar-section-title {

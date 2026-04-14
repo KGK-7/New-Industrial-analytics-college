@@ -79,7 +79,7 @@ const getStatusColor = (status) => {
     case 'At Risk':
     case 'Under Review':
     case 'Likely Delay':
-      return { bg: '#FEF3C7', text: '#92400E' }; // Amber
+      return { bg: '#18181B', text: '#FFFFFF', border: '#000000' }; // High contrast dark
     case 'Closed':
     case 'On Track':
     case 'Active':
@@ -87,15 +87,15 @@ const getStatusColor = (status) => {
     case 'Good':
     case 'Ahead of timeline':
     case 'Operational':
-      return { bg: '#DCFCE7', text: '#166534' }; // Green
+      return { bg: '#FFFFFF', text: '#18181B', border: '#18181B' }; // High contrast light
     case 'In Progress':
     case 'Pending':
     case 'Under Investigation':
-      return { bg: '#DBEAFE', text: '#1E40AF' }; // Blue
+      return { bg: '#F4F4F5', text: '#18181B', border: '#D4D4D8' }; // Neutral grey
     case 'Not Started':
-      return { bg: '#F3F4F6', text: '#4B5563' }; // Grey
+      return { bg: '#FFFFFF', text: '#A1A1AA', border: '#E4E4E7' }; // Muted grey
     default:
-      return { bg: '#F3F4F6', text: '#6B7280' };
+      return { bg: '#FFFFFF', text: '#18181B', border: '#E4E4E7' };
   }
 };
 
@@ -1541,19 +1541,19 @@ const ProjectTitleDashboard = () => {
     const allSelected = availableSectionKeys.every(key => tempVisibleSections[key]);
 
     return (
-      <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-[2000] p-4">
-        <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl border border-[var(--border-main)] overflow-hidden">
+      <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[2000] p-4">
+        <div className="bg-white w-full max-w-2xl max-h-[90vh] flex flex-col border border-black overflow-hidden shadow-none">
           {/* Header */}
-          <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-start bg-[var(--bg-app)]">
+          <div className="px-6 py-4 border-b border-black flex justify-between items-start bg-zinc-100">
             <div className="flex items-center gap-4">
-              <div className="p-2.5 bg-white border border-[var(--border-main)] text-[var(--text-muted)] rounded-xl shadow-sm">
+              <div className="p-2.5 bg-black text-white">
                 <Settings size={20} />
               </div>
               <div>
-                <h2 className="text-lg font-bold text-slate-800 m-0 tracking-tight leading-tight">Dashboard Configuration</h2>
+                <h2 className="text-xs font-black text-black m-0 uppercase tracking-[0.2em] leading-tight">Configuration</h2>
                 <div className="flex items-center gap-2 mt-1">
-                  <span className="text-xs font-medium text-slate-500">Target Workspace</span>
-                  <span className="text-[11px] font-bold text-blue-700 bg-blue-50 border border-blue-200/50 px-2 py-0.5 rounded-md tracking-wide">
+                  <span className="text-[10px] font-black uppercase text-zinc-500">Workspace:</span>
+                  <span className="text-[10px] font-black text-black border border-black px-2 py-0.5 tracking-widest uppercase">
                     {activeProject?.name}
                   </span>
                 </div>
@@ -1561,7 +1561,7 @@ const ProjectTitleDashboard = () => {
             </div>
             <button
               onClick={handleCancelConfig}
-              className="text-[var(--text-subtle)] hover:text-[var(--text-muted)] transition-colors p-1 rounded-full hover:bg-slate-200"
+              className="text-zinc-500 hover:text-black transition-colors"
             >
               <X size={20} />
             </button>
@@ -1569,38 +1569,38 @@ const ProjectTitleDashboard = () => {
 
           {/* Body */}
           <div className="p-6 overflow-y-auto">
-            <p className="text-sm text-slate-500 mb-6">
-              Select the modules and metrics to display for <span className="font-semibold text-[var(--text-main)]">{activeProject?.name}</span>. Unchecked sections will be hidden from the view.
+            <p className="text-[11px] font-bold uppercase tracking-widest text-zinc-500 mb-6 border-l-2 border-black pl-4">
+              SELECT MODULES AND METRICS TO DISPLAY. UNCHECKED SECTIONS WILL BE REMOVED FROM THE INTERFACE.
             </p>
 
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-sm font-bold uppercase tracking-widest text-[var(--text-subtle)]">Available Sections</h3>
+            <div className="flex justify-between items-center mb-4 border-b border-zinc-100 pb-2">
+              <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Sections</h3>
               <button
                 onClick={handleSelectAllVisibility}
-                className={`px-4 py-2 text-xs font-bold rounded-lg transition-colors border ${
+                className={`px-4 py-1 text-[10px] font-black uppercase tracking-widest transition-colors border border-black shadow-none ${
                   allSelected 
-                    ? 'bg-slate-800 text-white border-slate-800 hover:bg-slate-700' 
-                    : 'bg-white text-[var(--text-main)] border-slate-300 hover:bg-[var(--bg-app)]'
+                    ? 'bg-black text-white' 
+                    : 'bg-white text-black hover:bg-zinc-50'
                 }`}
               >
-                {allSelected ? 'Deselect All' : 'Select All'}
+                {allSelected ? 'EXCLUSION ALL' : 'SELECTION ALL'}
               </button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
               {/* Project Overview */}
               <div>
-                <h4 className="text-sm font-semibold text-slate-800 mb-3 border-b border-slate-100 pb-2">Overview</h4>
-                <div className="flex flex-col gap-3">
+                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-4 border-b border-zinc-200 pb-2">Category: Overview</h4>
+                <div className="flex flex-col gap-1">
                   {['milestones', 'criticalIssues'].map(key => (
-                    <label key={key} className="flex items-center gap-3 text-sm text-[var(--text-muted)] cursor-pointer hover:text-slate-900 transition-colors">
+                    <label key={key} className="flex items-center gap-3 p-3 bg-white border border-zinc-200 text-[11px] font-bold text-black cursor-pointer hover:border-black hover:bg-zinc-50 transition-all">
                       <input
                         type="checkbox"
                         checked={tempVisibleSections[key] || false}
                         onChange={() => handleSectionVisibilityToggle(key)}
-                        className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                        className="w-4 h-4 rounded-none border-zinc-400 text-black focus:ring-0 cursor-pointer"
                       />
-                      {key === 'milestones' ? 'Milestones' : 'Critical Issues'}
+                      <span>{key === 'milestones' ? 'Project Milestones' : 'Critical Issues'}</span>
                     </label>
                   ))}
                 </div>
@@ -1608,19 +1608,19 @@ const ProjectTitleDashboard = () => {
 
               {/* Summary Cards */}
               <div>
-                <h4 className="text-sm font-semibold text-slate-800 mb-3 border-b border-slate-100 pb-2">Summary Cards</h4>
-                <div className="flex flex-col gap-3">
+                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-4 border-b border-zinc-200 pb-2">Category: Summaries</h4>
+                <div className="flex flex-col gap-1">
                   {[
                     { id: 'budget', label: 'Budget Summary' },
                     { id: 'resource', label: 'Resource Summary' },
                     { id: 'quality', label: 'Quality Summary' }
                   ].map(item => (
-                    <label key={item.id} className="flex items-center gap-3 text-sm text-[var(--text-muted)] cursor-pointer hover:text-slate-900 transition-colors">
+                    <label key={item.id} className="flex items-center gap-3 p-3 bg-white border border-zinc-200 text-[11px] font-bold text-black cursor-pointer hover:border-black hover:bg-zinc-50 transition-all">
                       <input
                         type="checkbox"
                         checked={tempVisibleSections[item.id] || false}
                         onChange={() => handleSectionVisibilityToggle(item.id)}
-                        className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                        className="w-4 h-4 rounded-none border-zinc-400 text-black focus:ring-0 cursor-pointer"
                       />
                       {item.label}
                     </label>
@@ -1630,8 +1630,8 @@ const ProjectTitleDashboard = () => {
 
               {/* Project Metrics */}
               <div className="md:col-span-2">
-                <h4 className="text-sm font-semibold text-slate-800 mb-3 border-b border-slate-100 pb-2">Metrics & Trackers</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-4 border-b border-zinc-200 pb-2">Category: Metrics & Trackers</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-1">
                   {/* Default Phases */}
                   {[
                     { id: 'design', label: 'Design' },
@@ -1642,12 +1642,12 @@ const ProjectTitleDashboard = () => {
                     { id: 'qualityIssues', label: 'Quality Issues' },
                     { id: 'productGrade', label: 'Product Grade' }
                   ].map(phase => availablePhases[phase.id] && (
-                    <label key={phase.id} className="flex items-center gap-3 text-sm text-[var(--text-muted)] cursor-pointer hover:text-slate-900 transition-colors bg-[var(--bg-app)] p-2.5 rounded-xl border border-slate-100">
+                    <label key={phase.id} className="flex items-center gap-3 p-3 bg-zinc-50 border border-zinc-200 text-[11px] font-bold text-black cursor-pointer hover:border-black hover:bg-white transition-all">
                       <input
                         type="checkbox"
                         checked={tempVisibleSections[phase.id] || false}
                         onChange={() => handleSectionVisibilityToggle(phase.id)}
-                        className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                        className="w-4 h-4 rounded-none border-zinc-400 text-black focus:ring-0 cursor-pointer"
                       />
                       <span className="truncate">{phase.label}</span>
                     </label>
@@ -1662,12 +1662,12 @@ const ProjectTitleDashboard = () => {
                     });
                     return !coveredByDefault;
                   }).map(sub => (
-                    <label key={sub.id} className="flex items-center gap-3 text-sm text-[var(--text-muted)] cursor-pointer hover:text-slate-900 transition-colors bg-[var(--bg-app)] p-2.5 rounded-xl border border-slate-100">
+                    <label key={sub.id} className="flex items-center gap-3 p-3 bg-zinc-50 border border-zinc-200 text-[11px] font-bold text-black cursor-pointer hover:border-black hover:bg-white transition-all">
                       <input
                         type="checkbox"
                         checked={tempVisibleSections[sub.id] || false}
                         onChange={() => handleSectionVisibilityToggle(sub.id)}
-                        className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                        className="w-4 h-4 rounded-none border-zinc-400 text-black focus:ring-0 cursor-pointer"
                       />
                       <span className="truncate">{sub.displayName || sub.name}</span>
                     </label>
@@ -1677,14 +1677,14 @@ const ProjectTitleDashboard = () => {
             </div>
 
             {/* Preview of visible sections */}
-            <div className="bg-[var(--bg-app)] p-4 rounded-xl border border-[var(--border-main)]">
-              <div className="flex justify-between items-center mb-3">
-                <h4 className="text-xs font-bold uppercase tracking-widest text-slate-500 m-0">Live Preview</h4>
-                <span className="text-xs font-mono font-medium text-[var(--text-subtle)] bg-white px-2 py-1 rounded-md border border-[var(--border-main)]">
-                  {availableSectionKeys.filter(key => tempVisibleSections[key]).length} active
+            <div className="bg-zinc-50 p-6 border border-black shadow-none mt-8">
+              <div className="flex justify-between items-center mb-4">
+                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 m-0">Consolidated Workspace Partition Mapping</h4>
+                <span className="text-[10px] font-black text-black bg-white border border-black px-2 py-0.5 tracking-widest">
+                  {availableSectionKeys.filter(key => tempVisibleSections[key]).length} VECTOR PARTICIPANTS
                 </span>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1">
                 {Object.entries(tempVisibleSections)
                   .filter(([section, selected]) => selected && section !== 'sopTables')
                   .map(([section]) => {
@@ -1692,15 +1692,15 @@ const ProjectTitleDashboard = () => {
                         (activeProject?.submodules || []).find(s => s.id === section)?.name ||
                         section.charAt(0).toUpperCase() + section.slice(1).replace(/([A-Z])/g, ' $1');
                     return (
-                      <span key={section} className="px-3 py-1.5 bg-white border border-slate-300 text-[var(--text-muted)] rounded-lg text-xs font-medium shadow-sm flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                      <span key={section} className="px-3 py-2 bg-white border border-zinc-200 text-[10px] font-black uppercase tracking-widest text-black flex items-center gap-3">
+                        <span className="w-1.5 h-1.5 bg-black"></span>
                         {displayName}
                       </span>
                     );
                   })}
                 {Object.values(tempVisibleSections).filter(v => v).length === 0 && (
-                  <div className="text-[var(--text-subtle)] text-sm italic w-full text-center py-2">
-                    No sections selected
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 w-full text-center py-4 border-2 border-dashed border-zinc-200 bg-white/50">
+                    NO MODULES COMMITTED TO INTERFACE
                   </div>
                 )}
               </div>
@@ -1708,19 +1708,19 @@ const ProjectTitleDashboard = () => {
           </div>
 
           {/* Footer Actions */}
-          <div className="px-6 py-4 border-t border-slate-100 bg-[var(--bg-app)] flex justify-end gap-3">
+          <div className="px-6 py-4 border-t border-black bg-zinc-100 flex justify-end gap-2 shrink-0">
             <button
               onClick={handleCancelConfig}
-              className="px-5 py-2.5 text-sm font-semibold text-[var(--text-muted)] bg-white border border-slate-300 rounded-xl hover:bg-[var(--bg-app)] transition-colors shadow-sm"
+              className="px-5 py-2 text-[10px] font-black uppercase tracking-widest text-zinc-600 border border-zinc-300 hover:bg-zinc-200 transition-colors"
             >
               Cancel
             </button>
             <button
               onClick={handleApplyDashboardConfig}
-              className="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 border border-transparent rounded-xl hover:bg-blue-700 transition-colors shadow-sm flex items-center gap-2"
+              className="px-5 py-2 text-[10px] font-black uppercase tracking-widest text-white bg-black border border-black hover:bg-zinc-900 transition-colors flex items-center gap-2"
             >
-              <Check size={16} />
-              Apply Configuration
+              <Check size={14} />
+              Commit Mapping
             </button>
           </div>
         </div>
@@ -1738,32 +1738,34 @@ const ProjectTitleDashboard = () => {
     };
 
     return (
-      <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 3000, padding: '20px' }}>
-        <div style={{ backgroundColor: 'white', borderRadius: '8px', width: '900px', maxWidth: '100%', maxHeight: '90vh', overflow: 'auto', boxShadow: '0 10px 25px rgba(0,0,0,0.2)' }}>
-          <div style={{ backgroundColor: '#1e3a5f', color: 'white', padding: '15px 20px', fontSize: '18px', fontWeight: 'bold', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 10 }}>
-            <span>Edit Project Milestones</span>
-            <button onClick={() => setShowEditMilestones(false)} style={{ background: 'none', border: 'none', color: 'white', fontSize: '20px', cursor: 'pointer' }}>×</button>
+      <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[3000] p-4">
+        <div className="bg-white w-full max-w-5xl max-h-[90vh] flex flex-col border border-black overflow-hidden shadow-none">
+          <div className="bg-black text-white px-6 py-4 flex justify-between items-center sticky top-0 z-10">
+            <span className="text-[11px] font-black uppercase tracking-[0.2em]">Edit Project Milestones</span>
+            <button onClick={() => setShowEditMilestones(false)} className="text-white hover:opacity-50 transition-opacity">
+              <X className="h-5 w-5" />
+            </button>
           </div>
-          <div style={{ padding: '20px' }}>
-            <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '20px', fontSize: '12px' }}>
+          <div className="p-6 overflow-auto">
+            <div className="overflow-x-auto border border-zinc-200">
+              <table className="w-full border-collapse font-mono text-[11px]">
                 <thead>
-                  <tr style={{ backgroundColor: '#f1f5f9' }}>
-                    <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #e2e8f0', width: '80px' }}>Type</th>
-                    <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #e2e8f0' }}>Gate 1</th>
-                    <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #e2e8f0' }}>Gate 2</th>
-                    <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #e2e8f0' }}>Gate 3</th>
-                    <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #e2e8f0' }}>Gate 4</th>
-                    <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #e2e8f0' }}>Gate 5</th>
-                    <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #e2e8f0' }}>Gate 6</th>
-                    <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #e2e8f0' }}>Implementation</th>
+                  <tr className="bg-zinc-100 border-b border-black">
+                    <th className="p-3 text-left border-r border-zinc-200 font-black uppercase tracking-widest text-zinc-500 w-24">Type</th>
+                    <th className="p-3 text-left border-r border-zinc-200 font-black uppercase tracking-widest text-zinc-500">Gate 1</th>
+                    <th className="p-3 text-left border-r border-zinc-200 font-black uppercase tracking-widest text-zinc-500">Gate 2</th>
+                    <th className="p-3 text-left border-r border-zinc-200 font-black uppercase tracking-widest text-zinc-500">Gate 3</th>
+                    <th className="p-3 text-left border-r border-zinc-200 font-black uppercase tracking-widest text-zinc-500">Gate 4</th>
+                    <th className="p-3 text-left border-r border-zinc-200 font-black uppercase tracking-widest text-zinc-500">Gate 5</th>
+                    <th className="p-3 text-left border-r border-zinc-200 font-black uppercase tracking-widest text-zinc-500">Gate 6</th>
+                    <th className="p-3 text-left font-black uppercase tracking-widest text-zinc-500">Implementation</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-zinc-200">
                   <tr>
-                    <td style={{ padding: '10px', border: '1px solid #e2e8f0', fontWeight: 'bold', backgroundColor: '#f8fafc' }}>PLAN</td>
+                    <td className="p-3 border-r border-zinc-200 font-black bg-zinc-50 text-zinc-900">PLAN</td>
                     {['a', 'b', 'c', 'd', 'e', 'f'].map(char => (
-                      <td key={char} style={{ padding: '5px', border: '1px solid #e2e8f0' }}>
+                      <td key={char} className="p-1 border-r border-zinc-200">
                         <input
                           type="text"
                           value={milestoneForm.plan[char]}
@@ -1772,11 +1774,11 @@ const ProjectTitleDashboard = () => {
                             newForm.plan[char] = e.target.value;
                             setMilestoneForm(newForm);
                           }}
-                          style={{ width: '100%', padding: '6px', border: '1px solid #cbd5e1', borderRadius: '4px' }}
+                          className="w-full p-2 bg-transparent text-black font-bold outline-none focus:bg-zinc-50"
                         />
                       </td>
                     ))}
-                    <td style={{ padding: '5px', border: '1px solid #e2e8f0' }}>
+                    <td className="p-1">
                       <input
                         type="text"
                         value={milestoneForm.plan.implementation}
@@ -1785,14 +1787,14 @@ const ProjectTitleDashboard = () => {
                           newForm.plan.implementation = e.target.value;
                           setMilestoneForm(newForm);
                         }}
-                        style={{ width: '100%', padding: '6px', border: '1px solid #cbd5e1', borderRadius: '4px' }}
+                        className="w-full p-2 bg-transparent text-black font-bold outline-none focus:bg-zinc-50"
                       />
                     </td>
                   </tr>
-                  <tr>
-                    <td style={{ padding: '10px', border: '1px solid #e2e8f0', fontWeight: 'bold', backgroundColor: '#f8fafc' }}>ACTUAL</td>
+                  <tr className="bg-zinc-50/50">
+                    <td className="p-3 border-r border-zinc-200 font-black bg-zinc-100 text-zinc-900">ACTUAL</td>
                     {['a', 'b', 'c', 'd', 'e', 'f'].map(char => (
-                      <td key={char} style={{ padding: '5px', border: '1px solid #e2e8f0' }}>
+                      <td key={char} className="p-1 border-r border-zinc-200">
                         <input
                           type="text"
                           value={milestoneForm.actual[char]}
@@ -1801,11 +1803,11 @@ const ProjectTitleDashboard = () => {
                             newForm.actual[char] = e.target.value;
                             setMilestoneForm(newForm);
                           }}
-                          style={{ width: '100%', padding: '6px', border: '1px solid #cbd5e1', borderRadius: '4px' }}
+                          className="w-full p-2 bg-transparent text-black font-bold outline-none focus:bg-zinc-100 focus:text-blue-600"
                         />
                       </td>
                     ))}
-                    <td style={{ padding: '5px', border: '1px solid #e2e8f0' }}>
+                    <td className="p-1">
                       <input
                         type="text"
                         value={milestoneForm.actual.implementation}
@@ -1814,16 +1816,16 @@ const ProjectTitleDashboard = () => {
                           newForm.actual.implementation = e.target.value;
                           setMilestoneForm(newForm);
                         }}
-                        style={{ width: '100%', padding: '6px', border: '1px solid #cbd5e1', borderRadius: '4px' }}
+                        className="w-full p-2 bg-transparent text-black font-bold outline-none focus:bg-zinc-100 focus:text-blue-600"
                       />
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px', borderTop: '1px solid #e2e8f0', paddingTop: '15px' }}>
-              <button onClick={() => setShowEditMilestones(false)} style={{ padding: '8px 16px', borderRadius: '4px', border: '1px solid #cbd5e1', backgroundColor: 'white', cursor: 'pointer' }}>Cancel</button>
-              <button onClick={handleSave} style={{ padding: '8px 16px', borderRadius: '4px', backgroundColor: '#1e3a5f', color: 'white', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}>Save Changes</button>
+            <div className="flex justify-end gap-3 mt-6 pt-6 border-t border-zinc-200">
+              <button onClick={() => setShowEditMilestones(false)} className="px-5 py-2 text-[10px] font-black uppercase tracking-widest text-zinc-600 border border-zinc-300 hover:bg-zinc-50">Cancel</button>
+              <button onClick={handleSave} className="px-5 py-2 text-[10px] font-black uppercase tracking-widest bg-black text-white hover:bg-zinc-900">Save Configuration</button>
             </div>
           </div>
         </div>
@@ -1863,77 +1865,80 @@ const ProjectTitleDashboard = () => {
     };
 
     return (
-      <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 3000, padding: '20px' }}>
-        <div style={{ backgroundColor: 'white', borderRadius: '8px', width: '900px', maxWidth: '100%', maxHeight: '90vh', overflow: 'auto', boxShadow: '0 10px 25px rgba(0,0,0,0.2)' }}>
-          <div style={{ backgroundColor: '#1e3a5f', color: 'white', padding: '15px 20px', fontSize: '18px', fontWeight: 'bold', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 10 }}>
-            <span>Edit Critical Issues</span>
-            <button onClick={() => setShowEditIssues(false)} style={{ background: 'none', border: 'none', color: 'white', fontSize: '20px', cursor: 'pointer' }}>×</button>
+      <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[3000] p-4">
+        <div className="bg-white w-full max-w-5xl max-h-[90vh] flex flex-col border border-black overflow-hidden shadow-none">
+          <div className="bg-black text-white px-6 py-4 flex justify-between items-center sticky top-0 z-10">
+            <span className="text-[11px] font-black uppercase tracking-[0.2em]">Edit Critical Issues</span>
+            <button onClick={() => setShowEditIssues(false)} className="text-white hover:opacity-50 transition-opacity">
+              <X className="h-5 w-5" />
+            </button>
           </div>
-          <div style={{ padding: '20px' }}>
-            <div style={{ marginBottom: '15px' }}>
-              <button onClick={addIssue} style={{ display: 'flex', alignItems: 'center', gap: '5px', padding: '6px 12px', fontSize: '13px', backgroundColor: '#10b981', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>
-                <Plus className="h-4 w-4" /> Add Issue
+          <div className="p-6 overflow-auto">
+            <div className="mb-6 flex justify-between items-center bg-zinc-50 p-4 border border-zinc-200">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Add or manage active critical issues for this project.</p>
+              <button onClick={addIssue} className="flex items-center gap-2 px-4 py-2 bg-zinc-900 text-white text-[10px] font-black uppercase tracking-widest hover:bg-black transition-colors">
+                <Plus className="h-4 w-4" /> Add Record
               </button>
             </div>
-            <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '20px', fontSize: '12px' }}>
+            <div className="overflow-x-auto border border-zinc-200">
+              <table className="w-full border-collapse font-mono text-[11px]">
                 <thead>
-                  <tr style={{ backgroundColor: '#f1f5f9' }}>
-                    <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #e2e8f0' }}>Issue Description</th>
-                    <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #e2e8f0', width: '120px' }}>Responsibility</th>
-                    <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #e2e8f0', width: '120px' }}>Function</th>
-                    <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #e2e8f0', width: '100px' }}>Target Date</th>
-                    <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #e2e8f0', width: '100px' }}>Status</th>
-                    <th style={{ padding: '10px', textAlign: 'center', border: '1px solid #e2e8f0', width: '50px' }}>Action</th>
+                  <tr className="bg-zinc-100 border-b border-black">
+                    <th className="p-3 text-left border-r border-zinc-200 font-black uppercase tracking-widest text-zinc-500">Issue Description</th>
+                    <th className="p-3 text-left border-r border-zinc-200 font-black uppercase tracking-widest text-zinc-500 w-32">Responsibility</th>
+                    <th className="p-3 text-left border-r border-zinc-200 font-black uppercase tracking-widest text-zinc-500 w-32">Function</th>
+                    <th className="p-3 text-left border-r border-zinc-200 font-black uppercase tracking-widest text-zinc-500 w-32">Target Date</th>
+                    <th className="p-3 text-left border-r border-zinc-200 font-black uppercase tracking-widest text-zinc-500 w-32">Status</th>
+                    <th className="p-3 text-center w-16">Action</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-zinc-200">
                   {issuesForm.map((issue) => (
-                    <tr key={issue.id}>
-                      <td style={{ padding: '5px', border: '1px solid #e2e8f0' }}>
+                    <tr key={issue.id} className="hover:bg-zinc-50 transition-colors">
+                      <td className="p-1 border-r border-zinc-200">
                         <textarea
                           value={issue.issue}
                           onChange={(e) => updateIssue(issue.id, 'issue', e.target.value)}
-                          style={{ width: '100%', padding: '6px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '12px', resize: 'vertical', minHeight: '40px' }}
+                          className="w-full p-2 bg-transparent text-black font-bold outline-none focus:bg-white border-transparent focus:border-zinc-300 border min-h-[40px] text-[11px]"
                         />
                       </td>
-                      <td style={{ padding: '5px', border: '1px solid #e2e8f0' }}>
+                      <td className="p-1 border-r border-zinc-200">
                         <input
                           type="text"
                           value={issue.responsibility}
                           onChange={(e) => updateIssue(issue.id, 'responsibility', e.target.value)}
-                          style={{ width: '100%', padding: '6px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '12px' }}
+                          className="w-full p-2 bg-transparent text-black font-bold outline-none focus:bg-white"
                         />
                       </td>
-                      <td style={{ padding: '5px', border: '1px solid #e2e8f0' }}>
+                      <td className="p-1 border-r border-zinc-200">
                         <input
                           type="text"
                           value={issue.function}
                           onChange={(e) => updateIssue(issue.id, 'function', e.target.value)}
-                          style={{ width: '100%', padding: '6px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '12px' }}
+                          className="w-full p-2 bg-transparent text-black font-bold outline-none focus:bg-white"
                         />
                       </td>
-                      <td style={{ padding: '5px', border: '1px solid #e2e8f0' }}>
+                      <td className="p-1 border-r border-zinc-200">
                         <input
                           type="date"
                           value={issue.targetDate}
                           onChange={(e) => updateIssue(issue.id, 'targetDate', e.target.value)}
-                          style={{ width: '100%', padding: '6px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '11px' }}
+                          className="w-full p-2 bg-transparent text-black font-black uppercase outline-none focus:bg-white text-[10px]"
                         />
                       </td>
-                      <td style={{ padding: '5px', border: '1px solid #e2e8f0' }}>
+                      <td className="p-1 border-r border-zinc-200">
                         <select
                           value={issue.status}
                           onChange={(e) => updateIssue(issue.id, 'status', e.target.value)}
-                          style={{ width: '100%', padding: '6px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '12px' }}
+                          className="w-full p-2 bg-transparent text-black font-bold outline-none focus:bg-white cursor-pointer uppercase text-[10px]"
                         >
                           <option value="Open">Open</option>
                           <option value="In Progress">In Progress</option>
                           <option value="Closed">Closed</option>
                         </select>
                       </td>
-                      <td style={{ padding: '5px', border: '1px solid #e2e8f0', textAlign: 'center' }}>
-                        <button onClick={() => removeIssue(issue.id)} style={{ color: '#ef4444', border: 'none', background: 'none', cursor: 'pointer' }}>
+                      <td className="p-3 text-center">
+                        <button onClick={() => removeIssue(issue.id)} className="text-red-600 hover:text-red-900 transition-colors">
                           <Trash2 className="h-4 w-4" />
                         </button>
                       </td>
@@ -1942,9 +1947,9 @@ const ProjectTitleDashboard = () => {
                 </tbody>
               </table>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px', borderTop: '1px solid #e2e8f0', paddingTop: '15px' }}>
-              <button onClick={() => setShowEditIssues(false)} style={{ padding: '8px 16px', borderRadius: '4px', border: '1px solid #cbd5e1', backgroundColor: 'white', cursor: 'pointer' }}>Cancel</button>
-              <button onClick={handleSave} style={{ padding: '8px 16px', borderRadius: '4px', backgroundColor: '#1e3a5f', color: 'white', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}>Save Changes</button>
+            <div className="flex justify-end gap-3 mt-6 pt-6 border-t border-zinc-200">
+              <button onClick={() => setShowEditIssues(false)} className="px-5 py-2 text-[10px] font-black uppercase tracking-widest text-zinc-600 border border-zinc-300 hover:bg-zinc-50">Cancel</button>
+              <button onClick={handleSave} className="px-5 py-2 text-[10px] font-black uppercase tracking-widest bg-black text-white hover:bg-zinc-900">Commit Changes</button>
             </div>
           </div>
         </div>
@@ -2103,8 +2108,6 @@ const ProjectTitleDashboard = () => {
       };
 
       const handleCurrencyChange = (newCurr) => {
-        // Shifted to follow global currency, but keeping this for local overrides if needed
-        // however, we'll sync it with useCurrency's symbol
         setBudgetCurrency(newCurr);
         const updatedTable = budgetTableForm.map((row, rIdx) => {
           if (rIdx === 0) return row;
@@ -2132,80 +2135,77 @@ const ProjectTitleDashboard = () => {
       const rows = budgetTableForm.slice(1);
 
       return (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 3000, padding: '20px' }}>
-          <div style={{ backgroundColor: 'white', borderRadius: '12px', width: '95vw', maxWidth: '1200px', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04)', maxHeight: '90vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-            <div style={{ backgroundColor: '#1e3a5f', color: 'white', padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
-                <span style={{ fontSize: '18px', fontWeight: 'bold' }}>Edit Budget Summary</span>
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[3000] p-4 font-mono">
+          <div className="bg-white w-full max-w-7xl max-h-[90vh] flex flex-col border border-black overflow-hidden shadow-none">
+            <div className="bg-black text-white px-6 py-4 flex justify-between items-center sticky top-0 z-10">
+              <div className="flex gap-6 items-center">
+                <span className="text-[11px] font-black uppercase tracking-[0.2em]">Financial Ledger Configuration</span>
               </div>
-              <button onClick={() => setShowEditSummary(false)} style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer', display: 'flex', padding: '4px', borderRadius: '4px' }} className="hover:bg-slate-700">
+              <button onClick={() => setShowEditSummary(false)} className="text-white hover:opacity-50 transition-opacity">
                 <X size={20} />
               </button>
             </div>
 
-            <div style={{ padding: '24px', overflowY: 'auto', flex: 1, backgroundColor: '#f8fafc' }}>
-              <div style={{ marginBottom: '16px', display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', backgroundColor: 'white', border: '1px solid #cbd5e1', padding: '6px 12px', borderRadius: '6px' }}>
-                  <span style={{ fontSize: '13px', color: '#64748b', fontWeight: 'bold' }}>Project Name:</span>
+            <div className="p-6 overflow-y-auto flex-1 bg-zinc-50">
+              <div className="mb-6 flex gap-4 items-center flex-wrap">
+                <div className="flex items-center gap-3 bg-white border border-zinc-200 px-3 py-2">
+                  <span className="text-[10px] font-black uppercase text-zinc-500">Project Reference:</span>
                   <input
                     type="text"
                     value={modalProjectName}
                     onChange={e => setModalProjectName(e.target.value)}
-                    style={{ border: 'none', color: '#1e3a5f', fontWeight: '800', fontSize: '14px', outline: 'none', width: '180px' }}
+                    className="border-none text-black font-black text-xs outline-none w-32 uppercase tracking-widest"
                   />
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', backgroundColor: 'white', border: '1px solid #cbd5e1', padding: '6px 12px', borderRadius: '6px' }}>
-                  <span style={{ fontSize: '13px', color: '#64748b', fontWeight: 'bold' }}>Status:</span>
+                <div className="flex items-center gap-3 bg-white border border-zinc-200 px-3 py-2">
+                  <span className="text-[10px] font-black uppercase text-zinc-500">Lifecycle State:</span>
                   <select
                     value={modalProjectStatus}
                     onChange={e => setModalProjectStatus(e.target.value)}
-                    style={{ border: 'none', color: '#10b981', fontWeight: '800', fontSize: '14px', outline: 'none', cursor: 'pointer', backgroundColor: 'transparent' }}
+                    className="border-none text-black font-black text-xs outline-none cursor-pointer bg-transparent uppercase tracking-widest"
                   >
-                    <option style={{ color: 'black' }} value="Planning">Planning</option>
-                    <option style={{ color: 'black' }} value="Active">Active</option>
-                    <option style={{ color: 'black' }} value="In Progress">In Progress</option>
-                    <option style={{ color: 'black' }} value="Completed">Completed</option>
-                    <option style={{ color: 'black' }} value="On Hold">On Hold</option>
+                    <option value="Planning">Planning</option>
+                    <option value="Active">Active</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                    <option value="On Hold">On Hold</option>
                   </select>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', backgroundColor: 'white', border: '1px solid #cbd5e1', padding: '6px 12px', borderRadius: '6px' }}>
-                  <span style={{ fontSize: '13px', color: '#64748b', fontWeight: 'bold' }}>System Currency:</span>
-                  <span style={{ color: '#1e3a5f', fontWeight: '800', fontSize: '14px' }}>{symbol}</span>
+                <div className="flex items-center gap-3 bg-white border border-zinc-200 px-3 py-2">
+                  <span className="text-[10px] font-black uppercase text-zinc-500">Currency Unit:</span>
+                  <span className="text-black font-black text-xs uppercase tracking-widest">{symbol}</span>
                 </div>
-                <div style={{ flex: 1 }}></div>
+                <div className="flex-1"></div>
 
-                <button
-                  onClick={() => addDepartmentRow(budgetTableForm.findIndex(r => r[0] === 'Total CAPEX'))}
-                  style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 16px', backgroundColor: '#f0fdf4', color: '#166534', border: '1px solid #bbf7d0', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}
-                >
-                  <Plus size={16} /> ADD CAPEX
-                </button>
-                <button
-                  onClick={() => addDepartmentRow(budgetTableForm.findIndex(r => r[0] === 'Total Revenue'))}
-                  style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 16px', backgroundColor: '#e0f2fe', color: '#0369a1', border: '1px solid #bae6fd', borderRadius: '6px', fontWeight: '600', cursor: 'pointer' }}
-                >
-                  <Plus size={16} /> ADD REVENUE
-                </button>
+                <div className="flex gap-1">
+                  <button
+                    onClick={() => addDepartmentRow(budgetTableForm.findIndex(r => r[0] === 'Total CAPEX'))}
+                    className="flex items-center gap-2 px-4 py-2 border border-black text-black text-[10px] font-black uppercase tracking-widest hover:bg-black hover:text-white transition-all"
+                  >
+                    <Plus size={14} /> Add Capex Line
+                  </button>
+                  <button
+                    onClick={() => addDepartmentRow(budgetTableForm.findIndex(r => r[0] === 'Total Revenue'))}
+                    className="flex items-center gap-2 px-4 py-2 border border-black text-black text-[10px] font-black uppercase tracking-widest hover:bg-black hover:text-white transition-all"
+                  >
+                    <Plus size={14} /> Add Revenue Line
+                  </button>
+                </div>
               </div>
 
-              <div style={{ overflowX: 'auto', borderRadius: '8px', border: '1px solid #e2e8f0', backgroundColor: 'white', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '14px' }}>
+              <div className="overflow-x-auto border border-black bg-white">
+                <table className="w-full border-collapse text-left text-[11px] font-mono">
                   <thead>
-                    <tr style={{ backgroundColor: '#f8fafc', borderBottom: '2px solid #e2e8f0' }}>
+                    <tr className="bg-zinc-100 border-b border-black">
                       {headers.map((h, i) => (
-                        <th key={i} style={{
-                          padding: '12px 14px',
-                          borderRight: i === headers.length - 1 ? 'none' : '1px solid #e2e8f0',
-                          color: '#475569',
-                          fontWeight: 'bold'
-                        }}>
+                        <th key={i} className={`p-3 border-r border-zinc-200 font-black uppercase tracking-widest text-zinc-500 ${i === headers.length - 1 ? 'border-r-0' : ''}`}>
                           {h}
                         </th>
                       ))}
-                      <th style={{ padding: '12px', width: '40px' }}></th>
+                      <th className="p-3 w-12"></th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="divide-y divide-zinc-200">
                     {rows.map((row, idx) => {
                       const absoluteIdx = idx + 1;
                       const isHeader = row[0] === 'CAPEX' || row[0] === 'Revenue';
@@ -2213,19 +2213,16 @@ const ProjectTitleDashboard = () => {
                       const canDelete = !isHeader && !isTotal;
 
                       return (
-                        <tr key={idx} style={{ backgroundColor: isTotal ? '#f8fafc' : 'white', borderBottom: '1px solid #e2e8f0' }}>
+                        <tr key={idx} className={isTotal ? 'bg-zinc-100 font-black' : 'hover:bg-zinc-50 transition-colors'}>
                           {row.map((cell, colIdx) => {
                             const isCalculatedCell = colIdx === 5 || colIdx === 7 || isTotal;
                             const isLabelCell = colIdx === 0 && (isHeader || isTotal);
                             const isReadOnly = isCalculatedCell || isLabelCell;
 
                             return (
-                              <td key={colIdx} style={{
-                                padding: '0',
-                                borderRight: colIdx === row.length - 1 ? 'none' : '1px solid #e2e8f0'
-                              }}>
+                              <td key={colIdx} className={`border-r border-zinc-200 ${colIdx === row.length - 1 ? 'border-r-0' : ''}`}>
                                 {isReadOnly ? (
-                                  <div style={{ padding: '12px 14px', color: isHeader || isTotal ? '#1e3a5f' : '#334155', fontWeight: isHeader || isTotal ? 'bold' : 'normal', minHeight: '44px', display: 'flex', alignItems: 'center' }}>
+                                  <div className={`p-3 min-h-[44px] flex items-center ${isHeader || isTotal ? 'text-black font-black' : 'text-zinc-600'}`}>
                                     {cell}
                                   </div>
                                 ) : (
@@ -2234,17 +2231,15 @@ const ProjectTitleDashboard = () => {
                                     value={cell}
                                     onChange={(e) => updateValue(absoluteIdx, colIdx, e.target.value)}
                                     placeholder={colIdx === 1 ? "Dept Name" : ""}
-                                    style={{ width: '100%', padding: '12px 14px', border: '1px solid transparent', outline: 'none', color: '#334155', height: '100%', backgroundColor: 'transparent' }}
-                                    onFocus={(e) => { e.target.style.backgroundColor = '#eff6ff'; }}
-                                    onBlur={(e) => { e.target.style.backgroundColor = 'transparent'; }}
+                                    className="w-full p-3 bg-transparent text-black font-bold outline-none focus:bg-white focus:ring-1 focus:ring-black h-full"
                                   />
                                 )}
                               </td>
                             );
                           })}
-                          <td style={{ padding: '8px', textAlign: 'center' }}>
+                          <td className="p-2 text-center">
                             {canDelete && (
-                              <button onClick={() => delRow(absoluteIdx)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', display: 'flex', margin: '0 auto' }} title="Delete Row">
+                              <button onClick={() => delRow(absoluteIdx)} className="text-zinc-400 hover:text-red-600 transition-colors mx-auto block">
                                 <Trash2 size={16} />
                               </button>
                             )}
@@ -2257,9 +2252,9 @@ const ProjectTitleDashboard = () => {
               </div>
             </div>
 
-            <div style={{ padding: '16px 24px', borderTop: '1px solid #e2e8f0', display: 'flex', justifyContent: 'flex-end', gap: '12px', backgroundColor: 'white' }}>
-              <button onClick={() => setShowEditSummary(false)} style={{ padding: '10px 20px', borderRadius: '6px', border: '1px solid #cbd5e1', backgroundColor: 'white', color: '#475569', fontWeight: '600', cursor: 'pointer' }}>Cancel</button>
-              <button onClick={handleSave} style={{ padding: '10px 20px', borderRadius: '6px', backgroundColor: '#1e3a5f', color: 'white', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}>Save Budget</button>
+            <div className="px-6 py-4 border-t border-black flex justify-end gap-3 bg-white">
+              <button onClick={() => setShowEditSummary(false)} className="px-5 py-2 text-[10px] font-black uppercase tracking-widest text-zinc-600 border border-zinc-300 hover:bg-zinc-50">Cancel</button>
+              <button onClick={handleSave} className="px-5 py-2 text-[10px] font-black uppercase tracking-widest bg-black text-white hover:bg-zinc-900">Synchronize Ledger</button>
             </div>
           </div>
         </div>
@@ -2299,41 +2294,48 @@ const ProjectTitleDashboard = () => {
     const currentConfig = config[editType] || config.budget;
 
     return (
-      <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 3000, padding: '20px' }}>
-        <div style={{ backgroundColor: 'white', borderRadius: '8px', width: '400px', maxWidth: '100%', boxShadow: '0 10px 25px rgba(0,0,0,0.2)' }}>
-          <div style={{ backgroundColor: '#1e3a5f', color: 'white', padding: '15px 20px', fontSize: '18px', fontWeight: 'bold', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span>Edit {currentConfig.title}</span>
-            <button onClick={() => setShowEditSummary(false)} style={{ background: 'none', border: 'none', color: 'white', fontSize: '20px', cursor: 'pointer' }}>×</button>
+      <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[3000] p-4">
+        <div className="bg-white w-full max-w-md border border-black overflow-hidden shadow-none">
+          <div className="bg-black text-white px-6 py-4 flex justify-between items-center">
+            <span className="text-[11px] font-black uppercase tracking-[0.2em]">Update Partition: {currentConfig.title}</span>
+            <button onClick={() => setShowEditSummary(false)} className="text-white hover:opacity-50 transition-opacity">
+              <X size={20} />
+            </button>
           </div>
-          <div style={{ padding: '20px' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', marginBottom: '20px' }}>
+          <div className="p-6 bg-zinc-50">
+            <div className="flex flex-col gap-4 mb-6">
               {currentConfig.fields.map(field => (
-                <div key={field.key}>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 'bold', color: '#4b5563', marginBottom: '5px' }}>{field.label}</label>
-                  <div style={{ position: 'relative' }}>
-                    {field.key.toLowerCase().includes('amount') || field.key.toLowerCase().includes('budget') ? (
-                      <span style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', fontWeight: 'bold', color: '#1e3a5f' }}>{symbol}</span>
-                    ) : null}
+                <div key={field.key} className="space-y-1">
+                  <label className="block text-[9px] font-black text-zinc-400 uppercase tracking-widest">{field.label}</label>
+                  <div className="relative">
+                    {(field.key.toLowerCase().includes('amount') || field.key.toLowerCase().includes('budget')) && (
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 font-black text-xs text-black">{symbol}</span>
+                    )}
                     <input
                       type="text"
                       value={summaryForm[field.key]}
                       onChange={(e) => setSummaryForm({ ...summaryForm, [field.key]: e.target.value })}
-                      style={{
-                        width: '100%',
-                        padding: '8px',
-                        paddingLeft: (field.key.toLowerCase().includes('amount') || field.key.toLowerCase().includes('budget')) ? '30px' : '8px',
-                        border: '1px solid #cbd5e1',
-                        borderRadius: '4px',
-                        fontSize: '14px'
-                      }}
+                      className={`w-full p-3 bg-white border border-zinc-200 text-xs font-bold text-black outline-none focus:border-black ${
+                        (field.key.toLowerCase().includes('amount') || field.key.toLowerCase().includes('budget')) ? 'pl-8' : ''
+                      }`}
                     />
                   </div>
                 </div>
               ))}
             </div>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
-              <button onClick={() => setShowEditSummary(false)} style={{ padding: '8px 16px', borderRadius: '4px', border: '1px solid #cbd5e1', backgroundColor: 'white', cursor: 'pointer' }}>Cancel</button>
-              <button onClick={handleSave} style={{ padding: '8px 16px', borderRadius: '4px', backgroundColor: '#1e3a5f', color: 'white', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}>Save Changes</button>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setShowEditSummary(false)}
+                className="px-5 py-2 text-[10px] font-black uppercase tracking-widest text-zinc-600 border border-zinc-300 hover:bg-zinc-100 transition-colors"
+              >
+                Abort
+              </button>
+              <button
+                onClick={handleSave}
+                className="px-5 py-2 text-[10px] font-black uppercase tracking-widest bg-black text-white border border-black hover:bg-zinc-900 transition-colors"
+              >
+                Commit Dataset
+              </button>
             </div>
           </div>
         </div>
@@ -2361,21 +2363,14 @@ const ProjectTitleDashboard = () => {
     // Check if attributes are configured
     if (!axisConfig || !axisConfig.xAxis || !axisConfig.yAxis) {
       return (
-        <div style={{
-          ...size,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: '#f9fafb',
-          border: '1px dashed #d1d5db',
-          borderRadius: '8px',
-          color: '#6b7280'
-        }}>
-          <Settings className="h-10 w-10 mb-3 opacity-30" />
-          <p style={{ fontSize: '15px', fontWeight: 'bold', color: '#1e3a5f' }}>Configure Attributes</p>
-          <p style={{ fontSize: '13px', marginTop: '6px', textAlign: 'center', padding: '0 20px' }}>
-            Please select the X and Y axes in the settings to visualize this chart.
+        <div 
+          style={{ ...size }}
+          className="flex flex-col items-center justify-center bg-zinc-50 border border-black shadow-none rounded-none text-zinc-500"
+        >
+          <Settings className="h-10 w-10 mb-3 opacity-20" />
+          <p className="text-[12px] font-black uppercase tracking-[0.2em] text-black">VECTOR CONFIGURATION_REQUIRED</p>
+          <p className="text-[10px] font-bold uppercase tracking-widest mt-2 max-w-[200px] text-center opacity-60">
+            Define X and Y axis mappings via component settings to initialize visualization.
           </p>
         </div>
       );
@@ -2384,17 +2379,11 @@ const ProjectTitleDashboard = () => {
     // If configured but no data
     if (chartData.length === 0) {
       return (
-        <div style={{
-          ...size,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: '#f9fafb',
-          border: '1px solid #e5e7eb',
-          borderRadius: '8px',
-          color: '#6b7280'
-        }}>
-          <p style={{ fontSize: '14px', fontWeight: '500' }}>No data available for this phase</p>
+        <div 
+          style={{ ...size }}
+          className="flex items-center justify-center bg-zinc-50 border border-zinc-200 shadow-none rounded-none"
+        >
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">STATUS: NO_DATA_DETECTED</p>
         </div>
       );
     }
@@ -2478,22 +2467,22 @@ const ProjectTitleDashboard = () => {
       tooltip: {
         trigger: 'axis',
         axisPointer: { type: 'shadow' },
-        backgroundColor: 'rgba(255, 255, 255, 0.96)',
-        borderColor: '#e2e8f0',
+        backgroundColor: '#000',
+        borderColor: '#000',
         borderWidth: 1,
-        textStyle: { color: '#1e3a5f', fontSize: 12 },
-        extraCssText: 'box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 8px;',
+        textStyle: { color: '#fff', fontSize: 10, fontFamily: 'IBM Plex Mono' },
+        extraCssText: 'box-shadow: none; border-radius: 0; border: 1px solid #3f3f46;',
         formatter: (params) => {
           if (!params || params.length === 0) return '';
-          let html = `<div style="font-weight: 800; margin-bottom: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 4px; color: #1e3a5f;">${formatXAxisValue(params[0].axisValue)}</div>`;
+          let html = `<div style="font-weight: 800; margin-bottom: 8px; border-bottom: 1px solid #3f3f46; padding-bottom: 4px; color: #fff; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;">${formatXAxisValue(params[0].axisValue)}</div>`;
           params.forEach(p => {
             const val = typeof p.value === 'number' ? Math.round(p.value * 100) / 100 : p.value;
             html += `<div style="display: flex; justify-content: space-between; gap: 24px; align-items: center; margin-bottom: 3px;">
               <span style="display: flex; align-items: center;">
-                <span style="display:inline-block;margin-right:8px;border-radius:2px;width:10px;height:10px;background-color:${p.color};"></span>
-                <span style="color: #64748b; font-weight: 600;">${humanizeLabel(p.seriesName)}</span>
+                <span style="display:inline-block;margin-right:8px;border-radius:0;width:8px;height:8px;background-color:${p.color};"></span>
+                <span style="color: #a1a1aa; font-weight: 700; font-size: 10px; text-transform: uppercase;">${humanizeLabel(p.seriesName)}</span>
               </span>
-              <span style="font-weight: 800; color: #1e3a5f;">${val} ${derivedConfig ? 'Days' : ''}</span>
+              <span style="font-weight: 800; color: #fff; font-family: 'IBM Plex Mono'; font-size: 10px;">${val} ${derivedConfig ? 'Days' : ''}</span>
             </div>`;
           });
           return html;
@@ -2508,20 +2497,20 @@ const ProjectTitleDashboard = () => {
           dataView: {
             show: true,
             readOnly: false,
-            title: 'Data',
-            lang: ['Data View', 'Close', 'Refresh'],
+            title: 'DATA_VIEW',
+            lang: ['WORKSPACE_DATA', 'DISMISS', 'SYNCHRONIZE'],
             backgroundColor: '#fff',
             textareaColor: '#fff',
-            textareaBorderColor: '#e2e8f0',
-            textColor: '#1e3a5f',
-            buttonColor: '#1e3a5f',
+            textareaBorderColor: '#000',
+            textColor: '#000',
+            buttonColor: '#000',
             buttonTextColor: '#fff'
           },
           restore: { show: true, title: 'Reset' },
           saveAsImage: { show: true, title: 'Export', pixelRatio: 2 }
         },
-        iconStyle: { borderColor: '#94a3b8' },
-        emphasis: { iconStyle: { borderColor: '#3b82f6' } }
+        iconStyle: { borderColor: '#000' },
+        emphasis: { iconStyle: { borderColor: '#52525b' } }
       },
       dataZoom: xLabels.length > 10 ? [
         { type: 'slider', show: true, start: 0, end: Math.max(20, Math.floor(1000 / xLabels.length)), bottom: '2%' },
@@ -2577,9 +2566,9 @@ const ProjectTitleDashboard = () => {
                 }
               })),
               itemStyle: {
-                borderRadius: (params) => params.value >= 0 ? [6, 6, 0, 0] : [0, 0, 6, 6],
+                borderRadius: 0,
                 color: (params) => {
-                  const palette = getDiversePalette();
+                  const palette = ['#000000', '#27272a', '#52525b', '#71717a', '#a1a1aa', '#d4d4d8'];
                   return palette[params.dataIndex % palette.length];
                 }
               },
@@ -2607,8 +2596,8 @@ const ProjectTitleDashboard = () => {
               showSymbol: true,
               symbolSize: 8,
               data: yValues,
-              lineStyle: { width: 3, color: '#3b82f6' },
-              itemStyle: { color: '#3b82f6', borderWidth: 2, borderColor: '#fff' },
+              lineStyle: { width: 2, color: '#000' },
+              itemStyle: { color: '#000', borderWidth: 2, borderColor: '#fff' },
               areaStyle: chartType === 'area' ? {
                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
                   { offset: 0, color: 'rgba(59, 130, 246, 0.5)' },
@@ -4486,32 +4475,22 @@ const EmailModal = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-[2000] p-4">
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.3, ease: 'easeOut' }}
-        className="bg-white rounded-2xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl border border-[var(--border-main)] overflow-hidden"
-      >
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[2000] p-4">
+      <div className="bg-white rounded-none w-full max-w-3xl max-h-[90vh] flex flex-col shadow-none border border-black overflow-hidden">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-start bg-[var(--bg-app)]">
-          <div className="flex items-center gap-4">
-            <div className="p-2.5 bg-white border border-[var(--border-main)] text-[var(--text-muted)] rounded-xl shadow-sm">
-              <Mail size={20} />
-            </div>
-            <div>
-              <h2 className="text-lg font-bold text-slate-800 m-0 tracking-tight leading-tight">Send Project Report</h2>
-              <div className="flex items-center gap-2 mt-1">
-                <span className="text-xs font-medium text-slate-500">Target Workspace</span>
-                <span className="text-[11px] font-bold text-blue-700 bg-blue-50 border border-blue-200/50 px-2 py-0.5 rounded-md tracking-wide">
-                  {activeProject?.name}
-                </span>
-              </div>
+        <div className="bg-zinc-100 px-6 py-4 flex justify-between items-center border-b border-black">
+          <div>
+            <h2 className="text-[12px] font-black text-black m-0 uppercase tracking-[0.2em]">Transmission Protocol: Project Report</h2>
+            <div className="flex items-center gap-2 mt-1">
+              <span className="text-[10px] font-bold text-zinc-500 uppercase">Target:</span>
+              <span className="text-[10px] font-black text-black border border-black px-2 py-0.5 tracking-widest bg-white">
+                {activeProject?.name}
+              </span>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-[var(--text-subtle)] hover:text-[var(--text-muted)] transition-colors p-1 rounded-full hover:bg-slate-200"
+            className="text-black hover:opacity-50 transition-opacity p-1"
           >
             <X size={20} />
           </button>
@@ -4520,8 +4499,8 @@ const EmailModal = ({
         {/* Scrollable Body */}
         <div className="p-6 overflow-y-auto space-y-6">
           {formError && (
-            <div className="p-3 bg-red-50 border border-red-200 text-red-600 rounded-xl text-sm font-bold flex items-center gap-2">
-              <span className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center text-xs">!</span>
+            <div className="flex items-center gap-3 bg-red-50 border border-red-200 text-red-900 px-4 py-3 text-[10px] font-bold uppercase tracking-widest">
+              <span className="w-5 h-5 bg-red-900 text-white flex items-center justify-center text-[10px] font-black">!</span>
               {formError}
             </div>
           )}
@@ -4540,10 +4519,10 @@ const EmailModal = ({
               
               <div className="flex gap-4">
                 {!showCc && (
-                  <button onClick={() => setShowCc(true)} className="text-xs font-bold text-blue-600 hover:text-blue-700 transition-colors">+ Add Cc</button>
+                  <button onClick={() => setShowCc(true)} className="text-[10px] font-black text-zinc-400 hover:text-black transition-colors uppercase tracking-widest">+ Add Supplementary Cc</button>
                 )}
                 {!showBcc && (
-                  <button onClick={() => setShowBcc(true)} className="text-xs font-bold text-blue-600 hover:text-blue-700 transition-colors">+ Add Bcc</button>
+                  <button onClick={() => setShowBcc(true)} className="text-[10px] font-black text-zinc-400 hover:text-black transition-colors uppercase tracking-widest">+ Add Proprietary Bcc</button>
                 )}
               </div>
 
@@ -4572,19 +4551,19 @@ const EmailModal = ({
 
             {/* Subject */}
             <div className="space-y-2">
-              <label className="text-xs font-bold uppercase tracking-widest text-[var(--text-subtle)]">Subject</label>
+              <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Transmission Subject Header</label>
               <input
                 type="text"
                 value={emailData.subject}
                 onChange={(e) => setEmailData(prev => ({ ...prev, subject: e.target.value }))}
-                placeholder="Enter report subject..."
-                className="w-full px-4 py-3 bg-[var(--bg-app)] border border-[var(--border-main)] rounded-xl text-sm text-[var(--text-main)] outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all"
+                placeholder="REPORT_ID: 000000"
+                className="w-full px-4 py-3 bg-white border border-zinc-200 text-xs font-bold text-black outline-none focus:border-black transition-all"
               />
             </div>
 
             {/* Message */}
             <div className="space-y-2">
-              <label className="text-xs font-bold uppercase tracking-widest text-[var(--text-subtle)]">Message (Optional)</label>
+              <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Supplemental Commentary (Optional)</label>
               <RichTextEditor
                 value={emailData.message}
                 onChange={(html) => setEmailData(prev => ({ ...prev, message: html }))}
@@ -4594,16 +4573,16 @@ const EmailModal = ({
 
           {/* Attachments Section */}
           <div className="space-y-3">
-             <label className="text-xs font-bold uppercase tracking-widest text-[var(--text-subtle)]">Attachments</label>
-             <div className="flex flex-wrap gap-3">
+             <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Appended Assets</label>
+             <div className="flex flex-wrap gap-2">
                 {emailData.includePdf ? (
-                  <div className="inline-flex items-center gap-3 bg-blue-50/50 border border-blue-100 px-4 py-2.5 rounded-xl text-sm font-semibold text-blue-700 shadow-sm">
-                    <Paperclip className="h-4 w-4 text-blue-500" />
-                    <span className="max-w-[200px] truncate">{activeProject?.name || 'Project'}_Report.pdf</span>
+                  <div className="inline-flex items-center gap-4 bg-zinc-50 border border-zinc-200 px-4 py-3 text-[10px] font-black text-black uppercase tracking-widest">
+                    <Paperclip className="h-4 w-4 text-zinc-400" />
+                    <span className="max-w-[200px] truncate">{activeProject?.name || 'Project'}_Dataset_Report.pdf</span>
                     <button
                       type="button"
                       onClick={() => setEmailData(prev => ({ ...prev, includePdf: false }))}
-                      className="text-blue-400 hover:text-red-500 transition-colors"
+                      className="text-black hover:text-red-600 transition-colors"
                     >
                       <X size={16} />
                     </button>
@@ -4612,50 +4591,50 @@ const EmailModal = ({
                   <button
                     type="button"
                     onClick={() => setEmailData(prev => ({ ...prev, includePdf: true }))}
-                    className="flex items-center gap-2 px-4 py-2.5 border-2 border-dashed border-[var(--border-main)] rounded-xl text-[var(--text-subtle)] text-sm font-bold hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 transition-all"
+                    className="flex items-center gap-2 px-4 py-2.5 border border-zinc-300 text-zinc-400 text-[10px] font-black uppercase tracking-widest hover:border-black hover:text-black ransition-all"
                   >
-                    <Plus size={16} /> Attach Dashboard PDF
+                    <Plus size={16} /> Attach Primary Dataset PDF
                   </button>
                 )}
              </div>
           </div>
 
           {/* Grouped Section Selection */}
-          <div className="bg-[var(--bg-app)] rounded-2xl p-6 border border-slate-100 space-y-6">
-            <div className="flex justify-between items-center">
+          <div className="bg-zinc-50 p-6 border border-zinc-200">
+            <div className="flex justify-between items-center mb-6">
               <div className="flex items-center gap-2.5">
-                <div className="p-1.5 bg-white border border-[var(--border-main)] rounded-lg shadow-sm text-[var(--text-muted)]">
+                <div className="p-1.5 bg-black border border-black text-white">
                   <Grid size={16} />
                 </div>
-                <h3 className="text-sm font-bold text-slate-800 m-0">Included Sections</h3>
+                <h3 className="text-[11px] font-black text-black m-0 uppercase tracking-widest">Included Data Modules</h3>
               </div>
               <button
                 onClick={handleSelectAllVisibility}
-                className={`px-4 py-2 text-xs font-bold rounded-lg transition-all border ${
+                className={`px-4 py-2 text-[10px] font-black uppercase tracking-widest transition-all border border-black ${
                   allSelected 
-                    ? 'bg-slate-800 text-white border-slate-800 hover:bg-slate-700' 
-                    : 'bg-white text-[var(--text-main)] border-slate-300 hover:bg-[var(--bg-app)]'
+                    ? 'bg-black text-white hover:bg-zinc-800' 
+                    : 'bg-white text-black hover:bg-zinc-100'
                 }`}
               >
-                {allSelected ? 'Deselect All' : 'Select All'}
+                {allSelected ? 'Exclusion' : 'Selection'} All
               </button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Overview Group */}
               <div>
-                <h4 className="text-[11px] font-bold uppercase tracking-widest text-[var(--text-subtle)] mb-3 border-b border-[var(--border-main)]/60 pb-1.5">Overview</h4>
-                <div className="space-y-2">
+                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-4 border-b border-zinc-200 pb-2">Category: Overview</h4>
+                <div className="space-y-1">
                   {[
                     { id: 'milestones', label: 'Milestones' },
                     { id: 'criticalIssues', label: 'Critical Issues' }
                   ].map(item => (
-                    <label key={item.id} className="flex items-center gap-3 p-2.5 bg-white border border-[var(--border-main)] rounded-xl text-sm font-medium text-[var(--text-muted)] cursor-pointer hover:border-blue-200 hover:bg-blue-50/30 transition-all shadow-sm">
+                    <label key={item.id} className="flex items-center gap-3 p-3 bg-white border border-zinc-200 text-[11px] font-bold text-black cursor-pointer hover:border-black hover:bg-zinc-50 transition-all">
                       <input
                         type="checkbox"
                         checked={emailData.selectedSections[item.id]}
                         onChange={() => handleSectionToggle(item.id)}
-                        className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                        className="w-4 h-4 rounded-none border-zinc-400 text-black focus:ring-0 cursor-pointer"
                       />
                       {item.label}
                     </label>
@@ -4665,19 +4644,19 @@ const EmailModal = ({
 
               {/* Summary Cards Group */}
               <div>
-                <h4 className="text-[11px] font-bold uppercase tracking-widest text-[var(--text-subtle)] mb-3 border-b border-[var(--border-main)]/60 pb-1.5">Summary Cards</h4>
-                <div className="space-y-2">
+                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-4 border-b border-zinc-200 pb-2">Category: Summaries</h4>
+                <div className="space-y-1">
                   {[
                     { id: 'budget', label: 'Budget Summary' },
                     { id: 'resource', label: 'Resource Summary' },
                     { id: 'quality', label: 'Quality Summary' }
                   ].map(item => (
-                    <label key={item.id} className="flex items-center gap-3 p-2.5 bg-white border border-[var(--border-main)] rounded-xl text-sm font-medium text-[var(--text-muted)] cursor-pointer hover:border-blue-200 hover:bg-blue-50/30 transition-all shadow-sm">
+                    <label key={item.id} className="flex items-center gap-3 p-3 bg-white border border-zinc-200 text-[11px] font-bold text-black cursor-pointer hover:border-black hover:bg-zinc-50 transition-all">
                       <input
                         type="checkbox"
                         checked={emailData.selectedSections[item.id]}
                         onChange={() => handleSectionToggle(item.id)}
-                        className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                        className="w-4 h-4 rounded-none border-zinc-400 text-black focus:ring-0 cursor-pointer"
                       />
                       {item.label}
                     </label>
@@ -4687,8 +4666,8 @@ const EmailModal = ({
 
               {/* Metrics & Trackers Group */}
               <div className="md:col-span-2">
-                <h4 className="text-[11px] font-bold uppercase tracking-widest text-[var(--text-subtle)] mb-3 border-b border-[var(--border-main)]/60 pb-1.5">Metrics & Trackers</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-4 border-b border-zinc-200 pb-2">Category: Metrics & Trackers</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-1">
                   {[
                     { id: 'design', label: 'Design' },
                     { id: 'partDevelopment', label: 'Part Development' },
@@ -4697,12 +4676,12 @@ const EmailModal = ({
                     { id: 'validation', label: 'Validation' },
                     { id: 'qualityIssues', label: 'Quality Issues' },
                   ].filter(section => availablePhases[section.id]).map(section => (
-                    <label key={section.id} className="flex items-center gap-3 p-2.5 bg-white border border-[var(--border-main)] rounded-xl text-sm font-medium text-[var(--text-muted)] cursor-pointer hover:border-blue-200 hover:bg-blue-50/30 transition-all shadow-sm">
+                    <label key={section.id} className="flex items-center gap-3 p-3 bg-white border border-zinc-200 text-[11px] font-bold text-black cursor-pointer hover:border-black hover:bg-zinc-50 transition-all">
                       <input
                         type="checkbox"
                         checked={emailData.selectedSections[section.id]}
                         onChange={() => handleSectionToggle(section.id)}
-                        className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                        className="w-4 h-4 rounded-none border-zinc-400 text-black focus:ring-0 cursor-pointer"
                       />
                       <span className="truncate">{section.label}</span>
                     </label>
@@ -4717,12 +4696,12 @@ const EmailModal = ({
                     });
                     return !coveredByDefault;
                   }).map(sub => (
-                    <label key={sub.id} className="flex items-center gap-3 p-2.5 bg-white border border-[var(--border-main)] rounded-xl text-sm font-medium text-[var(--text-muted)] cursor-pointer hover:border-blue-200 hover:bg-blue-50/30 transition-all shadow-sm">
+                    <label key={sub.id} className="flex items-center gap-3 p-3 bg-zinc-50 border border-zinc-200 text-[11px] font-bold text-black cursor-pointer hover:border-black hover:bg-white transition-all">
                       <input
                         type="checkbox"
                         checked={emailData.selectedSections[sub.id]}
                         onChange={() => handleSectionToggle(sub.id)}
-                        className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                        className="w-4 h-4 rounded-none border-zinc-400 text-black focus:ring-0 cursor-pointer"
                       />
                       <span className="truncate">{sub.displayName || sub.name}</span>
                     </label>
@@ -4733,39 +4712,39 @@ const EmailModal = ({
           </div>
         </div>
         {/* Footer Actions */}
-        <div className="px-6 py-4 border-t border-slate-100 bg-[var(--bg-app)] flex justify-end gap-3 flex-shrink-0">
+        <div className="px-6 py-4 border-t border-black bg-zinc-50 flex justify-end gap-2 flex-shrink-0">
           <button
             onClick={onClose}
-            className="px-5 py-2.5 text-sm font-semibold text-[var(--text-muted)] bg-white border border-slate-300 rounded-xl hover:bg-[var(--bg-app)] transition-colors shadow-sm"
+            className="px-5 py-2 text-[10px] font-black uppercase tracking-widest text-zinc-600 border border-zinc-300 hover:bg-zinc-100 transition-colors"
           >
             Cancel
           </button>
           
           <button
             onClick={onPreviewPdf}
-            className="px-5 py-2.5 text-sm font-semibold text-[var(--text-main)] bg-white border border-slate-300 rounded-xl hover:bg-[var(--bg-app)] transition-colors shadow-sm flex items-center gap-2"
+            className="px-5 py-2 text-[10px] font-black uppercase tracking-widest text-black bg-white border border-black hover:bg-zinc-100 transition-colors flex items-center gap-2"
           >
-            <Eye size={16} />
-            Preview Summary
+            <Eye size={14} />
+            Run Preview
           </button>
 
           <button
             onClick={() => {
               const validToEmails = emailData.emailInputs.filter(e => e.trim() !== '');
               if (validToEmails.length === 0) {
-                setFormError('Please add at least one valid recipient to the "To" field.');
+                setFormError('CRITICAL_ERR: NO_RECIPIENTS_DEFINED');
                 return;
               }
               setFormError('');
               handleSendEmail();
             }}
-            className="px-6 py-2.5 text-sm font-semibold text-white bg-blue-600 border border-transparent rounded-xl hover:bg-blue-700 transition-colors shadow-sm flex items-center gap-2"
+            className="px-6 py-2 text-[10px] font-black uppercase tracking-widest text-white bg-black border border-black hover:bg-zinc-900 transition-colors flex items-center gap-2"
           >
-            <Send size={18} />
-            Send Email
+            <Send size={14} />
+            Execute Dispatch
           </button>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };
@@ -4834,64 +4813,28 @@ const AxisSelectorModal = ({
     onClose();
   };
 
-  return (
-    <div style={{
-      position: 'absolute',
-      top: '100%',
-      right: '0',
-      backgroundColor: 'white',
-      border: '1px solid #e2e8f0',
-      borderRadius: '12px',
-      boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
-      padding: '16px',
-      zIndex: 200,
-      width: '280px',
-      marginTop: '12px'
-    }}>
+   return (
+    <div className="absolute top-full right-0 bg-white border border-black p-4 z-[200] w-72 mt-2 shadow-none font-mono">
       {!showPrompt ? (
         <>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', borderBottom: '1px solid #f1f5f9', paddingBottom: '12px' }}>
-            <h3 style={{ margin: 0, fontSize: '15px', fontWeight: '800', color: '#1e3a5f' }}>Configure Axes</h3>
+          <div className="flex justify-between items-center mb-4 border-b border-zinc-200 pb-3">
+            <h3 className="m-0 text-[10px] font-black uppercase tracking-widest text-black">Matrix: Axis Configuration</h3>
             <button
               onClick={onClose}
-              style={{
-                border: 'none',
-                background: '#f1f5f9',
-                cursor: 'pointer',
-                fontSize: '12px',
-                width: '24px',
-                height: '24px',
-                borderRadius: '6px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#64748b',
-                fontWeight: 'bold'
-              }}
+              className="text-zinc-400 hover:text-black transition-colors"
             >
               ✕
             </button>
           </div>
 
-          <div style={{ marginBottom: '12px' }}>
-            <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: '#64748b', marginBottom: '6px', textTransform: 'uppercase' }}>
-              X-Axis Attribute
+          <div className="mb-4">
+            <label className="block text-[9px] font-black text-zinc-400 mb-1 uppercase tracking-widest">
+              X-Axis Vector
             </label>
             <select
               value={localConfig.xAxis}
               onChange={(e) => setLocalConfig(prev => ({ ...prev, xAxis: e.target.value }))}
-              style={{
-                width: '100%',
-                padding: '8px 12px',
-                fontSize: '13px',
-                borderRadius: '8px',
-                border: '1px solid #e2e8f0',
-                backgroundColor: 'white',
-                cursor: 'pointer',
-                outline: 'none',
-                color: '#1e3a5f',
-                fontWeight: '500'
-              }}
+              className="w-full p-2 text-[11px] font-bold border border-zinc-200 bg-zinc-50 outline-none focus:border-black appearance-none"
             >
               {dynamicAvailableColumns.map(col => (
                 <option key={col} value={col}>{col}</option>
@@ -4899,25 +4842,14 @@ const AxisSelectorModal = ({
             </select>
           </div>
 
-          <div style={{ marginBottom: '20px' }}>
-            <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: '#64748b', marginBottom: '6px', textTransform: 'uppercase' }}>
-              Y-Axis Attribute
+          <div className="mb-6">
+            <label className="block text-[9px] font-black text-zinc-400 mb-1 uppercase tracking-widest">
+              Y-Axis Vector
             </label>
             <select
               value={localConfig.yAxis}
               onChange={(e) => setLocalConfig(prev => ({ ...prev, yAxis: e.target.value }))}
-              style={{
-                width: '100%',
-                padding: '8px 12px',
-                fontSize: '13px',
-                borderRadius: '8px',
-                border: '1px solid #e2e8f0',
-                backgroundColor: 'white',
-                cursor: 'pointer',
-                outline: 'none',
-                color: '#1e3a5f',
-                fontWeight: '500'
-              }}
+              className="w-full p-2 text-[11px] font-bold border border-zinc-200 bg-zinc-50 outline-none focus:border-black appearance-none"
             >
               {dynamicAvailableColumns.map(col => (
                 <option key={col} value={col}>{col}</option>
@@ -4927,55 +4859,53 @@ const AxisSelectorModal = ({
 
           <button
             onClick={handleApply}
-            style={{
-              width: '100%',
-              padding: '10px',
-              backgroundColor: '#1e3a5f',
-              color: 'white',
-              border: 'none',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              fontWeight: '800',
-              fontSize: '13px',
-              boxShadow: '0 4px 6px -1px rgba(30, 58, 95, 0.2)'
-            }}
+            className="w-full py-3 bg-black text-white text-[10px] font-black uppercase tracking-widest hover:bg-zinc-900 transition-all border border-black"
           >
-            Apply Configuration
+            Apply Vector Map
           </button>
         </>
       ) : (
         <div>
-          <div style={{ backgroundColor: '#f1f5f9', borderRadius: '8px', padding: '10px 12px', marginBottom: '12px', fontSize: '12px', color: '#475569', lineHeight: '1.5' }}>
-            <strong style={{ color: '#1e3a5f' }}>Attr 1:</strong> {localConfig.xAxis}<br />
-            <strong style={{ color: '#1e3a5f' }}>Attr 2:</strong> {localConfig.yAxis}
+          <div className="bg-zinc-100 border border-zinc-200 p-3 mb-4 text-[10px] font-mono text-zinc-600 space-y-1">
+            <div className="flex justify-between">
+              <span className="font-black uppercase">Vector 01:</span>
+              <span className="text-black font-black">{localConfig.xAxis}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="font-black uppercase">Vector 02:</span>
+              <span className="text-black font-black">{localConfig.yAxis}</span>
+            </div>
           </div>
-          <h3 style={{ margin: '0 0 12px', fontSize: '14px', fontWeight: '800', color: '#1e3a5f', lineHeight: '1.4' }}>
-            Both are dates {"\u2014"} what should we calculate?
+          <h3 className="text-[11px] font-black uppercase tracking-widest text-black mb-4 leading-tight">
+            Dual Temporal Detection Detected. Specify Computational Mode:
           </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div className="flex flex-col gap-1">
             <button
               onClick={() => handleSelectedMetric('delay', 'Delay', localConfig.xAxis, localConfig.yAxis)}
-              style={{ padding: '10px 12px', textAlign: 'left', borderRadius: '8px', border: '1px solid #bfdbfe', backgroundColor: '#eff6ff', cursor: 'pointer', fontSize: '12px', fontWeight: '600', color: '#1e40af' }}
+              className="p-3 text-left border border-zinc-200 bg-white hover:bg-zinc-50 hover:border-black transition-all text-[11px] font-bold text-black group relative"
             >
-              Delay = {localConfig.yAxis} - {localConfig.xAxis}
+              <span className="block uppercase text-[9px] text-zinc-400 group-hover:text-black">Mode 01: Delay Analysis</span>
+              {localConfig.yAxis} - {localConfig.xAxis}
             </button>
             <button
               onClick={() => handleSelectedMetric('duration', 'Duration', localConfig.xAxis, localConfig.yAxis)}
-              style={{ padding: '10px 12px', textAlign: 'left', borderRadius: '8px', border: '1px solid #bbf7d0', backgroundColor: '#f0fdf4', cursor: 'pointer', fontSize: '12px', fontWeight: '600', color: '#166534' }}
+              className="p-3 text-left border border-zinc-200 bg-white hover:bg-zinc-50 hover:border-black transition-all text-[11px] font-bold text-black group"
             >
-              Duration = {localConfig.yAxis} - {localConfig.xAxis}
+              <span className="block uppercase text-[9px] text-zinc-400 group-hover:text-black">Mode 02: Duration Analysis</span>
+              {localConfig.yAxis} - {localConfig.xAxis}
             </button>
             <button
               onClick={() => { handleAxesUpdate(chartId, localConfig.xAxis, localConfig.yAxis, null); onClose(); }}
-              style={{ padding: '10px 12px', textAlign: 'left', borderRadius: '8px', border: '1px solid #e2e8f0', backgroundColor: '#f8fafc', cursor: 'pointer', fontSize: '12px', fontWeight: '600', color: '#64748b' }}
+              className="p-3 text-left border border-zinc-200 bg-zinc-100 hover:bg-black hover:text-white transition-all text-[11px] font-bold text-zinc-600 group"
             >
-              Plot as-is (no calculation)
+              <span className="block uppercase text-[9px] text-zinc-400 group-hover:text-zinc-300">Mode 03: Raw Data Plot</span>
+              Process without computation
             </button>
             <button
               onClick={() => setShowPrompt(false)}
-              style={{ padding: '8px', textAlign: 'center', backgroundColor: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '11px', fontWeight: '700' }}
+              className="mt-2 py-2 text-center text-[9px] font-black uppercase tracking-widest text-zinc-400 hover:text-black transition-colors"
             >
-              {"\u2190"} Back to selection
+              ← Return to Vector Selection
             </button>
           </div>
         </div>

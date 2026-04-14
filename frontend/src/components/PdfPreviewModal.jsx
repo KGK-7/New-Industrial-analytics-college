@@ -101,23 +101,25 @@ const PdfPreviewModal = ({
 
   const getStatusPill = (status) => {
     const colors = {
-      'Open': { bg: '#fee2e2', text: '#991b1b' },
-      'Closed': { bg: '#d1fae5', text: '#065f46' },
-      'In Progress': { bg: '#dbeafe', text: '#1e40af' },
-      'On Track': { bg: '#d1fae5', text: '#065f46' },
-      'At Risk': { bg: '#fed7aa', text: '#9a3412' },
-      'Likely Delay': { bg: '#fff7ed', text: '#c2410c' },
+      'Open': { bg: '#18181B', text: '#FFFFFF', border: '#000000' },
+      'Closed': { bg: '#FFFFFF', text: '#18181B', border: '#18181B' },
+      'In Progress': { bg: '#F4F4F5', text: '#18181B', border: '#D4D4D8' },
+      'On Track': { bg: '#FFFFFF', text: '#18181B', border: '#18181B' },
+      'At Risk': { bg: '#FEF3C7', text: '#92400E', border: '#F59E0B' },
+      'Likely Delay': { bg: '#FFF7ED', text: '#C2410C', border: '#FB923C' },
     };
-    const style = colors[status] || { bg: '#f3f4f6', text: '#1f2937' };
+    const style = colors[status] || { bg: '#FFFFFF', text: '#18181B', border: '#E4E4E7' };
     return (
       <span style={{
-        padding: '2px 10px',
-        borderRadius: '12px',
-        fontSize: '11px',
-        fontWeight: 'bold',
+        padding: '2px 8px',
+        borderRadius: '0',
+        fontSize: '10px',
+        fontWeight: '900',
         backgroundColor: style.bg,
         color: style.text,
-        border: `1px solid ${style.text}33`
+        border: `1px solid ${style.border}`,
+        textTransform: 'uppercase',
+        letterSpacing: '0.1em'
       }}>
         {status}
       </span>
@@ -156,45 +158,46 @@ const PdfPreviewModal = ({
   const budgetStatus = masterProjects?.find(p => p.name === selectedBudgetProject)?.status || activeProject?.status || 'Active';
 
   const renderHeader = (pageNumber, totalPages) => (
-    <div style={{ marginBottom: '30px', borderBottom: '3px solid #1e3a5f', paddingBottom: '16px' }}>
+    <div style={{ marginBottom: '40px', borderBottom: '2px solid #000', paddingBottom: '24px' }}>
       {/* Project Title */}
-      <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-        <h1 style={{ fontSize: '24px', fontWeight: '900', color: '#1e3a5f', margin: '0 0 4px 0', letterSpacing: '-0.02em' }}>
-          {activeProject?.name || 'Project Dashboard'}
-        </h1>
-        <div style={{ fontSize: '12px', color: '#64748b', fontWeight: '500' }}>
-          Industrial Analytics Platform — Dashboard Report {pageNumber && totalPages && `— Page ${pageNumber} of ${totalPages}`}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
+        <div style={{ textAlign: 'left' }}>
+          <h1 style={{ fontSize: '20px', fontWeight: '900', color: '#000', margin: '0 0 4px 0', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+            {activeProject?.name || 'PROJECT_DASHBOARD'}
+          </h1>
+          <div style={{ fontSize: '10px', color: '#71717a', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.2em' }}>
+            INDUSTRIAL ANALYTICS PLATFORM // REPORT_ID: {Math.random().toString(36).substring(7).toUpperCase()}
+          </div>
+        </div>
+        <div style={{ textAlign: 'right' }}>
+           <div style={{ fontSize: '12px', fontWeight: '900', color: '#000', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+             PAGE {pageNumber} / {totalPages}
+           </div>
+           <div style={{ fontSize: '10px', color: '#71717a', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+             TIMESTAMP: {new Date().toISOString().replace('T', ' ').substring(0, 19)}
+           </div>
         </div>
       </div>
 
-      {/* Info Row */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px', paddingBottom: '15px', borderBottom: '1px solid #e2e8f0' }}>
-        <div style={{ fontSize: '13px', color: '#64748b' }}>
-          Report date: <span style={{ fontWeight: '600' }}>{new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+      {/* Info Grid */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0', border: '1px solid #000' }}>
+        <div style={{ padding: '12px 16px', borderRight: '1px solid #000' }}>
+          <div style={{ fontSize: '9px', fontWeight: '900', color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px' }}>Date Segment</div>
+          <div style={{ fontSize: '12px', fontWeight: '900', color: '#000' }}>{new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase()}</div>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '25px' }}>
-          <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#1e3a5f' }}>
-            SOP Date: <span style={{ backgroundColor: '#e0f2fe', padding: '4px 12px', borderRadius: '15px', marginLeft: '8px', fontWeight: '800' }}>{sopData?.[0]?.daysToGo || '—'} days to go</span>
-          </div>
-          <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#1e3a5f' }}>
-            Status: <span style={{ backgroundColor: '#fff7ed', color: '#c2410c', padding: '4px 12px', borderRadius: '15px', marginLeft: '8px', border: '1px solid #fed7aa', fontWeight: '800' }}>{sopData?.[0]?.status || '—'}</span>
+
+        <div style={{ padding: '12px 16px', borderRight: '1px solid #000', backgroundColor: '#f4f4f5' }}>
+          <div style={{ fontSize: '9px', fontWeight: '900', color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px' }}>Timeline Status</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+             <div style={{ width: '8px', height: '8px', backgroundColor: '#000' }}></div>
+             <span style={{ fontSize: '12px', fontWeight: '900', color: '#000', textTransform: 'uppercase' }}>{sopData?.[0]?.daysToGo || '—'} DAYS TO SOP</span>
           </div>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-          <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#1e3a5f' }}>Health:</span>
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-              <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#10b981' }} />
-              <span style={{ fontSize: '9px', fontWeight: 'bold', color: '#64748b' }}>On Track</span>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-              <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#f59e0b' }} />
-              <span style={{ fontSize: '9px', fontWeight: 'bold', color: '#64748b' }}>At Risk</span>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-              <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#ef4444' }} />
-              <span style={{ fontSize: '9px', fontWeight: 'bold', color: '#64748b' }}>Critical</span>
-            </div>
+
+        <div style={{ padding: '12px 16px' }}>
+          <div style={{ fontSize: '9px', fontWeight: '900', color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px' }}>Operational Health</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+             <span style={{ fontSize: '12px', fontWeight: '900', color: '#000', textTransform: 'uppercase' }}>{sopData?.[0]?.status || 'NOMINAL'}</span>
           </div>
         </div>
       </div>
@@ -208,12 +211,12 @@ const PdfPreviewModal = ({
 
   return (
     <div style={{
-      backgroundColor: isHiddenCapture ? 'transparent' : 'rgba(0,0,0,0.7)',
+      backgroundColor: isHiddenCapture ? 'transparent' : 'rgba(0,0,0,0.85)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       zIndex: isHiddenCapture ? -1000 : 3000,
-      padding: isHiddenCapture ? '0' : '40px',
+      padding: isHiddenCapture ? '0' : '0',
       visibility: isHiddenCapture ? 'hidden' : 'visible',
       pointerEvents: isHiddenCapture ? 'none' : 'auto',
       overflow: isHiddenCapture ? 'hidden' : 'auto',
@@ -224,7 +227,7 @@ const PdfPreviewModal = ({
       left: 0
     }}>
         <div style={{
-          backgroundColor: isHiddenCapture ? 'transparent' : '#f8fafc',
+          backgroundColor: isHiddenCapture ? 'transparent' : '#ffffff',
           borderRadius: '0',
           width: isHiddenCapture ? 'auto' : '100vw',
           height: isHiddenCapture ? 'auto' : '100vh',
@@ -232,80 +235,80 @@ const PdfPreviewModal = ({
           display: 'flex',
           flexDirection: 'column',
           boxShadow: 'none',
-          transition: 'all 0.3s ease-in-out',
+          transition: 'none',
           overflow: isHiddenCapture ? 'visible' : 'hidden'
         }}>
         {/* Modal Controls */}
         {!isHiddenCapture && (
-          <div style={{
-            padding: '10px 20px',
-            backgroundColor: 'white',
-            borderBottom: '1px solid #e2e8f0',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            gap: '12px',
-            zIndex: 10
-          }}>
-          <button
-            onClick={downloadPdf}
-            className="flex items-center gap-2 h-10 px-4 bg-[var(--brand-primary)] text-white rounded-xl text-sm font-bold hover:shadow-lg hover:shadow-blue-500/20 transition-all"
-          >
-            <Download className="h-4 w-4" />
-            <span>Download Report</span>
-          </button>
-          
-          <button
-            onClick={() => setShowSidebar(!showSidebar)}
-            className={`flex items-center gap-2 h-10 px-4 border rounded-xl text-sm font-bold transition-all shadow-sm ${
-              showSidebar 
-                ? 'bg-blue-50 border-blue-200 text-[var(--brand-primary)]' 
-                : 'bg-white border-[var(--border-main)] text-[var(--text-muted)] hover:bg-[var(--bg-app)]'
-            }`}
-            title={showSidebar ? "Hide Customization" : "Customize Layout"}
-          >
-            <Settings className="h-4.5 w-4.5" />
-            <span>Customize</span>
-          </button>
+          <div className="bg-black text-white px-6 py-4 flex justify-between items-center shrink-0">
+            <div className="flex items-center gap-4">
+               <div className="p-2 bg-white text-black">
+                 <Maximize2 size={18} />
+               </div>
+               <h2 className="text-[11px] font-black uppercase tracking-[0.2em] m-0">Report Preview Engine</h2>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <button
+                onClick={downloadPdf}
+                className="flex items-center gap-2 h-10 px-6 bg-white text-black border border-white font-black uppercase text-[10px] tracking-widest hover:bg-zinc-200 transition-colors"
+              >
+                <Download className="h-4 w-4" />
+                <span>Export to PDF</span>
+              </button>
+              
+              <button
+                onClick={() => setShowSidebar(!showSidebar)}
+                className={`flex items-center gap-2 h-10 px-6 border font-black uppercase text-[10px] tracking-widest transition-colors ${
+                  showSidebar 
+                    ? 'bg-zinc-800 border-zinc-700 text-white' 
+                    : 'bg-black border-zinc-800 text-zinc-400 hover:text-white'
+                }`}
+              >
+                <Settings className="h-4 w-4" />
+                <span>Configure</span>
+              </button>
 
-          <button
-            onClick={onClose}
-            className="h-10 w-10 flex items-center justify-center bg-rose-50 border border-rose-100 rounded-xl text-rose-600 hover:bg-rose-100 hover:text-rose-700 transition-all shadow-sm"
-            title="Close"
-          >
-            <X className="h-5 w-5" />
-          </button>
-        </div>
+              <div className="w-[1px] h-6 bg-zinc-800 mx-2"></div>
+
+              <button
+                onClick={onClose}
+                className="h-10 w-10 flex items-center justify-center bg-zinc-900 border border-zinc-800 text-white hover:bg-red-900 hover:border-red-900 transition-colors"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+          </div>
         )}
 
         {/* PDF Content Area */}
         <div style={{ 
           overflowY: isHiddenCapture ? 'visible' : 'auto', 
           flex: 1, 
-          padding: isHiddenCapture ? '0' : '20px 40px', 
+          padding: isHiddenCapture ? '0' : '40px', 
           display: 'flex', 
-          backgroundColor: isHiddenCapture ? 'transparent' : '#e2e8f0',
+          backgroundColor: isHiddenCapture ? 'transparent' : '#18181b',
           justifyContent: 'center',
           position: 'relative'
         }}>
           {/* Customization Sidebar */}
           {showSidebar && (
             <div className="no-print" style={{ 
-              width: '280px', 
+              width: '300px', 
               flexShrink: 0, 
               backgroundColor: 'white', 
-              borderRadius: '8px', 
-              border: '1px solid #cbd5e1', 
-              padding: '16px', 
+              borderRadius: '0', 
+              border: '1px solid #000', 
+              padding: '24px', 
               position: 'absolute',
               left: '40px',
-              top: '20px',
+              top: '40px',
               zIndex: 100,
-              boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' 
+              boxShadow: 'none' 
             }}>
-              <h3 style={{ fontSize: '15px', color: '#1e3a5f', marginTop: 0, marginBottom: '8px' }}>Customize Layout</h3>
-              <p style={{ fontSize: '12px', color: '#64748b', marginBottom: '16px', lineHeight: '1.4' }}>
-                Reorder sections to customize your PDF flow. Hidden sections are grayed out.
+              <h3 style={{ fontSize: '11px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.2em', color: '#000', margin: '0 0 12px 0' }}>Module Order Configuration</h3>
+              <p style={{ fontSize: '10px', color: '#71717a', marginBottom: '24px', lineHeight: '1.6', fontWeight: '700', textTransform: 'uppercase' }}>
+                Drag identifiers to restructure the document flow. Unchecked items in dashboard are omitted.
               </p>
               
               <DragDropContext onDragEnd={onDragEnd}>
@@ -314,19 +317,19 @@ const PdfPreviewModal = ({
                     <div 
                       {...provided.droppableProps}
                       ref={provided.innerRef}
-                      style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
+                      style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
                     >
                       {sectionOrder.map((key, index) => {
                         const isCharts = key === 'charts';
                         const isVisible = isCharts ? visiblePhaseList.length > 0 : visibleSections?.[key];
                         
                         let label = '';
-                        if (key === 'milestones') label = 'Milestones';
-                        if (key === 'criticalIssues') label = 'Critical Issues';
+                        if (key === 'milestones') label = 'Project Milestones';
+                        if (key === 'criticalIssues') label = 'Top Critical Issues';
                         if (key === 'budget') label = 'Budget Summary';
-                        if (key === 'resource') label = 'Resource Summary';
-                        if (key === 'quality') label = 'Quality Summary';
-                        if (key === 'charts') label = 'Project Metrics';
+                        if (key === 'resource') label = 'Resources / Manpower';
+                        if (key === 'quality') label = 'Quality Metrics';
+                        if (key === 'charts') label = 'Analytical Trackers';
 
                         return (
                           <Draggable key={key} draggableId={key} index={index}>
@@ -337,18 +340,18 @@ const PdfPreviewModal = ({
                                 style={{ 
                                   ...provided.draggableProps.style,
                                   display: 'flex', justifyContent: 'space-between', alignItems: 'center', 
-                                  padding: '10px 12px', border: '1px solid #cbd5e1', borderRadius: '6px',
-                                  backgroundColor: snapshot.isDragging ? '#f0f7ff' : (isVisible ? '#f8fafc' : '#f1f5f9'),
+                                  padding: '12px 16px', border: '1px solid #000', borderRadius: '0',
+                                  backgroundColor: snapshot.isDragging ? '#000' : (isVisible ? '#fff' : '#f4f4f5'),
+                                  color: snapshot.isDragging ? '#fff' : (isVisible ? '#000' : '#a1a1aa'),
                                   opacity: isVisible ? 1 : 0.4,
-                                  boxShadow: snapshot.isDragging ? '0 5px 15px rgba(0,0,0,0.1)' : 'none',
                                   zIndex: snapshot.isDragging ? 1000 : 1
                                 }}
                               >
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                  <div {...provided.dragHandleProps} style={{ color: '#94a3b8', cursor: 'grab', display: 'flex', alignItems: 'center' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                  <div {...provided.dragHandleProps} style={{ color: snapshot.isDragging ? '#fff' : '#a1a1aa', cursor: 'grab', display: 'flex', alignItems: 'center' }}>
                                     <GripVertical size={16} />
                                   </div>
-                                  <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#1e3a5f' }}>
+                                  <span style={{ fontSize: '10px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                                     {label}
                                   </span>
                                 </div>
@@ -365,64 +368,63 @@ const PdfPreviewModal = ({
             </div>
           )}
 
-          <div ref={reportRef} style={{
-            backgroundColor: isHiddenCapture ? 'transparent' : '#e2e8f0',
+          <div id="pdf-report-container" ref={reportRef} style={{
+            backgroundColor: isHiddenCapture ? 'transparent' : '#18181b',
             width: '100%',
-            maxWidth: '900px',
-            margin: isHiddenCapture ? '0' : '0',
+            maxWidth: '210mm',
+            margin: '0',
             display: 'flex',
             flexDirection: 'column',
-            gap: '20px',
-            transition: 'all 0.3s ease-in-out'
+            gap: isHiddenCapture ? '0' : '20px',
+            transition: 'none'
           }}>
             {pagesDef.map((pageContent, pageIdx) => (
               <div key={pageIdx} className="pdf-page-container" style={{
                 backgroundColor: 'white',
                 minHeight: '297mm',
-                padding: '40px 60px',
-                boxShadow: isHiddenCapture ? 'none' : '0 0 10px rgba(0,0,0,0.05)',
-                fontFamily: 'Inter, sans-serif',
-                position: 'relative'
+                padding: '20mm',
+                boxShadow: 'none',
+                fontFamily: 'IBM Plex Sans, sans-serif',
+                position: 'relative',
+                border: isHiddenCapture ? 'none' : '1px solid #000'
               }}>
                 <div className="pdf-printable-area" style={{ height: '100%' }}>
                 {renderHeader(pageIdx + 1, pagesDef.length)}
 
-
-
                 {pageContent.map(key => {
                   if (key === 'milestones') return visibleSections?.milestones && milestones?.length > 0 ? (
-                    <div key="milestones" style={{ marginBottom: '25px' }}>
-                      <div style={{ backgroundColor: '#1e3a5f', color: 'white', padding: '10px 15px', fontWeight: 'bold', fontSize: '15px' }}>
-                        <span>Milestones</span>
+                    <div key="milestones" style={{ marginBottom: '32px' }}>
+                      <div style={{ borderLeft: '4px solid #000', padding: '0 0 0 12px', marginBottom: '16px' }}>
+                        <h3 style={{ fontSize: '13px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em', margin: 0 }}>Project Milestones Mapping</h3>
                       </div>
-                      <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid #e2e8f0' }}>
+                      <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid #000', fontFamily: 'IBM Plex Mono, monospace' }}>
                         <thead>
-                          <tr style={{ backgroundColor: '#f8fafc' }}>
-                            <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #e2e8f0', fontSize: '12px', color: '#64748b' }}>Categories</th>
+                          <tr style={{ backgroundColor: '#f4f4f5' }}>
+                            <th style={{ padding: '8px 12px', textAlign: 'left', border: '1px solid #000', fontSize: '9px', fontWeight: '900', textTransform: 'uppercase', color: '#71717a' }}>Category</th>
                             {['A', 'B', 'C', 'D', 'E', 'F'].map(cat => (
-                              <th key={cat} style={{ padding: '10px', textAlign: 'left', border: '1px solid #e2e8f0', fontSize: '12px', color: '#64748b' }}>{cat}</th>
+                              <th key={cat} style={{ padding: '8px 12px', textAlign: 'left', border: '1px solid #000', fontSize: '10px', fontWeight: '900', textTransform: 'uppercase' }}>{cat}</th>
                             ))}
-                            <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #e2e8f0', fontSize: '12px', color: '#64748b' }}>Implementation</th>
+                            <th style={{ padding: '8px 12px', textAlign: 'left', border: '1px solid #000', fontSize: '9px', fontWeight: '900', textTransform: 'uppercase', color: '#71717a' }}>Status</th>
                           </tr>
                         </thead>
                         <tbody>
                           {milestones.map((m, idx) => (
                             <React.Fragment key={idx}>
                               <tr>
-                                <td style={{ padding: '10px', border: '1px solid #e2e8f0', fontSize: '12px', fontWeight: 'bold', color: '#1e3a5f' }}>Plan</td>
+                                <td style={{ padding: '10px 12px', border: '1px solid #000', fontSize: '10px', fontWeight: '900', textTransform: 'uppercase' }}>Planned</td>
                                 {['a', 'b', 'c', 'd', 'e', 'f'].map(key => (
-                                  <td key={key} style={{ padding: '10px', border: '1px solid #e2e8f0', fontSize: '12px', color: '#445164' }}>{m.plan[key]}</td>
+                                  <td key={key} style={{ padding: '10px 12px', border: '1px solid #000', fontSize: '10px', color: '#000' }}>{m.plan[key]}</td>
                                 ))}
-                                <td style={{ padding: '10px', border: '1px solid #e2e8f0' }}>
+                                <td style={{ padding: '10px 12px', border: '1px solid #000' }}>
                                   {getStatusPill(m.plan.implementation)}
                                 </td>
                               </tr>
-                              <tr>
-                                <td style={{ padding: '10px', border: '1px solid #e2e8f0', fontSize: '12px', fontWeight: 'bold', color: '#059669' }}>Actual/Outlook</td>
+                              <tr style={{ backgroundColor: '#fafafa' }}>
+                                <td style={{ padding: '10px 12px', border: '1px solid #000', fontSize: '10px', fontWeight: '900', textTransform: 'uppercase' }}>Actual</td>
                                 {['a', 'b', 'c', 'd', 'e', 'f'].map(key => (
-                                  <td key={key} style={{ padding: '10px', border: '1px solid #e2e8f0', fontSize: '12px', color: '#445164' }}>{m.actual[key]}</td>
+                                  <td key={key} style={{ padding: '10px 12px', border: '1px solid #000', fontSize: '10px', color: '#000', fontWeight: '700' }}>{m.actual[key]}</td>
                                 ))}
-                                <td style={{ padding: '10px', border: '1px solid #e2e8f0' }}>
+                                <td style={{ padding: '10px 12px', border: '1px solid #000' }}>
                                   {getStatusPill(m.actual.implementation)}
                                 </td>
                               </tr>
@@ -433,30 +435,30 @@ const PdfPreviewModal = ({
                     </div>
                   ) : null;
                   if (key === 'criticalIssues') return visibleSections?.criticalIssues && criticalIssues?.length > 0 ? (
-                    <div key="criticalIssues" style={{ marginBottom: '25px' }}>
-                      <div style={{ backgroundColor: '#1e3a5f', color: 'white', padding: '10px 15px', fontWeight: 'bold', fontSize: '15px' }}>
-                        <span>Critical Issues Summary</span>
+                    <div key="criticalIssues" style={{ marginBottom: '32px' }}>
+                      <div style={{ borderLeft: '4px solid #000', padding: '0 0 0 12px', marginBottom: '16px' }}>
+                        <h3 style={{ fontSize: '13px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em', margin: 0 }}>Top Critical Issues Registry</h3>
                       </div>
-                      <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid #e2e8f0' }}>
+                      <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid #000', fontFamily: 'IBM Plex Mono, monospace' }}>
                         <thead>
-                          <tr style={{ backgroundColor: '#f8fafc' }}>
-                            <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #e2e8f0', fontSize: '12px', color: '#64748b' }}>S.No</th>
-                            <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #e2e8f0', fontSize: '12px', color: '#64748b' }}>List of Top Critical Issues</th>
-                            <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #e2e8f0', fontSize: '12px', color: '#64748b' }}>Responsibility</th>
-                            <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #e2e8f0', fontSize: '12px', color: '#64748b' }}>Function</th>
-                            <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #e2e8f0', fontSize: '12px', color: '#64748b' }}>Target date for Closure</th>
-                            <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #e2e8f0', fontSize: '12px', color: '#64748b' }}>Status</th>
+                          <tr style={{ backgroundColor: '#f4f4f5' }}>
+                            <th style={{ padding: '8px 12px', textAlign: 'left', border: '1px solid #000', fontSize: '9px', fontWeight: '900', textTransform: 'uppercase', color: '#71717a' }}>UID</th>
+                            <th style={{ padding: '8px 12px', textAlign: 'left', border: '1px solid #000', fontSize: '9px', fontWeight: '900', textTransform: 'uppercase', color: '#71717a' }}>Issue Description</th>
+                            <th style={{ padding: '8px 12px', textAlign: 'left', border: '1px solid #000', fontSize: '9px', fontWeight: '900', textTransform: 'uppercase', color: '#71717a' }}>Owner</th>
+                            <th style={{ padding: '8px 12px', textAlign: 'left', border: '1px solid #000', fontSize: '9px', fontWeight: '900', textTransform: 'uppercase', color: '#71717a' }}>Dept</th>
+                            <th style={{ padding: '8px 12px', textAlign: 'left', border: '1px solid #000', fontSize: '9px', fontWeight: '900', textTransform: 'uppercase', color: '#71717a' }}>Target</th>
+                            <th style={{ padding: '8px 12px', textAlign: 'left', border: '1px solid #000', fontSize: '9px', fontWeight: '900', textTransform: 'uppercase', color: '#71717a' }}>Status</th>
                           </tr>
                         </thead>
                         <tbody>
                           {criticalIssues.map((issue, idx) => (
                             <tr key={idx}>
-                              <td style={{ padding: '10px', border: '1px solid #e2e8f0', fontSize: '12px', fontWeight: 'bold' }}>{idx + 1}</td>
-                              <td style={{ padding: '10px', border: '1px solid #e2e8f0', fontSize: '12px', color: '#1e3a5f' }}>{issue.issue}</td>
-                              <td style={{ padding: '10px', border: '1px solid #e2e8f0', fontSize: '12px', color: '#445164' }}>{issue.responsibility}</td>
-                              <td style={{ padding: '10px', border: '1px solid #e2e8f0', fontSize: '12px', color: '#445164' }}>{issue.function}</td>
-                              <td style={{ padding: '10px', border: '1px solid #e2e8f0', fontSize: '12px', color: '#445164' }}>{issue.targetDate}</td>
-                              <td style={{ padding: '10px', border: '1px solid #e2e8f0' }}>{getStatusPill(issue.status)}</td>
+                              <td style={{ padding: '10px 12px', border: '1px solid #000', fontSize: '10px', fontWeight: '700' }}>{idx + 1}</td>
+                              <td style={{ padding: '10px 12px', border: '1px solid #000', fontSize: '10px', color: '#000', fontWeight: '700' }}>{issue.issue}</td>
+                              <td style={{ padding: '10px 12px', border: '1px solid #000', fontSize: '10px', color: '#000' }}>{issue.responsibility}</td>
+                              <td style={{ padding: '10px 12px', border: '1px solid #000', fontSize: '10px', color: '#000' }}>{issue.function}</td>
+                              <td style={{ padding: '10px 12px', border: '1px solid #000', fontSize: '10px', color: '#000' }}>{issue.targetDate}</td>
+                              <td style={{ padding: '10px 12px', border: '1px solid #000' }}>{getStatusPill(issue.status)}</td>
                             </tr>
                           ))}
                         </tbody>
@@ -464,17 +466,17 @@ const PdfPreviewModal = ({
                     </div>
                   ) : null;
                   if (key === 'budget') return visibleSections?.budget ? (
-                    <div key="budget" style={{ marginBottom: '25px' }}>
-                      <div style={{ backgroundColor: '#1e3a5f', color: 'white', padding: '10px 15px', fontWeight: 'bold', fontSize: '15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span>Budget Summary{selectedBudgetProject ? ` — ${selectedBudgetProject}` : ''}</span>
-                        <span style={{ fontSize: '12px', fontWeight: 'normal', opacity: 0.85 }}>Status: {budgetStatus}</span>
+                    <div key="budget" style={{ marginBottom: '32px' }}>
+                      <div style={{ borderLeft: '4px solid #000', padding: '0 0 0 12px', marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                         <h3 style={{ fontSize: '13px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em', margin: 0 }}>Financial Allocation Summary</h3>
+                         <span style={{ fontSize: '9px', fontWeight: '900', textTransform: 'uppercase', color: '#71717a' }}>Status: {budgetStatus.toUpperCase()}</span>
                       </div>
                       {budgetTableData && budgetTableData.length > 1 ? (
-                        <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid #e2e8f0', fontSize: '12px' }}>
+                        <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid #000', fontFamily: 'IBM Plex Mono, monospace' }}>
                           <thead>
-                            <tr style={{ backgroundColor: '#f8fafc' }}>
+                            <tr style={{ backgroundColor: '#f4f4f5' }}>
                               {budgetTableData[0].map((h, i) => (
-                                <th key={i} style={{ padding: '10px 12px', textAlign: 'left', border: '1px solid #e2e8f0', color: '#475569', fontWeight: 'bold', whiteSpace: 'nowrap' }}>{h}</th>
+                                <th key={i} style={{ padding: '8px 12px', textAlign: 'left', border: '1px solid #000', fontSize: '9px', fontWeight: '900', textTransform: 'uppercase', color: '#71717a' }}>{h}</th>
                               ))}
                             </tr>
                           </thead>
@@ -482,12 +484,12 @@ const PdfPreviewModal = ({
                             {budgetTableData.slice(1).map((row, idx) => {
                               const isTotal = row[0] && row[0].toString().startsWith('Total');
                               const isCategory = row[0] && (row[0] === 'CAPEX' || row[0] === 'Revenue');
-                              const fw = isTotal || isCategory ? 'bold' : 'normal';
-                              const color = isTotal ? '#1e3a5f' : '#475569';
+                              const fw = isTotal || isCategory ? '900' : '400';
+                              const bgColor = isTotal ? '#f4f4f5' : 'transparent';
                               return (
-                                <tr key={idx} style={{ borderBottom: '1px solid #f1f5f9', backgroundColor: isTotal ? '#f0f7ff' : 'white' }}>
+                                <tr key={idx} style={{ backgroundColor: bgColor }}>
                                   {row.map((cell, colIdx) => (
-                                    <td key={colIdx} style={{ padding: '10px 12px', border: '1px solid #e2e8f0', fontWeight: fw, color: color }}>
+                                    <td key={colIdx} style={{ padding: '10px 12px', border: '1px solid #000', fontSize: '10px', fontWeight: fw, color: '#000' }}>
                                       {budgetCurrency && colIdx > 1 && cell !== '' && cell !== null && !isNaN(Number(cell)) ? `${budgetCurrency}${Number(cell).toLocaleString()}` : cell}
                                     </td>
                                   ))}
@@ -497,63 +499,68 @@ const PdfPreviewModal = ({
                           </tbody>
                         </table>
                       ) : (
-                        <div style={{ padding: '20px', textAlign: 'center', color: '#64748b', border: '1px solid #e2e8f0', fontSize: '13px' }}>No budget data available</div>
+                        <div style={{ padding: '24px', textAlign: 'center', color: '#71717a', border: '1px solid #000', fontSize: '10px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Data Missing or Null</div>
                       )}
                     </div>
                   ) : null;
                   if (key === 'resource') return visibleSections?.resource ? (
-                    <div key="resource" style={{ marginBottom: '25px' }}>
-                      <div style={{ backgroundColor: '#1e3a5f', color: 'white', padding: '10px 15px', fontWeight: 'bold', fontSize: '15px' }}>Resource Summary</div>
-                      <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid #e2e8f0', fontSize: '12px' }}>
+                    <div key="resource" style={{ marginBottom: '32px' }}>
+                      <div style={{ borderLeft: '4px solid #000', padding: '0 0 0 12px', marginBottom: '16px' }}>
+                        <h3 style={{ fontSize: '13px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em', margin: 0 }}>Human Capital Utilization</h3>
+                      </div>
+                      <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid #000', fontFamily: 'IBM Plex Mono, monospace' }}>
                         <tbody>
-                          <tr style={{ borderBottom: '1px solid #e2e8f0' }}>
-                            <td style={{ padding: '10px 15px', color: '#64748b', width: '35%', border: '1px solid #e2e8f0', backgroundColor: '#f8fafc' }}>Deployed</td>
-                            <td style={{ padding: '10px 15px', fontWeight: 'bold', color: '#1e3a5f', width: '15%', border: '1px solid #e2e8f0', textAlign: 'center' }}>{summaryData?.resourceDeployed}</td>
-                            <td style={{ padding: '10px 15px', color: '#64748b', width: '35%', border: '1px solid #e2e8f0', backgroundColor: '#f8fafc' }}>Shortage</td>
-                            <td style={{ padding: '10px 15px', fontWeight: 'bold', color: '#ef4444', width: '15%', border: '1px solid #e2e8f0', textAlign: 'center' }}>{summaryData?.resourceShortage}</td>
+                          <tr>
+                            <td style={{ padding: '12px 16px', color: '#71717a', width: '35%', border: '1px solid #000', backgroundColor: '#f4f4f5', fontSize: '9px', fontWeight: '900', textTransform: 'uppercase' }}>Resources Deployed</td>
+                            <td style={{ padding: '12px 16px', fontWeight: '900', color: '#000', width: '15%', border: '1px solid #000', textAlign: 'center', fontSize: '12px' }}>{summaryData?.resourceDeployed}</td>
+                            <td style={{ padding: '12px 16px', color: '#71717a', width: '35%', border: '1px solid #000', backgroundColor: '#f4f4f5', fontSize: '9px', fontWeight: '900', textTransform: 'uppercase' }}>Shortage Projection</td>
+                            <td style={{ padding: '12px 16px', fontWeight: '900', color: '#000', width: '15%', border: '1px solid #000', textAlign: 'center', fontSize: '12px' }}>{summaryData?.resourceShortage}</td>
                           </tr>
                           <tr>
-                            <td style={{ padding: '10px 15px', color: '#64748b', width: '35%', border: '1px solid #e2e8f0', backgroundColor: '#f8fafc' }}>Utilized</td>
-                            <td style={{ padding: '10px 15px', fontWeight: 'bold', color: '#1e3a5f', width: '15%', border: '1px solid #e2e8f0', textAlign: 'center' }}>{summaryData?.resourceUtilized}</td>
-                            <td style={{ padding: '10px 15px', color: '#64748b', width: '35%', border: '1px solid #e2e8f0', backgroundColor: '#f8fafc' }}>Under Utilized</td>
-                            <td style={{ padding: '10px 15px', fontWeight: 'bold', color: '#f59e0b', width: '15%', border: '1px solid #e2e8f0', textAlign: 'center' }}>{summaryData?.resourceUnderUtilized}</td>
+                            <td style={{ padding: '12px 16px', color: '#71717a', width: '35%', border: '1px solid #000', backgroundColor: '#f4f4f5', fontSize: '9px', fontWeight: '900', textTransform: 'uppercase' }}>Capacity Utilized</td>
+                            <td style={{ padding: '12px 16px', fontWeight: '900', color: '#000', width: '15%', border: '1px solid #000', textAlign: 'center', fontSize: '12px' }}>{summaryData?.resourceUtilized}</td>
+                            <td style={{ padding: '12px 16px', color: '#71717a', width: '35%', border: '1px solid #000', backgroundColor: '#f4f4f5', fontSize: '9px', fontWeight: '900', textTransform: 'uppercase' }}>Under-Utilization Delta</td>
+                            <td style={{ padding: '12px 16px', fontWeight: '900', color: '#000', width: '15%', border: '1px solid #000', textAlign: 'center', fontSize: '12px' }}>{summaryData?.resourceUnderUtilized}</td>
                           </tr>
                         </tbody>
                       </table>
                     </div>
                   ) : null;
                   if (key === 'quality') return visibleSections?.quality ? (
-                    <div key="quality" style={{ marginBottom: '25px' }}>
-                      <div style={{ backgroundColor: '#1e3a5f', color: 'white', padding: '10px 15px', fontWeight: 'bold', fontSize: '15px' }}>Quality Summary</div>
-                      <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid #e2e8f0', fontSize: '12px' }}>
+                    <div key="quality" style={{ marginBottom: '32px' }}>
+                      <div style={{ borderLeft: '4px solid #000', padding: '0 0 0 12px', marginBottom: '16px' }}>
+                        <h3 style={{ fontSize: '13px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em', margin: 0 }}>Quality Assurance Metrics</h3>
+                      </div>
+                      <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid #000', fontFamily: 'IBM Plex Mono, monospace' }}>
                         <tbody>
-                          <tr style={{ borderBottom: '1px solid #e2e8f0' }}>
-                            <td style={{ padding: '10px 15px', color: '#64748b', width: '35%', border: '1px solid #e2e8f0', backgroundColor: '#f8fafc' }}>Total Issues</td>
-                            <td style={{ padding: '10px 15px', fontWeight: 'bold', color: '#1e3a5f', width: '15%', border: '1px solid #e2e8f0', textAlign: 'center' }}>{summaryData?.qualityTotal}</td>
-                            <td style={{ padding: '10px 15px', color: '#64748b', width: '35%', border: '1px solid #e2e8f0', backgroundColor: '#f8fafc' }}>Action Completed</td>
-                            <td style={{ padding: '10px 15px', fontWeight: 'bold', color: '#10b981', width: '15%', border: '1px solid #e2e8f0', textAlign: 'center' }}>{summaryData?.qualityCompleted}</td>
+                          <tr>
+                            <td style={{ padding: '12px 16px', color: '#71717a', width: '35%', border: '1px solid #000', backgroundColor: '#f4f4f5', fontSize: '9px', fontWeight: '900', textTransform: 'uppercase' }}>Total Variances</td>
+                            <td style={{ padding: '12px 16px', fontWeight: '900', color: '#000', width: '15%', border: '1px solid #000', textAlign: 'center', fontSize: '12px' }}>{summaryData?.qualityTotal}</td>
+                            <td style={{ padding: '12px 16px', color: '#71717a', width: '35%', border: '1px solid #000', backgroundColor: '#f4f4f5', fontSize: '9px', fontWeight: '900', textTransform: 'uppercase' }}>Mitigation Complete</td>
+                            <td style={{ padding: '12px 16px', fontWeight: '900', color: '#000', width: '15%', border: '1px solid #000', textAlign: 'center', fontSize: '12px' }}>{summaryData?.qualityCompleted}</td>
                           </tr>
                           <tr>
-                            <td style={{ padding: '10px 15px', color: '#64748b', width: '35%', border: '1px solid #e2e8f0', backgroundColor: '#f8fafc' }}>Open Issues</td>
-                            <td style={{ padding: '10px 15px', fontWeight: 'bold', color: '#ef4444', width: '15%', border: '1px solid #e2e8f0', textAlign: 'center' }}>{summaryData?.qualityOpen}</td>
-                            <td style={{ padding: '10px 15px', color: '#64748b', width: '35%', border: '1px solid #e2e8f0', backgroundColor: '#f8fafc' }}>No. of Critical Issues</td>
-                            <td style={{ padding: '10px 15px', fontWeight: 'bold', color: '#ef4444', width: '15%', border: '1px solid #e2e8f0', textAlign: 'center' }}>{summaryData?.qualityCritical}</td>
+                            <td style={{ padding: '12px 16px', color: '#71717a', width: '35%', border: '1px solid #000', backgroundColor: '#f4f4f5', fontSize: '9px', fontWeight: '900', textTransform: 'uppercase' }}>Open Variances</td>
+                            <td style={{ padding: '12px 16px', fontWeight: '900', color: '#000', width: '15%', border: '1px solid #000', textAlign: 'center', fontSize: '12px' }}>{summaryData?.qualityOpen}</td>
+                            <td style={{ padding: '12px 16px', color: '#71717a', width: '35%', border: '1px solid #000', backgroundColor: '#f4f4f5', fontSize: '9px', fontWeight: '900', textTransform: 'uppercase' }}>Critical Defects</td>
+                            <td style={{ padding: '12px 16px', fontWeight: '900', color: '#000', width: '15%', border: '1px solid #000', textAlign: 'center', fontSize: '12px' }}>{summaryData?.qualityCritical}</td>
                           </tr>
                         </tbody>
                       </table>
                     </div>
                   ) : null;
                   if (key === 'charts') return visiblePhaseList.length > 0 ? (
-                    <div key="charts" style={{ marginBottom: '25px' }}>
-                      <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#1e3a5f', marginBottom: '15px', borderBottom: '2px solid #e2e8f0', paddingBottom: '8px' }}>Project Metrics Summary</div>
-                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px' }}>
+                    <div key="charts" style={{ marginBottom: '32px' }}>
+                      <div style={{ borderLeft: '4px solid #000', padding: '0 0 0 12px', marginBottom: '16px' }}>
+                        <h3 style={{ fontSize: '13px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em', margin: 0 }}>Analytical Tracker Visualizations</h3>
+                      </div>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1px', border: '1px solid #000', backgroundColor: '#000' }}>
                         {visiblePhaseList.map(phase => (
-                          <div key={phase.id} style={{ border: '1px solid #e2e8f0', borderRadius: '6px', overflow: 'hidden' }}>
-                            <div style={{ backgroundColor: '#1e3a5f', color: 'white', padding: '8px 12px', fontSize: '13px', fontWeight: 'bold' }}>{phase.label}</div>
-                            {chartImages?.[phase.id] ? <img src={chartImages?.[phase.id]} alt={phase.label} style={{ width: '100%', height: 'auto', display: 'block', backgroundColor: '#fff' }} /> : (
-                              <div style={{ height: '160px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f8fafc' }}>
-                                <span style={{ fontSize: '22px', marginBottom: '8px' }}>📊</span>
-                                <span style={{ fontSize: '11px', color: '#94a3b8', textAlign: 'center', padding: '0 12px' }}>No chart data — configure axes in the dashboard first</span>
+                          <div key={phase.id} style={{ backgroundColor: 'white' }}>
+                            <div style={{ backgroundColor: '#f4f4f5', color: '#000', padding: '8px 12px', fontSize: '10px', fontWeight: '900', textTransform: 'uppercase', borderBottom: '1px solid #000' }}>{phase.label}</div>
+                            {chartImages?.[phase.id] ? <img src={chartImages?.[phase.id]} alt={phase.label} style={{ width: '100%', height: 'auto', display: 'block' }} /> : (
+                              <div style={{ height: '160px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
+                                <span style={{ fontSize: '10px', color: '#a1a1aa', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Visualization Data_Missing</span>
                               </div>
                             )}
                           </div>
@@ -572,4 +579,5 @@ const PdfPreviewModal = ({
     </div>
   );
 };
+
 export default PdfPreviewModal;

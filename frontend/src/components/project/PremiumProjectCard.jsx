@@ -11,13 +11,13 @@ const PremiumProjectCard = ({ project, onClick, isFeatured }) => {
   return (
     <div 
       onClick={() => onClick(project.id)}
-      className="group premium-card p-6 bg-white flex flex-col hover:border-[var(--brand-primary)] hover:ring-1 hover:ring-[var(--brand-primary)] transition-all duration-300 cursor-pointer relative"
+      className="system-panel p-6 bg-white flex flex-col hover:bg-[var(--bg-app)] border border-[var(--border-main)] transition-all duration-100 cursor-pointer relative"
     >
       {/* Featured Badge */}
       {isFeatured && (
         <div className="absolute -top-3 left-6">
-          <span className="bg-[var(--brand-primary)] text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg shadow-blue-500/20 uppercase tracking-widest">
-            Featured
+          <span className="bg-[#18181B] text-white text-[9px] font-black px-3 py-1 border border-black uppercase tracking-[0.2em]">
+            FEATURED
           </span>
         </div>
       )}
@@ -25,7 +25,7 @@ const PremiumProjectCard = ({ project, onClick, isFeatured }) => {
       {/* Header Info */}
       <div className="flex justify-between items-start mb-6">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-[var(--bg-app)] border border-[var(--border-main)] flex items-center justify-center font-mono font-bold text-sm text-[var(--text-main)] group-hover:bg-blue-50 group-hover:border-blue-100 group-hover:text-[var(--brand-primary)] transition-colors">
+          <div className="w-10 h-10 bg-[var(--bg-app)] border border-[var(--border-main)] flex items-center justify-center font-mono font-bold text-sm text-[var(--text-main)] transition-colors">
             {code.substring(0, 2)}
           </div>
           <div>
@@ -35,10 +35,10 @@ const PremiumProjectCard = ({ project, onClick, isFeatured }) => {
         </div>
         
         {/* Status Badge */}
-        <div className={`px-2 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-widest border ${
+        <div className={`px-2 py-0.5 text-[9px] font-bold uppercase tracking-widest border ${
           status === 'Active' || status === 'Complete' 
-            ? 'bg-emerald-50 text-emerald-700 border-emerald-100' 
-            : 'bg-amber-50 text-amber-700 border-amber-100'
+            ? 'bg-zinc-100 text-zinc-900 border-zinc-900' 
+            : 'bg-zinc-50 text-zinc-600 border-zinc-200'
         }`}>
           {status}
         </div>
@@ -46,7 +46,7 @@ const PremiumProjectCard = ({ project, onClick, isFeatured }) => {
 
       {/* Title */}
       <div className="mb-6">
-        <h3 className="text-lg font-bold text-[var(--text-main)] m-0 truncate leading-snug group-hover:text-[var(--brand-primary)] transition-colors">
+        <h3 className="text-sm font-black text-[var(--text-main)] uppercase tracking-[0.1em] m-0 truncate leading-snug">
           {project.name}
         </h3>
       </div>
@@ -62,27 +62,27 @@ const PremiumProjectCard = ({ project, onClick, isFeatured }) => {
          </div>
          
          <div className="flex flex-col gap-1">
-           <div className="flex items-center gap-1.5 text-[var(--text-subtle)]">
-             <Squares2X2Icon className="h-3.5 w-3.5" />
-             <span className="text-[9px] font-bold uppercase tracking-widest">Layout</span>
-           </div>
-           {isConfigured ? (
-             <span className="text-[10px] font-bold text-emerald-600 flex items-center gap-1">
-               <span className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse"></span> Ready
-             </span>
-           ) : (
-             <span className="text-[10px] font-bold text-[var(--text-subtle)] flex items-center gap-1">
-               <span className="w-1 h-1 rounded-full bg-slate-300"></span> Pending
-             </span>
-           )}
-         </div>
+            <div className="flex items-center gap-1.5 text-[var(--text-subtle)]">
+              <Squares2X2Icon className="h-3.5 w-3.5" />
+              <span className="text-[9px] font-bold uppercase tracking-widest">Layout</span>
+            </div>
+            {isConfigured ? (
+              <span className="text-[10px] font-bold text-zinc-900 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 bg-zinc-900"></span> READY
+              </span>
+            ) : (
+              <span className="text-[10px] font-bold text-[var(--text-subtle)] flex items-center gap-1">
+                <span className="w-1.5 h-1.5 bg-zinc-300"></span> PENDING
+              </span>
+            )}
+          </div>
       </div>
 
       {/* Action Footer */}
-      <div className="mt-auto pt-4 border-t border-[var(--border-light)] group-hover:border-blue-100 transition-colors">
+      <div className="mt-8 pt-6 border-t border-[var(--border-main)]">
         <div className="flex items-center justify-between">
-          <span className="text-[11px] font-bold text-[var(--text-subtle)] group-hover:text-[var(--brand-primary)] transition-colors">Open Workspace</span>
-          <ArrowRightIcon className="h-4 w-4 text-[var(--text-meta)] transform group-hover:translate-x-1 group-hover:text-[var(--brand-primary)] transition-all" />
+          <span className="text-[11px] font-black uppercase tracking-widest text-[var(--brand-primary)]">Open Project</span>
+          <ArrowRightIcon className="h-4 w-4 text-[var(--brand-primary)]" />
         </div>
       </div>
     </div>

@@ -592,16 +592,16 @@ const ExcelTableViewer = ({ columns: initialColumns, data, fileName, onRefresh, 
 
 
     return (
-        <div className="flex flex-col bg-white rounded-2xl border border-[var(--border-main)] shadow-sm w-full h-[600px] overflow-hidden">
+        <div className="flex flex-col bg-white border border-[var(--border-main)] w-full h-[600px] overflow-hidden">
             {/* Notification Banner */}
             {notification.show && (
-                <div className={`fixed bottom-4 right-4 px-4 py-3 rounded-lg shadow-lg z-50 ${notification.type === 'success' ? 'bg-green-100 text-green-800 border border-green-200' :
-                    notification.type === 'error' ? 'bg-red-100 text-red-800 border border-red-200' :
-                        'bg-blue-100 text-blue-800 border border-blue-200'
+                <div className={`fixed bottom-4 right-4 px-4 py-3 z-50 border ${notification.type === 'success' ? 'bg-zinc-900 text-white border-black' :
+                    notification.type === 'error' ? 'bg-red-900 text-white border-red-950' :
+                        'bg-zinc-100 text-zinc-900 border-zinc-300'
                     }`}>
                     <div className="flex items-center">
-                        <span className="text-sm font-medium">{notification.message}</span>
-                        <button onClick={() => setNotification({ show: false, message: '', type: '' })} className="ml-4 text-slate-500 hover:text-slate-700">
+                        <span className="text-[11px] font-black uppercase tracking-widest">{notification.message}</span>
+                        <button onClick={() => setNotification({ show: false, message: '', type: '' })} className="ml-4 text-white opacity-50 hover:opacity-100">
                             <X className="h-4 w-4" />
                         </button>
                     </div>
@@ -615,13 +615,13 @@ const ExcelTableViewer = ({ columns: initialColumns, data, fileName, onRefresh, 
                     {/* LEFT SIDE -> Search & Filter Columns */}
                     <div className="flex flex-1 flex-col sm:flex-row gap-2 items-start sm:items-center">
                         <div className="relative flex-1 max-w-sm">
-                            <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 h-4 w-4 text-[var(--text-meta)]" />
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-[var(--text-meta)]" />
                             <input
                                 type="text"
-                                placeholder="Search rows..."
+                                placeholder="SEARCH ROWS..."
                                 value={searchTerm}
                                 onChange={e => { setSearchTerm(e.target.value); setCurrentPage(1); }}
-                                className="w-full h-11 pl-10 pr-4 bg-[var(--bg-app)] border-none rounded-xl text-sm font-medium focus:ring-2 focus:ring-blue-500/20 transition-all placeholder:text-[var(--text-meta)] uppercase tracking-tight"
+                                className="w-full h-10 pl-10 pr-4 bg-[var(--bg-app)] border border-[var(--border-main)] text-xs font-bold focus:ring-1 focus:ring-black transition-all placeholder:text-[var(--text-meta)] uppercase tracking-widest"
                             />
                         </div>
 
@@ -635,36 +635,36 @@ const ExcelTableViewer = ({ columns: initialColumns, data, fileName, onRefresh, 
                                     }
                                     setShowFilterDropdown(!showFilterDropdown);
                                 }}
-                                className="flex items-center gap-2 h-11 px-4 bg-white border border-[var(--border-main)] rounded-xl text-sm font-bold text-[var(--text-muted)] hover:bg-[var(--bg-app)] transition-all shadow-sm"
+                                className="flex items-center gap-2 h-10 px-4 bg-white border border-black text-[11px] font-black uppercase tracking-widest text-black hover:bg-zinc-100 transition-all"
                             >
-                                <Filter className="h-4 w-4 text-[var(--text-meta)]" />
+                                <Filter className="h-4 w-4" />
                                 <span>Filter</span>
                             </button>
 
                             {showFilterDropdown && (
                                 <>
                                     <div className="fixed inset-0 z-40" onClick={() => setShowFilterDropdown(false)} />
-                                    <div className="absolute left-0 mt-1 w-56 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-xl z-50 p-3">
+                                    <div className="absolute left-0 mt-1 w-56 bg-white border border-black shadow-none z-50 p-3">
                                         <h4 className="text-xs font-semibold uppercase text-slate-500 mb-2">Visible Columns</h4>
                                         <div className="space-y-1 max-h-60 overflow-y-auto pr-1">
                                             {columns.map(col => (
-                                                <label key={col.id} className="flex items-center space-x-3 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/50 p-1.5 rounded transition-colors group">
+                                                <label key={col.id} className="flex items-center space-x-3 cursor-pointer hover:bg-zinc-100 p-1.5 transition-colors group">
                                                     <input
                                                         type="checkbox"
                                                         checked={filterDraft[col.id] !== false}
                                                         onChange={(e) => setFilterDraft({ ...filterDraft, [col.id]: e.target.checked })}
-                                                        className="h-4 w-4 text-blue-600 rounded border-slate-300"
+                                                        className="h-4 w-4 text-black border-zinc-400 rounded-none focus:ring-0"
                                                     />
-                                                    <span className="text-[13px] text-slate-700 dark:text-slate-300 group-hover:text-blue-600">{col.label}</span>
+                                                    <span className="text-[11px] font-bold text-zinc-900 uppercase tracking-widest">{col.label}</span>
                                                 </label>
                                             ))}
                                         </div>
-                                        <div className="mt-3 pt-3 border-t border-slate-200 dark:border-slate-700 flex justify-end gap-2">
-                                            <button onClick={() => setShowFilterDropdown(false)} className="px-3 py-1.5 text-xs text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 rounded">Cancel</button>
+                                        <div className="mt-3 pt-3 border-t border-zinc-200 flex justify-end gap-2">
+                                            <button onClick={() => setShowFilterDropdown(false)} className="px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-zinc-600 hover:bg-zinc-100">Cancel</button>
                                             <button onClick={() => {
                                                 setColumns(columns.map(col => ({ ...col, visible: filterDraft[col.id] !== false })));
                                                 setShowFilterDropdown(false);
-                                            }} className="px-3 py-1.5 text-xs bg-blue-600 text-white hover:bg-blue-700 rounded">Apply</button>
+                                            }} className="px-3 py-1.5 text-xs font-bold uppercase tracking-widest bg-black text-white hover:bg-zinc-800">Apply</button>
                                         </div>
                                     </div>
                                 </>
@@ -683,7 +683,7 @@ const ExcelTableViewer = ({ columns: initialColumns, data, fileName, onRefresh, 
                                             onProcessData(indices);
                                         }}
                                         disabled={loading}
-                                        className="flex items-center gap-1 h-9 px-3 text-xs sm:text-sm border border-slate-300 dark:border-slate-600 rounded text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20"
+                                        className="flex items-center gap-1 h-9 px-3 text-[10px] font-black uppercase tracking-widest border border-zinc-300 text-zinc-900 hover:bg-zinc-100"
                                     >
                                         <Zap className="h-4 w-4" />
                                         <span className="hidden lg:inline">Optimize ({selectedRows.length})</span>
@@ -691,14 +691,14 @@ const ExcelTableViewer = ({ columns: initialColumns, data, fileName, onRefresh, 
                                 )}
                                 <button
                                     onClick={handleBulkEdit}
-                                    className="flex items-center gap-1 h-9 px-3 text-xs sm:text-sm border border-slate-300 dark:border-slate-600 rounded text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700"
+                                    className="flex items-center gap-1 h-9 px-3 text-[10px] font-black uppercase tracking-widest border border-zinc-300 text-zinc-900 hover:bg-zinc-100"
                                 >
                                     <Edit className="h-4 w-4" />
                                     <span className="hidden lg:inline">Edit ({selectedRows.length})</span>
                                 </button>
                                 <button
                                     onClick={handleBulkDelete}
-                                    className="flex items-center gap-1 h-9 px-3 text-xs sm:text-sm border border-slate-300 dark:border-slate-600 rounded text-red-600 hover:bg-red-50 hover:border-red-300 dark:hover:bg-red-900/20"
+                                    className="flex items-center gap-1 h-9 px-3 text-[10px] font-black uppercase tracking-widest border border-red-300 text-red-600 hover:bg-red-50"
                                 >
                                     <Trash2 className="h-4 w-4" />
                                     <span className="hidden lg:inline">Delete ({selectedRows.length})</span>
@@ -706,51 +706,28 @@ const ExcelTableViewer = ({ columns: initialColumns, data, fileName, onRefresh, 
                             </div>
                         )}
 
-                        {/* COLUMN PAGINATION CONTROL (from image) */}
-                        {totalVisibleCols > colsPerPage && (
-                            <div className="flex items-center gap-2 px-2 py-1 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md shadow-sm mr-2">
-                                <button
-                                    onClick={() => setColumnPage(prev => Math.max(1, prev - 1))}
-                                    disabled={columnPage === 1}
-                                    className="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-                                >
-                                    <ChevronLeft className="h-4 w-4" />
-                                </button>
-                                <span className="text-[11px] sm:text-xs font-semibold text-slate-600 dark:text-slate-300 min-w-[100px] text-center whitespace-nowrap">
-                                    Cols {colStartIndex + 1}-{colEndIndex} of {totalVisibleCols}
-                                </span>
-                                <button
-                                    onClick={() => setColumnPage(prev => Math.min(Math.ceil(totalVisibleCols / colsPerPage), prev + 1))}
-                                    disabled={colEndIndex >= totalVisibleCols}
-                                    className="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-                                >
-                                    <ChevronRight className="h-4 w-4" />
-                                </button>
-                            </div>
-                        )}
-
-                        <button onClick={handleAddRowClick} className="flex items-center gap-1 h-9 px-3 text-sm font-medium bg-blue-600 text-white rounded hover:bg-blue-700 transition" title="Add Row">
+                        <button onClick={handleAddRowClick} className="flex items-center gap-1 h-9 px-3 text-[10px] font-black uppercase tracking-widest bg-black text-white hover:bg-zinc-800 transition" title="Add Row">
                             <Plus className="h-4 w-4" />
-                            <span className="hidden xl:inline">Row</span>
+                            <span className="hidden xl:inline">Add Row</span>
                         </button>
 
-                        <button onClick={() => setShowColumnModal(true)} className="flex items-center gap-1 h-9 px-3 text-sm font-medium border border-slate-300 dark:border-slate-600 rounded hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition" title="Add Column">
+                        <button onClick={() => setShowColumnModal(true)} className="flex items-center gap-1 h-9 px-3 text-[10px] font-black uppercase tracking-widest border border-zinc-300 text-zinc-900 hover:bg-zinc-100 transition" title="Add Column">
                             <Plus className="h-4 w-4" />
-                            <span className="hidden xl:inline">Column</span>
+                            <span className="hidden xl:inline">Add Column</span>
                         </button>
 
                         <div className="relative">
-                            <button onClick={() => setShowExportDropdown(!showExportDropdown)} className="flex items-center gap-1.5 h-9 px-3 text-sm font-medium border border-slate-300 dark:border-slate-600 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition">
+                            <button onClick={() => setShowExportDropdown(!showExportDropdown)} className="flex items-center gap-1.5 h-9 px-3 text-[10px] font-black uppercase tracking-widest border border-zinc-300 text-zinc-900 hover:bg-zinc-100 transition">
                                 <Download className="h-4 w-4" />
                                 <span className="hidden lg:inline">Export</span>
                             </button>
                             {showExportDropdown && (
                                 <>
                                     <div className="fixed inset-0 z-40" onClick={() => setShowExportDropdown(false)} />
-                                    <div className="absolute right-0 mt-1 w-40 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg shadow-lg z-50 overflow-hidden">
-                                        <button onClick={() => handleExportClick('excel')} className="block w-full text-left px-4 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300">Excel (.xlsx)</button>
-                                        <button onClick={() => handleExportClick('csv')} className="block w-full text-left px-4 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300">CSV (.csv)</button>
-                                        <button onClick={() => handleExportClick('json')} className="block w-full text-left px-4 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300">JSON (.json)</button>
+                                    <div className="absolute right-0 mt-1 w-40 bg-white border border-black z-50 overflow-hidden">
+                                        <button onClick={() => handleExportClick('excel')} className="block w-full text-left px-4 py-2 text-xs font-bold uppercase tracking-widest hover:bg-zinc-100 text-zinc-900">Excel (.xlsx)</button>
+                                        <button onClick={() => handleExportClick('csv')} className="block w-full text-left px-4 py-2 text-xs font-bold uppercase tracking-widest hover:bg-zinc-100 text-zinc-900">CSV (.csv)</button>
+                                        <button onClick={() => handleExportClick('json')} className="block w-full text-left px-4 py-2 text-xs font-bold uppercase tracking-widest hover:bg-zinc-100 text-zinc-900">JSON (.json)</button>
                                     </div>
                                 </>
                             )}
@@ -759,28 +736,28 @@ const ExcelTableViewer = ({ columns: initialColumns, data, fileName, onRefresh, 
                         {hasChanges ? (
                             <button
                                 onClick={handleSaveChanges}
-                                className="flex items-center gap-1.5 h-9 px-4 text-sm font-bold bg-green-600 text-white rounded-md hover:bg-green-700 transition shadow-sm animate-pulse"
+                                className="flex items-center gap-1.5 h-9 px-4 text-[10px] font-black uppercase tracking-widest bg-[#166534] text-white border border-[#14532d] hover:bg-[#14532d] transition"
                                 title="Save changes to database"
                             >
                                 <Check className="h-4 w-4" />
-                                <span>Save Changes</span>
+                                <span>Save Data</span>
                             </button>
                         ) : (
                             onProcessData && selectedRows.length === 0 && (
                                 <button
                                     onClick={() => onProcessData()}
                                     disabled={loading}
-                                    className="flex items-center gap-1.5 h-9 px-3 text-sm font-medium border border-blue-300 dark:border-blue-600 rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/20 text-blue-600 dark:text-blue-400 transition disabled:opacity-50 group"
+                                    className="flex items-center gap-1.5 h-9 px-3 text-[10px] font-black uppercase tracking-widest border border-zinc-300 text-zinc-900 hover:bg-zinc-100 transition disabled:opacity-50"
                                     title="Process & Optimize Data (Type Inference)"
                                 >
-                                    <Zap className="h-4 w-4 fill-blue-600/20 group-hover:fill-blue-600 transition-all" />
+                                    <Zap className="h-4 w-4" />
                                     <span className="hidden sm:inline">Optimize</span>
                                 </button>
                             )
                         )}
 
                         {onRefresh && (
-                            <button onClick={onRefresh} disabled={loading} className="flex items-center gap-1.5 h-9 px-3 text-sm font-medium border border-slate-300 dark:border-slate-600 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition disabled:opacity-50">
+                            <button onClick={onRefresh} disabled={loading} className="flex items-center gap-1.5 h-9 px-3 text-[10px] font-black uppercase tracking-widest border border-zinc-300 text-zinc-900 hover:bg-zinc-100 transition disabled:opacity-50">
                                 <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
                             </button>
                         )}
@@ -789,36 +766,39 @@ const ExcelTableViewer = ({ columns: initialColumns, data, fileName, onRefresh, 
             </div>
 
             {/* Render Data Table */}
-            <div className="flex-1 overflow-auto relative">
-                <table className="w-full border-collapse text-left">
-                    <thead className="bg-[var(--bg-app)]/50 text-[var(--text-subtle)] sticky top-0 z-[40]">
-                        <tr className="border-b border-[var(--border-main)]">
+            <div className="flex-1 overflow-auto relative border-t border-zinc-300">
+                <table className="w-full border-collapse text-left font-mono">
+                    <thead className="bg-[#F4F4F5] text-zinc-500 sticky top-0 z-[40]">
+                        <tr className="border-b border-black">
                             {/* Checkbox Header */}
                             <th
-                                className={`py-4 px-6 w-12 text-center border-b border-[var(--border-main)] ${isColumnFrozen(0) ? 'frozen-column pt-0 bg-white z-[45]' : ''}`}
+                                className={`py-3 px-4 w-12 text-center border-b border-black ${isColumnFrozen(0) ? 'frozen-column pt-0 bg-white z-[45]' : ''}`}
                                 style={{ left: isColumnFrozen(0) ? '0' : 'auto' }}
                             >
                                 <button
                                     onClick={toggleSelectAll}
-                                    className="flex items-center justify-center w-5 h-5 rounded border border-[var(--border-main)] bg-white hover:border-[var(--brand-primary)] transition-all mx-auto"
+                                    className="focus:outline-none"
                                 >
                                     {selectAll ? (
-                                        <div className="w-2.5 h-2.5 bg-[var(--brand-primary)] rounded-sm"></div>
-                                    ) : null}
+                                        <div className="h-4 w-4 bg-black text-white flex items-center justify-center border border-black">
+                                            <Check className="h-3 w-3" />
+                                        </div>
+                                    ) : (
+                                        <div className="h-4 w-4 bg-white border border-zinc-300" />
+                                    )}
                                 </button>
                             </th>
 
                             {/* Dynamic Headers */}
-                            {paginatedColumns.map((col) => {
-                                const actualColumnIndex = columns.findIndex(c => c.id === col.id);
-                                const isFrozen = isColumnFrozen(actualColumnIndex);
-
-                                return (
-                                    <th
-                                        key={col.id}
-                                        className={`py-4 px-6 font-bold uppercase tracking-widest text-[10px] border-b border-[var(--border-main)] cursor-pointer group min-w-[150px] ${isFrozen ? 'frozen-column bg-white z-[45]' : ''}`}
-                                        style={{ left: isFrozen ? getFrozenColumnLeft(actualColumnIndex) : 'auto' }}
-                                    >
+                            {paginatedColumns.map((col, colIdx) => (
+                                <th
+                                    key={col.id}
+                                    className={`py-3 px-4 text-[10px] font-black uppercase tracking-[0.15em] text-zinc-900 border-b border-black group ${isColumnFrozen(colIdx + 1) ? 'frozen-column bg-zinc-100 z-[45]' : ''}`}
+                                    style={{
+                                        minWidth: '150px',
+                                        left: isColumnFrozen(colIdx + 1) ? getFrozenColumnLeft(colIdx + 1) : 'auto'
+                                    }}
+                                >
                                         <div className="flex items-center justify-between gap-2">
                                             <div className="flex items-center gap-1.5 flex-1" onClick={() => col.sortable && handleSort(col.id)}>
                                                 <span className="truncate">{col.label}</span>
@@ -827,43 +807,42 @@ const ExcelTableViewer = ({ columns: initialColumns, data, fileName, onRefresh, 
                                             <div className="relative">
                                                 <button
                                                     onClick={(e) => { e.stopPropagation(); setActiveDropdownColumn(activeDropdownColumn === col.id ? null : col.id); }}
-                                                    className={`p-1 rounded transition-colors text-slate-500 hover:text-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 ${activeDropdownColumn === col.id ? 'bg-slate-200 dark:bg-slate-600 text-slate-800 dark:text-slate-100' : ''}`}
+                                                    className={`p-1 transition-colors text-zinc-500 hover:text-zinc-900 ${activeDropdownColumn === col.id ? 'bg-zinc-200 text-zinc-900' : ''}`}
                                                 >
                                                     <ChevronDown className="h-4 w-4" />
                                                 </button>
                                                 {activeDropdownColumn === col.id && (
-                                                    <div className="absolute top-full right-0 mt-1 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700 z-[60] py-1 normal-case tracking-normal font-normal">
+                                                    <div className="absolute top-full right-0 mt-1 w-48 bg-white border border-black z-[60] py-1 normal-case tracking-normal font-normal">
                                                         {col.sortable && (
                                                             <>
-                                                                <button onClick={() => handleSortFromMenu(col.id, 'ascending')} className="w-full text-left px-4 py-2 text-xs hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center gap-2 text-slate-700 dark:text-slate-300"><ArrowUp className="h-3.5 w-3.5" /> Sort Ascending</button>
-                                                                <button onClick={() => handleSortFromMenu(col.id, 'descending')} className="w-full text-left px-4 py-2 text-xs hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center gap-2 text-slate-700 dark:text-slate-300"><ArrowDown className="h-3.5 w-3.5" /> Sort Descending</button>
-                                                                <div className="h-px bg-slate-100 dark:bg-slate-700 my-1"></div>
+                                                                <button onClick={() => handleSortFromMenu(col.id, 'ascending')} className="w-full text-left px-4 py-2 text-xs hover:bg-zinc-100 flex items-center gap-2 text-zinc-700"><ArrowUp className="h-3.5 w-3.5" /> Sort Ascending</button>
+                                                                <button onClick={() => handleSortFromMenu(col.id, 'descending')} className="w-full text-left px-4 py-2 text-xs hover:bg-zinc-100 flex items-center gap-2 text-zinc-700"><ArrowDown className="h-3.5 w-3.5" /> Sort Descending</button>
+                                                                <div className="h-px bg-zinc-200 my-1"></div>
                                                             </>
                                                         )}
-                                                        <button onClick={() => handleCopyColumnName(col.label)} className="w-full text-left px-4 py-2 text-xs hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center gap-2 text-slate-700 dark:text-slate-300"><Copy className="h-3.5 w-3.5" /> Copy name</button>
-                                                        <button onClick={() => { startEditColumn(col.id, col.label); setShowColumnModal(true); setActiveDropdownColumn(null); }} className="w-full text-left px-4 py-2 text-xs hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center gap-2 text-slate-700 dark:text-slate-300"><Edit className="h-3.5 w-3.5" /> Edit column</button>
-                                                        <button onClick={() => handleFreezeColumnMenu(actualColumnIndex)} className="w-full text-left px-4 py-2 text-xs hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center gap-2 text-slate-700 dark:text-slate-300">
-                                                            <Snowflake className={`h-3.5 w-3.5 ${isColumnFrozen(actualColumnIndex) ? 'text-blue-500' : 'text-slate-400'}`} />
-                                                            <span className={isColumnFrozen(actualColumnIndex) ? 'text-blue-600' : ''}>{isColumnFrozen(actualColumnIndex) ? 'Unfreeze' : 'Freeze'} column</span>
+                                                        <button onClick={() => handleCopyColumnName(col.label)} className="w-full text-left px-4 py-2 text-xs hover:bg-zinc-100 flex items-center gap-2 text-zinc-700"><Copy className="h-3.5 w-3.5" /> Copy name</button>
+                                                        <button onClick={() => { startEditColumn(col.id, col.label); setShowColumnModal(true); setActiveDropdownColumn(null); }} className="w-full text-left px-4 py-2 text-xs hover:bg-zinc-100 flex items-center gap-2 text-zinc-700"><Edit className="h-3.5 w-3.5" /> Edit column</button>
+                                                        <button onClick={() => handleFreezeColumnMenu(colIdx + 1)} className="w-full text-left px-4 py-2 text-xs hover:bg-zinc-100 flex items-center gap-2 text-zinc-700">
+                                                            <Snowflake className={`h-3.5 w-3.5 ${isColumnFrozen(colIdx + 1) ? 'text-blue-600' : 'text-zinc-400'}`} />
+                                                            <span className={isColumnFrozen(colIdx + 1) ? 'text-blue-600' : ''}>{isColumnFrozen(colIdx + 1) ? 'Unfreeze' : 'Freeze'} column</span>
                                                         </button>
-                                                        <button onClick={() => { toggleFreezeRow(); setActiveDropdownColumn(null); }} className="w-full text-left px-4 py-2 text-xs hover:bg-slate-50 dark:hover:bg-slate-700 flex items-center gap-2 text-slate-700 dark:text-slate-300">
-                                                            <Snowflake className={`h-3.5 w-3.5 ${frozenRows.length > 0 ? 'text-blue-500' : 'text-slate-400'}`} />
+                                                        <button onClick={() => { toggleFreezeRow(); setActiveDropdownColumn(null); }} className="w-full text-left px-4 py-2 text-xs hover:bg-zinc-100 flex items-center gap-2 text-zinc-700">
+                                                            <Snowflake className={`h-3.5 w-3.5 ${frozenRows.length > 0 ? 'text-blue-600' : 'text-zinc-400'}`} />
                                                             <span className={frozenRows.length > 0 ? 'text-blue-600' : ''}>{frozenRows.length > 0 ? 'Unfreeze' : 'Freeze'} row(s)</span>
                                                         </button>
-                                                        <div className="h-px bg-slate-100 dark:bg-slate-700 my-1"></div>
-                                                        <button onClick={() => { handleDeleteColumn(col.id); setActiveDropdownColumn(null); }} className="w-full text-left px-4 py-2 text-xs hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2 text-red-600 dark:text-red-400"><Trash2 className="h-3.5 w-3.5" /> Delete column</button>
+                                                        <div className="h-px bg-zinc-200 my-1"></div>
+                                                        <button onClick={() => { handleDeleteColumn(col.id); setActiveDropdownColumn(null); }} className="w-full text-left px-4 py-2 text-xs hover:bg-red-50 flex items-center gap-2 text-red-600"><Trash2 className="h-3.5 w-3.5" /> Delete column</button>
                                                     </div>
                                                 )}
                                             </div>
                                         </div>
                                     </th>
-                                );
-                            })}
+                            ))}
                             {/* Empty TH for Actions Right Side */}
                             <th className="w-24"></th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
+                    <tbody className="bg-white divide-y divide-zinc-200">
                         {paginatedData.map((row, rowIndex) => {
                             const actualRowIndex = (currentPage - 1) * pageSize + rowIndex;
                             const isRowCurrentlyFrozen = isRowFrozen(actualRowIndex);
@@ -888,19 +867,30 @@ const ExcelTableViewer = ({ columns: initialColumns, data, fileName, onRefresh, 
                             };
 
                             return (
-                                <tr key={row._local_id} className={`group hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors ${isSelected ? 'bg-blue-50/40 dark:bg-blue-900/10' : ''} ${isRowCurrentlyFrozen ? 'frozen-row z-[30] shadow-[0_4px_10px_rgba(0,0,0,0.05)]' : ''}`} style={{ top: isRowCurrentlyFrozen ? getFrozenRowTop(actualRowIndex) : 'auto' }}>
-                                    {/* Checkbox Cell */}
+                                <tr
+                                    key={row._local_id}
+                                    className={`transition-colors duration-100 border-b border-zinc-100 ${isSelected ? 'bg-zinc-900 text-white' : 'hover:bg-zinc-50'
+                                        } ${isRowCurrentlyFrozen ? 'frozen-row z-[30]' : ''}`}
+                                    style={{
+                                        top: isRowCurrentlyFrozen ? getFrozenRowTop(actualRowIndex) : 'auto'
+                                    }}
+                                >
                                     <td
-                                        className={`py-2 px-4 w-10 ${isColumnFrozen(0) ? 'frozen-column bg-white dark:bg-slate-800' : ''}`}
-                                        style={{
-                                            left: isColumnFrozen(0) ? '0' : 'auto',
-                                            zIndex: isColumnFrozen(0) ? (isRowCurrentlyFrozen ? 35 : 20) : 'auto',
-                                            backgroundColor: isSelected ? 'inherit' : undefined
-                                        }}
+                                        className={`py-2 px-4 text-center ${isColumnFrozen(0) ? 'frozen-column bg-inherit z-[35]' : ''}`}
+                                        style={{ left: isColumnFrozen(0) ? '0' : 'auto' }}
                                     >
-                                        <div className={`flex items-center justify-center ${isSelected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100 transition-opacity'}`}>
-                                            <input type="checkbox" checked={isSelected} onChange={() => toggleRowSelection(row._local_id)} className="h-4 w-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500 cursor-pointer" />
-                                        </div>
+                                        <button
+                                            onClick={() => toggleRowSelection(row._local_id)}
+                                            className="focus:outline-none"
+                                        >
+                                            {isSelected ? (
+                                                <div className="h-4 w-4 bg-white text-black flex items-center justify-center border border-black">
+                                                    <Check className="h-3 w-3" />
+                                                </div>
+                                            ) : (
+                                                <div className="h-4 w-4 bg-white border border-zinc-300" />
+                                            )}
+                                        </button>
                                     </td>
 
                                     {/* Normal Data Cells */}
@@ -910,11 +900,10 @@ const ExcelTableViewer = ({ columns: initialColumns, data, fileName, onRefresh, 
                                         return (
                                             <td
                                                 key={col.id}
-                                                className={`py-2.5 px-4 text-sm text-slate-600 dark:text-slate-300 whitespace-nowrap overflow-hidden text-ellipsis min-w-[150px] ${col.id === 'id' ? 'max-w-[120px]' : 'max-w-[200px]'} ${isColFrozen ? 'frozen-column bg-white dark:bg-slate-800' : ''}`}
+                                                className={`py-2 px-4 text-xs whitespace-nowrap overflow-hidden text-ellipsis min-w-[150px] ${isColFrozen ? 'frozen-column bg-inherit' : ''}`}
                                                 style={{
                                                     left: isColFrozen ? getFrozenColumnLeft(actualColumnIndex) : 'auto',
-                                                    zIndex: isColFrozen ? (isRowCurrentlyFrozen ? 35 : 20) : 'auto',
-                                                    backgroundColor: isSelected ? 'inherit' : undefined
+                                                    zIndex: isColFrozen ? (isRowCurrentlyFrozen ? 35 : 20) : 'auto'
                                                 }}
                                             >
                                                 {formatCellValue(row[col.id], col.id, col.label)}
@@ -923,63 +912,69 @@ const ExcelTableViewer = ({ columns: initialColumns, data, fileName, onRefresh, 
                                     })}
 
                                     {/* Row Actions Cell */}
-                                    <td className="py-2.5 px-4 text-right whitespace-nowrap w-[100px]">
-                                        <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button onClick={(e) => { e.stopPropagation(); startEditing(row); }} className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-md" title="Edit"><Edit className="h-4 w-4" /></button>
-                                            <button onClick={(e) => { e.stopPropagation(); setShowDeletePrompt({ id: row._local_id }); }} className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md" title="Delete"><Trash2 className="h-4 w-4" /></button>
+                                    <td className="py-2 px-4 text-right whitespace-nowrap w-[100px]">
+                                        <div className="flex items-center justify-end gap-1">
+                                            <button onClick={(e) => { e.stopPropagation(); startEditing(row); }} className="p-1 text-zinc-400 hover:text-black" title="Edit"><Edit className="h-4 w-4" /></button>
+                                            <button onClick={(e) => { e.stopPropagation(); setShowDeletePrompt({ id: row._local_id }); }} className="p-1 text-zinc-400 hover:text-red-600" title="Delete"><Trash2 className="h-4 w-4" /></button>
                                         </div>
                                     </td>
                                 </tr>
                             );
                         })}
                         {paginatedData.length === 0 && (
-                            <tr><td colSpan={paginatedColumns.length + 2} className="py-8 text-center text-sm text-slate-500">{loading ? 'Loading...' : 'No local data available'}</td></tr>
+                            <tr><td colSpan={paginatedColumns.length + 2} className="py-8 text-center text-xs text-zinc-500">{loading ? 'Loading...' : 'No local data available'}</td></tr>
                         )}
                     </tbody>
                 </table>
             </div>
 
-            {/* Render Pagination & Summary Footer */}
-            <div className="p-3 border-t border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row justify-between items-center bg-slate-50 dark:bg-slate-800 gap-3">
-                <div className="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400">
-                    <div className="flex gap-1">
-                        <button onClick={handleAddRowClick} className="flex items-center justify-center p-1.5 border border-slate-300 dark:border-slate-600 rounded hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300" title="Add Row"><Plus className="h-4 w-4" /></button>
-                        <button onClick={toggleFreezeRow} className={`flex items-center justify-center p-1.5 border rounded ${frozenRows.length > 0 ? 'bg-blue-50 text-blue-700 border-blue-300' : 'border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300'}`} title={frozenRows.length > 0 ? "Unfreeze row(s)" : "Freeze row(s)"}>
-                            <Snowflake className={`h-4 w-4 ${frozenRows.length > 0 ? 'text-blue-600' : ''}`} />
-                            {frozenRows.length > 0 && <span className="ml-1 text-xs">{frozenRows.length}</span>}
-                        </button>
-                    </div>
-
-                    <div className="flex items-center gap-2 ml-2">
-                        <span>Show:</span>
-                        <select value={pageSize} onChange={e => handlePageSizeChange(Number(e.target.value))} className="px-2 py-1 text-sm border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-700">
-                            {pageSizeOptions.map(size => <option key={size} value={size}>{size}</option>)}
+            {/* Pagination Controls */}
+            <div className="px-6 py-4 bg-[#F4F4F5] border-t border-black flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Rows per page:</span>
+                        <select
+                            value={pageSize}
+                            onChange={e => handlePageSizeChange(Number(e.target.value))}
+                            className="bg-white border border-zinc-300 text-[10px] font-black px-2 py-1 outline-none focus:border-black"
+                        >
+                            {pageSizeOptions.map(option => (
+                                <option key={option} value={option}>{option}</option>
+                            ))}
                         </select>
+                    </div>
+                    <div className="text-[10px] font-black uppercase tracking-widest text-zinc-600">
+                        {totalItems === 0 ? 'NO RESULTS' : `SHOWING ${((currentPage - 1) * pageSize) + 1} - ${Math.min(currentPage * pageSize, totalItems)} OF ${totalItems}`}
                     </div>
                 </div>
 
-                <div className="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400">
-                    {selectedRows.length > 0 && <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded text-xs">{selectedRows.length} selected</span>}
-                    {(frozenRows.length > 0 || frozenColumns.length > 0) && (
-                        <span className="px-2 py-1 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded text-xs flex items-center gap-1">
-                            <Snowflake className="h-3 w-3" />
-                            {frozenRows.length > 0 && frozenColumns.length > 0 ? `${frozenRows.length}r & ${frozenColumns.length}c frzn` : frozenRows.length > 0 ? `${frozenRows.length} row(s) frzn` : `${frozenColumns.length} col(s) frzn`}
-                        </span>
-                    )}
-
-                    <span>{totalItems > 0 ? (currentPage - 1) * pageSize + 1 : 0} - {Math.min(currentPage * pageSize, totalItems)} of {totalItems}</span>
-                    <div className="flex items-center gap-1 ml-2">
-                        <button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1} className="p-1.5 rounded text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-30 disabled:hover:bg-transparent"><ChevronLeft className="h-4 w-4" /></button>
-                        <div className="flex items-center">
-                            {getPageNumbers().map((num, i, arr) => (
-                                <React.Fragment key={num}>
-                                    {i > 0 && num - arr[i - 1] > 1 && <span className="px-2 text-slate-400">...</span>}
-                                    <button onClick={() => handlePageChange(num)} className={`min-w-[28px] h-[28px] mx-0.5 rounded flex items-center justify-center text-sm font-medium ${currentPage === num ? 'bg-blue-600 text-white' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'}`}>{num}</button>
-                                </React.Fragment>
-                            ))}
-                        </div>
-                        <button onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages || totalPages === 0} className="p-1.5 rounded text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-30 disabled:hover:bg-transparent"><ChevronRight className="h-4 w-4" /></button>
-                    </div>
+                <div className="flex items-center gap-1">
+                    <button
+                        onClick={() => handlePageChange(1)}
+                        disabled={currentPage === 1}
+                        className="p-1 border border-zinc-300 bg-white text-zinc-600 disabled:opacity-30 hover:bg-zinc-100 transition"
+                    >
+                        <ChevronLeft className="h-4 w-4" />
+                    </button>
+                    {getPageNumbers().map(num => (
+                        <button
+                            key={num}
+                            onClick={() => handlePageChange(num)}
+                            className={`min-w-[32px] h-8 text-[10px] font-black border transition-all ${currentPage === num
+                                ? 'bg-black text-white border-black'
+                                : 'bg-white text-zinc-600 border-zinc-300 hover:bg-zinc-100'
+                                }`}
+                        >
+                            {num}
+                        </button>
+                    ))}
+                    <button
+                        onClick={() => handlePageChange(totalPages)}
+                        disabled={currentPage === totalPages}
+                        className="p-1 border border-zinc-300 bg-white text-zinc-600 disabled:opacity-30 hover:bg-zinc-100 transition"
+                    >
+                        <ChevronRight className="h-4 w-4" />
+                    </button>
                 </div>
             </div>
 
@@ -988,22 +983,22 @@ const ExcelTableViewer = ({ columns: initialColumns, data, fileName, onRefresh, 
             {/* Add Row Modal */}
             {showAddRowModal && (
                 <div className="fixed inset-0 bg-black/50 flex text-left items-center justify-center z-[100]">
-                    <div className="bg-white dark:bg-slate-800 rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto shadow-2xl">
+                    <div className="bg-white p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto border border-black">
                         <div className="flex justify-between items-center mb-4">
-                            <h3 className="font-medium text-slate-900 dark:text-slate-100"><span className="bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded">Add Manual Row</span></h3>
-                            <button onClick={() => setShowAddRowModal(false)}><X className="h-5 w-5 text-slate-400 hover:text-slate-600" /></button>
+                            <h3 className="font-black uppercase tracking-widest text-sm">Add Manual Row</h3>
+                            <button onClick={() => setShowAddRowModal(false)}><X className="h-5 w-5 text-zinc-400 hover:text-black" /></button>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                             {columns.map(col => (
                                 <div key={col.id}>
-                                    <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">{col.label}</label>
-                                    <input type="text" value={newRow[col.id] || ''} onChange={e => setNewRow({ ...newRow, [col.id]: e.target.value })} className="w-full px-3 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded" placeholder={`Enter ${col.label}`} />
+                                    <label className="block text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-1">{col.label}</label>
+                                    <input type="text" value={newRow[col.id] || ''} onChange={e => setNewRow({ ...newRow, [col.id]: e.target.value })} className="w-full px-3 py-2 text-sm border border-zinc-300 outline-none focus:border-black" placeholder={`Enter ${col.label}`} />
                                 </div>
                             ))}
                         </div>
                         <div className="flex justify-end gap-2">
-                            <button onClick={() => setShowAddRowModal(false)} className="px-4 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded">Cancel</button>
-                            <button onClick={saveNewRow} className="px-4 py-2 text-sm bg-blue-600 text-white rounded">Add Row</button>
+                            <button onClick={() => setShowAddRowModal(false)} className="px-4 py-2 text-xs font-black uppercase tracking-widest border border-zinc-300">Cancel</button>
+                            <button onClick={saveNewRow} className="px-4 py-2 text-xs font-black uppercase tracking-widest bg-black text-white">Add Row</button>
                         </div>
                     </div>
                 </div>
@@ -1012,22 +1007,22 @@ const ExcelTableViewer = ({ columns: initialColumns, data, fileName, onRefresh, 
             {/* Edit Row Modal */}
             {editingId && (
                 <div className="fixed inset-0 bg-black/50 flex text-left items-center justify-center z-[100]">
-                    <div className="bg-white dark:bg-slate-800 rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto shadow-2xl">
+                    <div className="bg-white p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto border border-black">
                         <div className="flex justify-between items-center mb-4">
-                            <h3 className="font-medium text-slate-900 dark:text-slate-100"><span className="bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded">Edit Row</span></h3>
-                            <button onClick={() => setEditingId(null)}><X className="h-5 w-5 text-slate-400 hover:text-slate-600" /></button>
+                            <h3 className="font-black uppercase tracking-widest text-sm">Edit Row</h3>
+                            <button onClick={() => setEditingId(null)}><X className="h-5 w-5 text-zinc-400 hover:text-black" /></button>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                             {columns.map(col => (
                                 <div key={col.id}>
-                                    <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">{col.label}</label>
-                                    <input type="text" value={editForm[col.id] || ''} onChange={e => setEditForm({ ...editForm, [col.id]: e.target.value })} className="w-full px-3 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded" />
+                                    <label className="block text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-1">{col.label}</label>
+                                    <input type="text" value={editForm[col.id] || ''} onChange={e => setEditForm({ ...editForm, [col.id]: e.target.value })} className="w-full px-3 py-2 text-sm border border-zinc-300 outline-none focus:border-black" />
                                 </div>
                             ))}
                         </div>
                         <div className="flex justify-end gap-2">
-                            <button onClick={() => setEditingId(null)} className="px-4 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded">Cancel</button>
-                            <button onClick={saveEdit} className="px-4 py-2 text-sm bg-blue-600 text-white rounded">Save Changes</button>
+                            <button onClick={() => setEditingId(null)} className="px-4 py-2 text-xs font-black uppercase tracking-widest border border-zinc-300">Cancel</button>
+                            <button onClick={saveEdit} className="px-4 py-2 text-xs font-black uppercase tracking-widest bg-black text-white">Save Changes</button>
                         </div>
                     </div>
                 </div>
@@ -1037,12 +1032,12 @@ const ExcelTableViewer = ({ columns: initialColumns, data, fileName, onRefresh, 
 
             {showDeletePrompt && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100]">
-                    <div className="bg-white dark:bg-slate-800 p-6 rounded-lg max-w-sm w-full shadow-2xl">
-                        <h3 className="mb-4 font-medium text-slate-900 dark:text-slate-100">Confirm local delete?</h3>
-                        <p className="text-sm text-slate-600 mb-4">This action removes the row from the local browser view.</p>
-                        <div className="flex justify-end gap-2 text-sm">
-                            <button onClick={() => setShowDeletePrompt(null)} className="px-3 py-1.5 border rounded">Cancel</button>
-                            <button onClick={confirmDeleteRow} className="px-3 py-1.5 bg-red-600 text-white rounded">Delete</button>
+                    <div className="bg-white p-6 max-w-sm w-full border border-black">
+                        <h3 className="mb-4 font-black uppercase tracking-widest text-sm">Confirm local delete?</h3>
+                        <p className="text-xs text-zinc-600 mb-4">This action removes the row from the local browser view.</p>
+                        <div className="flex justify-end gap-2 text-xs font-black uppercase tracking-widest">
+                            <button onClick={() => setShowDeletePrompt(null)} className="px-3 py-1.5 border border-zinc-300">Cancel</button>
+                            <button onClick={confirmDeleteRow} className="px-3 py-1.5 bg-red-600 text-white">Delete</button>
                         </div>
                     </div>
                 </div>
@@ -1050,11 +1045,11 @@ const ExcelTableViewer = ({ columns: initialColumns, data, fileName, onRefresh, 
 
             {showBulkDeletePrompt.show && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100]">
-                    <div className="bg-white dark:bg-slate-800 p-6 rounded-lg max-w-sm w-full shadow-2xl">
-                        <h3 className="mb-4 font-medium text-slate-900 dark:text-slate-100">Delete {showBulkDeletePrompt.count} selected row(s)?</h3>
-                        <div className="flex justify-end gap-2 text-sm">
-                            <button onClick={() => setShowBulkDeletePrompt({ show: false, count: 0 })} className="px-3 py-1.5 border rounded">Cancel</button>
-                            <button onClick={confirmBulkDelete} className="px-3 py-1.5 bg-red-600 text-white rounded">Delete</button>
+                    <div className="bg-white p-6 max-w-sm w-full border border-black">
+                        <h3 className="mb-4 font-black uppercase tracking-widest text-sm">Delete {showBulkDeletePrompt.count} selected row(s)?</h3>
+                        <div className="flex justify-end gap-2 text-xs font-black uppercase tracking-widest">
+                            <button onClick={() => setShowBulkDeletePrompt({ show: false, count: 0 })} className="px-3 py-1.5 border border-zinc-300">Cancel</button>
+                            <button onClick={confirmBulkDelete} className="px-3 py-1.5 bg-red-600 text-white">Delete</button>
                         </div>
                     </div>
                 </div>
@@ -1062,12 +1057,12 @@ const ExcelTableViewer = ({ columns: initialColumns, data, fileName, onRefresh, 
 
             {showExportConfirmPrompt?.show && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100]">
-                    <div className="bg-white dark:bg-slate-800 p-6 rounded-lg max-w-sm w-full shadow-2xl">
-                        <h3 className="mb-4 font-medium text-slate-900 dark:text-slate-100">Confirm Export</h3>
-                        <p className="text-sm text-slate-600 mb-4">Export {showExportConfirmPrompt.count} row(s) to {showExportConfirmPrompt.format.toUpperCase()} format?</p>
-                        <div className="flex justify-end gap-2 text-sm">
-                            <button onClick={() => setShowExportConfirmPrompt(null)} className="px-3 py-1.5 border rounded">Cancel</button>
-                            <button onClick={() => handleExport(showExportConfirmPrompt.format)} className="px-3 py-1.5 bg-blue-600 text-white rounded">Export</button>
+                    <div className="bg-white p-6 max-w-sm w-full border border-black">
+                        <h3 className="mb-4 font-black uppercase tracking-widest text-sm">Confirm Export</h3>
+                        <p className="text-xs text-zinc-600 mb-4">Export {showExportConfirmPrompt.count} row(s) to {showExportConfirmPrompt.format.toUpperCase()} format?</p>
+                        <div className="flex justify-end gap-2 text-xs font-black uppercase tracking-widest">
+                            <button onClick={() => setShowExportConfirmPrompt(null)} className="px-3 py-1.5 border border-zinc-300">Cancel</button>
+                            <button onClick={() => handleExport(showExportConfirmPrompt.format)} className="px-3 py-1.5 bg-black text-white">Export</button>
                         </div>
                     </div>
                 </div>
@@ -1075,28 +1070,28 @@ const ExcelTableViewer = ({ columns: initialColumns, data, fileName, onRefresh, 
 
             {showFreezeColumnModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100]">
-                    <div className="bg-white dark:bg-slate-800 p-6 rounded-lg max-w-md w-full shadow-2xl">
+                    <div className="bg-white p-6 max-w-md w-full border border-black">
                         <div className="flex justify-between items-center mb-4">
-                            <h3 className="font-medium text-slate-900 dark:text-slate-100">Freeze Columns</h3>
-                            <button onClick={() => setShowFreezeColumnModal(false)}><X className="h-5 w-5 text-slate-400" /></button>
+                            <h3 className="font-black uppercase tracking-widest text-sm">Freeze Columns</h3>
+                            <button onClick={() => setShowFreezeColumnModal(false)}><X className="h-5 w-5 text-zinc-400" /></button>
                         </div>
                         <div className="space-y-2 max-h-60 overflow-y-auto mb-4">
                             {visibleColumns.map((col) => {
                                 const actualIdx = columns.findIndex(c => c.id === col.id);
                                 return (
-                                    <div key={col.id} className="flex flex-row items-center border p-2 rounded border-slate-200 dark:border-slate-700">
+                                    <div key={col.id} className="flex flex-row items-center border p-2 border-zinc-300">
                                         <input type="checkbox" checked={tempFrozenColumns.includes(actualIdx)} onChange={e => {
                                             if (e.target.checked) setTempFrozenColumns([...tempFrozenColumns, actualIdx].sort((a, b) => a - b));
                                             else setTempFrozenColumns(tempFrozenColumns.filter(i => i !== actualIdx));
                                         }} className="mr-3" />
-                                        <span className="text-sm flex-1">{col.label}</span>
+                                        <span className="text-xs font-bold uppercase tracking-widest">{col.label}</span>
                                     </div>
                                 )
                             })}
                         </div>
-                        <div className="flex justify-end gap-2 text-sm">
-                            <button onClick={() => setShowFreezeColumnModal(false)} className="px-4 py-2 border rounded">Cancel</button>
-                            <button onClick={handleFreezeColumns} className="px-4 py-2 bg-blue-600 text-white rounded">Apply Freeze</button>
+                        <div className="flex justify-end gap-2 text-xs font-black uppercase tracking-widest">
+                            <button onClick={() => setShowFreezeColumnModal(false)} className="px-4 py-2 border border-zinc-300">Cancel</button>
+                            <button onClick={handleFreezeColumns} className="px-4 py-2 bg-black text-white">Apply Freeze</button>
                         </div>
                     </div>
                 </div>
@@ -1104,28 +1099,28 @@ const ExcelTableViewer = ({ columns: initialColumns, data, fileName, onRefresh, 
 
             {showFreezeRowModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100]">
-                    <div className="bg-white dark:bg-slate-800 p-6 rounded-lg max-w-md w-full shadow-2xl">
+                    <div className="bg-white p-6 max-w-md w-full border border-black">
                         <div className="flex justify-between items-center mb-4">
-                            <h3 className="font-medium text-slate-900 dark:text-slate-100">Freeze Rows</h3>
-                            <button onClick={() => setShowFreezeRowModal(false)}><X className="h-5 w-5 text-slate-400" /></button>
+                            <h3 className="font-black uppercase tracking-widest text-sm">Freeze Rows</h3>
+                            <button onClick={() => setShowFreezeRowModal(false)}><X className="h-5 w-5 text-zinc-400" /></button>
                         </div>
                         <div className="space-y-2 max-h-60 overflow-y-auto mb-4">
                             {paginatedData.map((row, index) => {
                                 const actualIdx = (currentPage - 1) * pageSize + index;
                                 return (
-                                    <div key={row._local_id} className="flex flex-row items-center border p-2 rounded border-slate-200 dark:border-slate-700">
+                                    <div key={row._local_id} className="flex flex-row items-center border p-2 border-zinc-300">
                                         <input type="checkbox" checked={tempFrozenRows.includes(actualIdx)} onChange={e => {
                                             if (e.target.checked) setTempFrozenRows([...tempFrozenRows, actualIdx].sort((a, b) => a - b));
                                             else setTempFrozenRows(tempFrozenRows.filter(i => i !== actualIdx));
                                         }} className="mr-3" />
-                                        <span className="text-sm flex-1 truncate">Row {actualIdx + 1}</span>
+                                        <span className="text-xs font-bold uppercase tracking-widest">Row {actualIdx + 1}</span>
                                     </div>
                                 )
                             })}
                         </div>
-                        <div className="flex justify-end gap-2 text-sm">
-                            <button onClick={() => setShowFreezeRowModal(false)} className="px-4 py-2 border rounded">Cancel</button>
-                            <button onClick={handleFreezeRows} className="px-4 py-2 bg-blue-600 text-white rounded">Apply Freeze</button>
+                        <div className="flex justify-end gap-2 text-xs font-black uppercase tracking-widest">
+                            <button onClick={() => setShowFreezeRowModal(false)} className="px-4 py-2 border border-zinc-300">Cancel</button>
+                            <button onClick={handleFreezeRows} className="px-4 py-2 bg-black text-white">Apply Freeze</button>
                         </div>
                     </div>
                 </div>
@@ -1134,36 +1129,36 @@ const ExcelTableViewer = ({ columns: initialColumns, data, fileName, onRefresh, 
             {/* Expand / Manage Columns Modal */}
             {showColumnModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100]">
-                    <div className="bg-white dark:bg-slate-800 rounded-lg p-6 max-w-md w-full shadow-2xl">
+                    <div className="bg-white p-6 max-w-md w-full border border-black">
                         <div className="flex justify-between items-center mb-4">
-                            <h3 className="font-medium text-slate-900 dark:text-slate-100">Manage Columns</h3>
-                            <button onClick={() => setShowColumnModal(false)}><X className="h-5 w-5 text-slate-400" /></button>
+                            <h3 className="font-black uppercase tracking-widest text-sm">Manage Columns</h3>
+                            <button onClick={() => setShowColumnModal(false)}><X className="h-5 w-5 text-zinc-400" /></button>
                         </div>
-                        <div className="mb-4 bg-slate-50 dark:bg-slate-700/50 p-3 rounded">
-                            <h4 className="text-sm font-medium mb-2">Add New Column</h4>
+                        <div className="mb-4 bg-zinc-50 p-3 border border-zinc-200">
+                            <h4 className="text-[10px] font-black uppercase tracking-widest mb-2">Add New Column</h4>
                             <div className="flex gap-2 text-sm">
-                                <input type="text" value={newColumnName} onChange={e => setNewColumnName(e.target.value)} placeholder="E.g. Department" className="flex-1 px-3 py-1.5 border rounded" />
-                                <button onClick={confirmAddColumn} className="bg-blue-600 text-white px-3 border rounded border-blue-600 hover:bg-blue-700">Add</button>
+                                <input type="text" value={newColumnName} onChange={e => setNewColumnName(e.target.value)} placeholder="E.g. Department" className="flex-1 px-3 py-1.5 border border-zinc-300 outline-none focus:border-black" />
+                                <button onClick={confirmAddColumn} className="bg-black text-white px-3 border border-black">Add</button>
                             </div>
                         </div>
-                        <h4 className="text-sm font-medium mb-2">Available Columns</h4>
+                        <h4 className="text-[10px] font-black uppercase tracking-widest mb-2">Available Columns</h4>
                         <div className="space-y-2 max-h-60 overflow-y-auto mb-4">
                             {columns.map(col => {
                                 const isEditing = editingColumn === col.id;
                                 return (
-                                    <div key={col.id} className="flex items-center justify-between p-2 border rounded">
+                                    <div key={col.id} className="flex items-center justify-between p-2 border border-zinc-200">
                                         {isEditing ? (
                                             <div className="flex items-center gap-2">
-                                                <input type="text" value={tempColumnName} onChange={e => setTempColumnName(e.target.value)} className="px-2 py-1 text-sm border rounded" />
+                                                <input type="text" value={tempColumnName} onChange={e => setTempColumnName(e.target.value)} className="px-2 py-1 text-sm border border-zinc-300" />
                                                 <button onClick={() => saveEditColumn(col.id)}><Check className="h-4 w-4 text-green-600" /></button>
                                                 <button onClick={() => setEditingColumn(null)}><X className="h-4 w-4 text-red-600" /></button>
                                             </div>
                                         ) : (
-                                            <span className="text-sm">{col.label}</span>
+                                            <span className="text-xs font-bold uppercase tracking-widest">{col.label}</span>
                                         )}
                                         <div className="flex items-center gap-2">
-                                            <button onClick={() => toggleColumnVisibility(col.id)} className={`p-1 ${col.visible ? 'text-blue-600' : 'text-slate-400'}`}>{col.visible ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}</button>
-                                            {!isEditing && <button onClick={() => startEditColumn(col.id, col.label)} className="p-1 text-blue-600"><Edit className="h-4 w-4" /></button>}
+                                            <button onClick={() => toggleColumnVisibility(col.id)} className={`p-1 ${col.visible ? 'text-black' : 'text-zinc-400'}`}>{col.visible ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}</button>
+                                            {!isEditing && <button onClick={() => startEditColumn(col.id, col.label)} className="p-1 text-black"><Edit className="h-4 w-4" /></button>}
                                             <button onClick={() => handleDeleteColumn(col.id)} className="p-1 text-red-600"><Trash2 className="h-4 w-4" /></button>
                                         </div>
                                     </div>
