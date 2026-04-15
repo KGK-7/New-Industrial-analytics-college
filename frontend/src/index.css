@@ -6,19 +6,31 @@
 
 :root {
   /* 
-     INDUSTRIAL SYSTEM (Flat & Functional)
-     -------------------------------------
-     Target: High-density, system-oriented interface.
+     INDUSTRIAL MONOCHROME SYSTEM (Advanced Neutral)
+     ----------------------------------------------
+     Target: High-end, premium, monochromatic interface with selective color.
   */
-  --bg-app: #FAFAFA;        /* Zinc-50 equivalent */
-  --bg-surface: #FFFFFF;    /* Pure white surfaces */
-  --border-subtle: #E4E4E7; /* Zinc-200 */
+  --bg-app: #FAFAFA;        /* Zinc-50 */
+  --bg-surface: #FFFFFF;    /* Pure white */
+  --bg-header: #FFFFFF;
+  --border-subtle: #F4F4F5; /* Zinc-100 */
+  --border-main: #E4E4E7;   /* Zinc-200 */
+  --border-strong: #D4D4D8; /* Zinc-300 */
+  --border-active: #18181B; /* Pure neutral dark */
   
-  /* Semantic Colors (Meanings only) */
+  /* Monochrome Semantic Tokens */
   --brand-primary: #18181B; /* High-contrast neutral */
-  --accent-success: #166534;
-  --accent-warning: #92400e;
-  --accent-danger: #991b1b;
+  --brand-muted: #3F3F46;
+  
+  /* Functional Highlights (Selective & Wise) */
+  --status-success: #166534;
+  --status-success-bg: #F0FDF4;
+  --status-warning: #92400E;
+  --status-warning-bg: #FFFBEB;
+  --status-danger: #991B1B;
+  --status-danger-bg: #FEF2F2;
+  --status-info: #1E40AF;
+  --status-info-bg: #EFF6FF;
 
   /* Typography Hierarchy */
   --text-main: #09090B;     /* Zinc-950 */
@@ -26,35 +38,14 @@
   --text-subtle: #71717A;   /* Zinc-500 */
   --text-meta: #A1A1AA;     /* Zinc-400 */
 
-  /* Borders & Dividers (Sharp separation) */
-  --border-main: #D4D4D8;   /* Zinc-300 */
-  --border-light: #F4F4F5;  /* Zinc-100 */
-  --border-active: #18181B;
-
-  /* INDUSTRIAL SPACING SYSTEM (Functional Scale) */
-  --spacing-1: 4px;
-  --spacing-2: 8px;
-  --spacing-3: 12px;
-  --spacing-4: 16px;
-  --spacing-6: 24px;
-  --spacing-8: 32px;
-
-  /* No Elevation (System Flat) */
-  --shadow-sm: none;
-  --shadow-md: none;
-  --shadow-lg: none;
-
-  /* Sharp Edges */
-  --radius-sm: 0px;
-  --radius-md: 0px;
-  --radius-lg: 0px;
-  --premium-easing: linear;
-  
   /* Legacy Compat Mapping */
   --bg: var(--bg-app);
   --card-bg: var(--bg-surface);
   --text-primary: var(--text-main);
   --text-secondary: var(--text-muted);
+  --radius-sm: 0px;
+  --radius-md: 4px; /* Subtle rounding for premium feel */
+  --radius-lg: 8px;
 }
 
 /* Enterprise Design System Utility - Premium Card Standard */
@@ -89,8 +80,8 @@
 [data-theme="dark"] {
   /* Industrial Dark Palette */
   --bg-app: #09090B;
-  --bg-surface: #18181B;
-  --bg-header: #18181B;
+  --bg-surface: #121214;
+  --bg-header: #121214;
 
   /* Text */
   --text-main: #FAFAFA;
@@ -99,7 +90,12 @@
 
   /* Borders */
   --border-main: #27272A;
-  --border-light: #18181B;
+  --border-subtle: #18181B;
+  --border-strong: #3F3F46;
+
+  /* Action Highlights */
+  --brand-primary: #FFFFFF;
+  --brand-muted: #D4D4D8;
 
   /* Compatibility */
   --bg: var(--bg-app);
@@ -246,25 +242,16 @@
   color: var(--text-primary) !important;
 }
 
-/* Badges / tags */
+/* Badges / tags (Selective Color) */
 [data-theme="dark"] .bg-blue-50 {
-  background-color: rgba(59, 130, 246, 0.12) !important;
+  background-color: var(--status-info-bg) !important;
+  color: var(--status-info) !important;
+  border: 1px solid rgba(59, 130, 246, 0.2) !important;
 }
 
 [data-theme="dark"] .bg-green-50 {
-  background-color: rgba(16, 185, 129, 0.12) !important;
-}
-
-[data-theme="dark"] .bg-red-50 {
-  background-color: rgba(239, 68, 68, 0.12) !important;
-}
-
-[data-theme="dark"] .bg-amber-50 {
-  background-color: rgba(245, 158, 11, 0.12) !important;
-}
-
-[data-theme="dark"] .bg-indigo-50 {
-  background-color: rgba(99, 102, 241, 0.12) !important;
+  background-color: var(--status-success-bg) !important;
+  color: var(--status-success) !important;
 }
 
 [data-theme="dark"] .bg-slate-50 {

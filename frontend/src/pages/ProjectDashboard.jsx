@@ -99,16 +99,19 @@ const getStatusColor = (status) => {
   }
 };
 
-// Get tracker category style
+// Get tracker category style (Wise Color Usage)
 const getTrackerTypeStyle = (category) => {
   const cat = String(category).toLowerCase();
+  // Critical issues/risks keep their warning color to 'pop'
   if (cat.includes('issue') || cat.includes('risk') || cat.includes('critical')) {
-    return { bg: '#FEF3C7', text: '#92400E', label: 'Issues' }; // Amber
+    return { bg: '#FFFBEB', text: '#92400E', border: '#FEF3C7', label: 'Issues' }; // Amber
   }
+  // Build/Release kept as secondary but slightly more muted
   if (cat.includes('build') || cat.includes('release') || cat.includes('production') || cat.includes('sop')) {
-    return { bg: '#DCFCE7', text: '#166534', label: 'Build/Release' }; // Green
+    return { bg: '#F0FDF4', text: '#166534', border: '#DCFCE7', label: 'Build/Release' }; // Green
   }
-  return { bg: '#DBEAFE', text: '#1E40AF', label: 'Process' }; // Blue
+  // Process and everything else becomes premium monochrome
+  return { bg: '#F4F4F5', text: '#18181B', border: '#E4E4E7', label: 'Process' }; // Zinc Monochrome
 };
 
 // Humanize raw field names and format them for display
@@ -196,12 +199,18 @@ const inferDateRelationship = (col1, col2) => {
   return null;
 };
 
-// Diverse color palette for differentiation
+// Curated Monochrome+ Palette for industrial precision
 const getDiversePalette = () => [
-  "#5470c6", "#91cc75", "#fac858", "#ee6666", "#73c0de",
-  "#3ba272", "#fc8452", "#9a60b4", "#ea7ccc", "#5ae3f1",
-  "#ff9f7f", "#fb7293", "#e79068", "#e690d1", "#e062ae",
-  "#67e0e3", "#ffdb5c", "#37a2da", "#32c5e9", "#9fe6b8"
+  "#18181B", // Zinc-950 (Primary)
+  "#3F3F46", // Zinc-700
+  "#71717A", // Zinc-500
+  "#A1A1AA", // Zinc-400
+  "#D4D4D8", // Zinc-300
+  "#E4E4E7", // Zinc-200
+  "#27272A", // Zinc-800
+  "#52525B", // Zinc-600
+  "#1E40AF", // Wise Blue highlight for specific series if needed
+  "#166534"  // Wise Green highlight
 ];
 
 const ProjectTitleDashboard = () => {

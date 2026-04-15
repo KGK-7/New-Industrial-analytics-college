@@ -73,7 +73,7 @@ function TopBtn({ icon: Icon, label, active, hasChev, chevOpen, onClick, onToggl
         <Icon className={`h-5 w-5 shrink-0 ${active ? 'text-white' : 'text-[var(--text-subtle)] group-hover:text-[var(--text-main)]'}`} strokeWidth={active ? 2 : 1.5} />
         <span className="flex-1 truncate text-left text-xs font-semibold uppercase tracking-wider">{label}</span>
         {badge != null && (
-          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 ${active ? 'bg-white/20 text-white' : 'bg-blue-50 text-blue-600'}`}>
+          <span className={`text-[10px] font-bold px-2 py-0.5 shrink-0 ${active ? 'bg-white/20 text-white' : 'bg-[var(--border-strong)] text-[var(--text-main)]'}`}>
             {badge}
           </span>
         )}
